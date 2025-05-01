@@ -7,6 +7,7 @@ composer.lock
 coverage
 docs
 node_modules
+package-lock.json
 phpunit.xml
 phpstan.neon
 testbench.yaml
