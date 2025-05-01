@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace CrescentPurchasing\FilamentAuditing\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class FilamentAuditingCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'filament-auditing';
 
     public $description = 'My command';
 
