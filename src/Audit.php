@@ -10,7 +10,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use OwenIt\Auditing\Models\Audit as BaseAudit;
 
-
 /**
  * @property-read string $title
  * @property-read string $name
