@@ -2,6 +2,14 @@
 
 All notable changes to `filament-auditing` will be documented in this file.
 
+## v0.0.2 - 2025-05-06
+
+### What's Changed
+
+* override correct makeTable function in AuditPage.php by @aSeriousDeveloper in https://github.com/crescent-purchasing/filament-auditing/pull/4
+
+**Full Changelog**: https://github.com/crescent-purchasing/filament-auditing/compare/v0.0.1...v0.0.2
+
 ## v0.0.1 - 2025-05-06
 
 ### What's Changed
