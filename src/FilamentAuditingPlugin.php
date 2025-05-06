@@ -15,7 +15,6 @@ use Filament\Support\Concerns\EvaluatesClosures;
 
 class FilamentAuditingPlugin implements Plugin
 {
-
     use EvaluatesClosures;
     use HasAuditSchema;
     use HasCursorPagination;
@@ -24,7 +23,6 @@ class FilamentAuditingPlugin implements Plugin
     use HasNavigationIcon;
     use HasTable;
     use HasUserResource;
-
 
     public function getId(): string
     {

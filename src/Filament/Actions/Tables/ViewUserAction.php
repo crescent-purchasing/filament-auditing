@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class ViewUserAction extends Action
 {
-
     public static function getDefaultName(): ?string
     {
         return 'viewUser';
@@ -38,5 +37,4 @@ class ViewUserAction extends Action
             return $userResource::getNavigationIcon();
         });
     }
-
 }

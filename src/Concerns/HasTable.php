@@ -24,5 +24,4 @@ trait HasTable
 
         return $this;
     }
-
 }

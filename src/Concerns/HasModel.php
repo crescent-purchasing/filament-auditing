@@ -24,5 +24,4 @@ trait HasModel
 
         return $this;
     }
-
 }
