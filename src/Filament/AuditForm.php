@@ -2,6 +2,7 @@
 
 namespace CrescentPurchasing\FilamentAuditing\Filament;
 
+use CrescentPurchasing\FilamentAuditing\Filament\Actions\Forms\ViewUserAction;
 use CrescentPurchasing\FilamentAuditing\FilamentAuditingPlugin;
 use Filament\Forms\Components;
 use Filament\Forms\Form;
@@ -41,12 +42,7 @@ class AuditForm extends Form
                                 ->relationship('user')
                                 ->schema([
                                     Components\TextInput::make('id')
-                                        ->suffixAction(
-                                            Action::make('viewUser')
-                                                ->url(fn (User $record) => UserResource::getUrl('edit', ['record' => $record]))
-                                                ->icon(UserResource::getNavigationIcon())
-                                                ->iconButton()
-                                        ),
+                                        ->suffixAction(ViewUserAction::make()),
                                     Components\TextInput::make('full_name'),
                                     Components\TextInput::make('email'),
                                 ]),
