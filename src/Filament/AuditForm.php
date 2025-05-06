@@ -41,10 +41,11 @@ class AuditForm extends Form
                                 ->relationship('user')
                                 ->schema([
                                     Components\TextInput::make('id')
-                                        ->suffixAction(Action::make('viewUser')
-                                            ->url(fn (User $record) => UserResource::getUrl('edit', ['record' => $record]))
-                                            ->icon(UserResource::getNavigationIcon())
-                                            ->iconButton()
+                                        ->suffixAction(
+                                            Action::make('viewUser')
+                                                ->url(fn (User $record) => UserResource::getUrl('edit', ['record' => $record]))
+                                                ->icon(UserResource::getNavigationIcon())
+                                                ->iconButton()
                                         ),
                                     Components\TextInput::make('full_name'),
                                     Components\TextInput::make('email'),
@@ -68,5 +69,4 @@ class AuditForm extends Form
                 ]),
         ];
     }
-
 }

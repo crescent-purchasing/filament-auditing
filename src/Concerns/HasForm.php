@@ -24,5 +24,4 @@ trait HasForm
 
         return $this;
     }
-
 }

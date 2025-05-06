@@ -40,5 +40,4 @@ class AuditSchema implements AuditSchemaContract
 
         return $fields;
     }
-
 }

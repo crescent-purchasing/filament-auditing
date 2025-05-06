@@ -50,5 +50,4 @@ class Audit extends BaseAudit
     {
         return Arr::map($this->getModified(), fn (array $value) => $value[$type] ?? null);
     }
-
 }
