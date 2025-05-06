@@ -9,6 +9,7 @@ use CrescentPurchasing\FilamentAuditing\Concerns\HasModel;
 use CrescentPurchasing\FilamentAuditing\Concerns\HasNavigationIcon;
 use CrescentPurchasing\FilamentAuditing\Concerns\HasTable;
 use CrescentPurchasing\FilamentAuditing\Concerns\HasUserResource;
+use CrescentPurchasing\FilamentAuditing\Filament\AuditResource;
 use Filament\Contracts\Plugin;
 use Filament\Panel;
 use Filament\Support\Concerns\EvaluatesClosures;
@@ -33,7 +34,9 @@ class FilamentAuditingPlugin implements Plugin
 
     public function register(Panel $panel): void
     {
-        //
+        $panel->resources([
+            AuditResource::class,
+        ]);
     }
 
     public function boot(Panel $panel): void
