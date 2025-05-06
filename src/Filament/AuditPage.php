@@ -14,7 +14,7 @@ class AuditPage extends ManageRecords
 {
     protected static string $resource = AuditResource::class;
 
-    protected function makeTable(): Table
+    protected function makeBaseTable(): Table
     {
         return FilamentAuditingPlugin::get()->getTable()::make($this);
     }
