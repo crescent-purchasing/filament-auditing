@@ -95,11 +95,9 @@ class AuditTable extends Table
                     $results = $model::query()
                         ->whereLike('auditable_type', '%' . $search . '%')
                         ->distinct()
-                        ->pluck('auditable_type', 'auditable_type');
+                        ->get('auditable_type');
 
-                    return $results
-                        ->map(fn (?string $item): string => Str::of($item)->classBasename()->headline()->toString())
-                        ->toArray();
+                    return $results->pluck('type', 'auditable_type')->toArray();
                 }),
             Filters\SelectFilter::make('event')
                 ->options(fn (Repository $config): array => Arr::mapWithKeys(

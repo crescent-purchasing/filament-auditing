@@ -2,11 +2,11 @@
 
 namespace CrescentPurchasing\FilamentAuditing\Filament;
 
+use CrescentPurchasing\FilamentAuditing\Contracts\AuditContract as Audit;
 use CrescentPurchasing\FilamentAuditing\Filament\Actions\Forms\ViewUserAction;
 use CrescentPurchasing\FilamentAuditing\FilamentAuditingPlugin;
 use Filament\Forms\Components;
 use Filament\Forms\Form;
-use OwenIt\Auditing\Contracts\Audit;
 
 class AuditForm extends Form
 {
