@@ -2,11 +2,30 @@
 
 namespace CrescentPurchasing\FilamentAuditing;
 
+use CrescentPurchasing\FilamentAuditing\Concerns\HasAuditSchema;
+use CrescentPurchasing\FilamentAuditing\Concerns\HasCursorPagination;
+use CrescentPurchasing\FilamentAuditing\Concerns\HasForm;
+use CrescentPurchasing\FilamentAuditing\Concerns\HasModel;
+use CrescentPurchasing\FilamentAuditing\Concerns\HasNavigationIcon;
+use CrescentPurchasing\FilamentAuditing\Concerns\HasTable;
+use CrescentPurchasing\FilamentAuditing\Concerns\HasUserResource;
 use Filament\Contracts\Plugin;
 use Filament\Panel;
+use Filament\Support\Concerns\EvaluatesClosures;
 
 class FilamentAuditingPlugin implements Plugin
 {
+
+    use EvaluatesClosures;
+    use HasAuditSchema;
+    use HasCursorPagination;
+    use HasForm;
+    use HasModel;
+    use HasNavigationIcon;
+    use HasTable;
+    use HasUserResource;
+
+
     public function getId(): string
     {
         return 'filament-auditing';
@@ -29,9 +48,11 @@ class FilamentAuditingPlugin implements Plugin
 
     public static function get(): static
     {
-        /** @var static $plugin */
-        $plugin = filament(app(static::class)->getId());
+        if (! ($currentPanel = filament()->getCurrentPanel())) {
+            return app(static::class);
+        }
 
-        return $plugin;
+        /** @var static */
+        return $currentPanel->getPlugin(app(static::class)->getId());
     }
 }
