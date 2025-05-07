@@ -4,6 +4,7 @@ namespace CrescentPurchasing\FilamentAuditing\Filament;
 
 use CrescentPurchasing\FilamentAuditing\Contracts\AuditContract as Audit;
 use CrescentPurchasing\FilamentAuditing\Filament\Actions\Forms\ViewUserAction as ViewUserFormAction;
+use CrescentPurchasing\FilamentAuditing\Filament\Actions\Tables\ViewAuditAction;
 use CrescentPurchasing\FilamentAuditing\Filament\Actions\Tables\ViewUserAction as ViewUserTableAction;
 use CrescentPurchasing\FilamentAuditing\FilamentAuditingPlugin;
 use Filament\Forms\Components\DateTimePicker;
@@ -16,7 +17,6 @@ use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\MaxWidth;
 use Filament\Tables\Actions\ActionGroup;
-use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\Layout\Split;
 use Filament\Tables\Columns\Layout\Stack;
 use Filament\Tables\Columns\TextColumn;
@@ -102,7 +102,7 @@ class AuditResource extends Resource
 
         $actions = [
             ActionGroup::make([
-                ViewAction::make(),
+                ViewAuditAction::make(),
                 ViewUserTableAction::make(),
             ]),
         ];
