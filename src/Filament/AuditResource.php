@@ -3,7 +3,8 @@
 namespace CrescentPurchasing\FilamentAuditing\Filament;
 
 use CrescentPurchasing\FilamentAuditing\Contracts\AuditContract as Audit;
-use CrescentPurchasing\FilamentAuditing\Filament\Actions\Forms\ViewUserAction;
+use CrescentPurchasing\FilamentAuditing\Filament\Actions\Forms\ViewUserAction as ViewUserFormAction;
+use CrescentPurchasing\FilamentAuditing\Filament\Actions\Tables\ViewUserAction as ViewUserTableAction;
 use CrescentPurchasing\FilamentAuditing\FilamentAuditingPlugin;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Grid;
@@ -68,7 +69,7 @@ class AuditResource extends Resource
                     ->relationship('user')
                     ->schema([
                         TextInput::make('id')
-                            ->suffixAction(ViewUserAction::make()),
+                            ->suffixAction(ViewUserFormAction::make()),
                         TextInput::make('full_name'),
                         TextInput::make('email'),
                     ]),
@@ -102,7 +103,7 @@ class AuditResource extends Resource
         $actions = [
             ActionGroup::make([
                 ViewAction::make(),
-                ViewUserAction::make(),
+                ViewUserTableAction::make(),
             ]),
         ];
 
