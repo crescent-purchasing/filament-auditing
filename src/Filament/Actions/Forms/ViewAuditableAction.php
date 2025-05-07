@@ -9,11 +9,6 @@ class ViewAuditableAction extends Action
 {
     use ViewsAuditable;
 
-    public static function getDefaultName(): ?string
-    {
-        return 'viewAuditable';
-    }
-
     protected function setUp(): void
     {
         parent::setUp();
