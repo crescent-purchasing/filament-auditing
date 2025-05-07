@@ -27,7 +27,7 @@ class ViewUserAction extends Action
 
         $this->visible();
 
-        $this->label(function (Model $record) use ($userResource): ?string {
+        $this->label(function (Model $record) use ($userResource): string {
             return __('filament-auditing::resource.actions.view_user_title', [
                 'title' => $userResource::getRecordTitle($record),
             ]);
