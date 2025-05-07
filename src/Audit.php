@@ -20,6 +20,7 @@ use OwenIt\Auditing\Models\Audit as BaseAudit;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Model $auditable
+ *
  * @method MorphTo auditable()
  */
 class Audit extends BaseAudit implements AuditContract

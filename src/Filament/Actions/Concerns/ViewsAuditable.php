@@ -6,7 +6,6 @@ use CrescentPurchasing\FilamentAuditing\Audit;
 
 trait ViewsAuditable
 {
-
     public static function getDefaultName(): ?string
     {
         return 'viewAuditable';
@@ -26,7 +25,6 @@ trait ViewsAuditable
 
         $this->label(function (Audit $record): string {
             $auditable = $record->auditable;
-
 
             /** @var class-string<resource> $resource */
             $resource = filament()->getModelResource($auditable);
