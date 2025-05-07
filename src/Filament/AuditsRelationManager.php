@@ -14,8 +14,6 @@ class AuditsRelationManager extends RelationManager
 
     protected static string $relationship = 'audits';
 
-    protected static ?string $recordTitleAttribute = 'id';
-
     public static function getTitle(Model $ownerRecord, string $pageClass): string
     {
         return __('filament-auditing::resource.relation.title');
