@@ -18,36 +18,40 @@ class ViewAuditableAction extends Action
     {
         parent::setUp();
 
-        $getAuditable = fn (Audit $record) => $record->auditable;
+        $this->visible(function (FilamentManager $filament, Audit $record): bool {
+            if (! $record = $record->auditable) {
+                return false;
+            }
 
-        if (! $auditable = $this->evaluate($getAuditable)) {
-            $this->visible(false);
+            return ! empty($filament->getModelResource($record));
+        });
 
-            return;
-        }
+        $this->label(function (FilamentManager $filament, Audit $record): string {
+            $auditable = $record->auditable;
 
-        $getResource = fn (): ?string => filament()->getCurrentPanel()->getModelResource($auditable);
+            /** @var class-string<resource> $resource */
+            $resource = $filament->getModelResource($auditable);
 
-        /** @var class-string<resource> $resource */
-        $resource = $this->evaluate($getResource);
-
-        if (! $resource) {
-            $this->visible(false);
-
-            return;
-        }
-
-        $this->label(function () use ($auditable, $resource): string {
             return __('filament-auditing::resource.actions.view_auditable_title', [
                 'title' => $resource::getRecordTitle($auditable),
             ]);
         });
 
-        $this->url(function () use ($auditable, $resource): ?string {
+        $this->url(function (FilamentManager $filament, Audit $record): ?string {
+            $auditable = $record->auditable;
+
+            /** @var class-string<resource> $resource */
+            $resource = $filament->getModelResource($auditable);
+
             return $resource::getGlobalSearchResultUrl($auditable);
         });
 
-        $this->icon(function () use ($resource): ?string {
+        $this->icon(function (FilamentManager $filament, Audit $record): ?string {
+            $auditable = $record->auditable;
+
+            /** @var class-string<resource> $resource */
+            $resource = $filament->getModelResource($auditable);
+
             return $resource::getNavigationIcon();
         });
 
