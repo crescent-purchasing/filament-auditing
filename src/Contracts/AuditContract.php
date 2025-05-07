@@ -12,7 +12,7 @@ use Illuminate\Foundation\Auth\User;
 interface AuditContract
 {
     /**
-     * @return BelongsTo<User, $this>
+     * @return BelongsTo<User, Audit>
      */
     public function owner(): BelongsTo;
 
