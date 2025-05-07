@@ -3,7 +3,6 @@
 namespace CrescentPurchasing\FilamentAuditing\Filament;
 
 use CrescentPurchasing\FilamentAuditing\Contracts\AuditContract as Audit;
-use CrescentPurchasing\FilamentAuditing\Filament\Actions\Forms\ViewAuditableAction;
 use CrescentPurchasing\FilamentAuditing\Filament\Actions\Forms\ViewUserAction as ViewUserFormAction;
 use CrescentPurchasing\FilamentAuditing\Filament\Actions\Tables\ViewUserAction as ViewUserTableAction;
 use CrescentPurchasing\FilamentAuditing\FilamentAuditingPlugin;

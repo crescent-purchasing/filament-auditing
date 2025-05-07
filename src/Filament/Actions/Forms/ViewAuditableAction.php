@@ -7,7 +7,6 @@ use Filament\Forms\Components\Actions\Action;
 
 class ViewAuditableAction extends Action
 {
-
     use ViewsAuditable;
 
     public static function getDefaultName(): ?string

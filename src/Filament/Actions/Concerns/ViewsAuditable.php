@@ -48,5 +48,4 @@ trait ViewsAuditable
             return $resource::getNavigationIcon();
         });
     }
-
 }
