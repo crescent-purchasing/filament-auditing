@@ -2,8 +2,9 @@
 
 namespace CrescentPurchasing\FilamentAuditing\Filament;
 
-use CrescentPurchasing\FilamentAuditing\Contracts\AuditContract as Audit;
+use CrescentPurchasing\FilamentAuditing\Audit;
 use CrescentPurchasing\FilamentAuditing\Filament\Actions\Forms\ViewUserAction as ViewUserFormAction;
+use CrescentPurchasing\FilamentAuditing\Filament\Actions\Tables\ViewAuditAction;
 use CrescentPurchasing\FilamentAuditing\Filament\Actions\Tables\ViewUserAction as ViewUserTableAction;
 use CrescentPurchasing\FilamentAuditing\FilamentAuditingPlugin;
 use Filament\Forms\Components\DateTimePicker;
@@ -16,7 +17,6 @@ use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\MaxWidth;
 use Filament\Tables\Actions\ActionGroup;
-use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\Layout\Split;
 use Filament\Tables\Columns\Layout\Stack;
 use Filament\Tables\Columns\TextColumn;
@@ -27,14 +27,30 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 class AuditResource extends Resource
 {
-    protected static ?string $recordTitleAttribute = 'title';
-
     protected static bool $isGloballySearchable = false;
+
+    /**
+     * @param  Audit|null  $record
+     */
+    public static function getRecordTitle(?Model $record): string | Htmlable | null
+    {
+        $auditable = $record->auditable;
+
+        /** @var class-string<resource> $resource */
+        $resource = filament()->getModelResource($auditable);
+
+        return __('resource.record_title', [
+            'title' => $resource::getRecordTitle($auditable),
+            'id' => $auditable->getKey(),
+            'timestamp' => $record->created_at,
+        ]);
+    }
 
     public static function getModel(): string
     {
@@ -102,7 +118,7 @@ class AuditResource extends Resource
 
         $actions = [
             ActionGroup::make([
-                ViewAction::make(),
+                ViewAuditAction::make(),
                 ViewUserTableAction::make(),
             ]),
         ];

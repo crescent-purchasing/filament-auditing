@@ -4,9 +4,12 @@ namespace CrescentPurchasing\FilamentAuditing;
 
 use CrescentPurchasing\FilamentAuditing\Contracts\AuditContract;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use OwenIt\Auditing\Models\Audit as BaseAudit;
 
@@ -14,6 +17,11 @@ use OwenIt\Auditing\Models\Audit as BaseAudit;
  * @property-read string $title
  * @property-read string $name
  * @property-read string $type
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property Model $auditable
+ *
+ * @method MorphTo auditable()
  */
 class Audit extends BaseAudit implements AuditContract
 {

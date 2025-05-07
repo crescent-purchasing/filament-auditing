@@ -2,6 +2,7 @@
 
 namespace CrescentPurchasing\FilamentAuditing\Filament;
 
+use CrescentPurchasing\FilamentAuditing\Filament\Concerns\WithCursorPagination;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables\Table;
@@ -9,9 +10,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class AuditsRelationManager extends RelationManager
 {
-    protected static string $relationship = 'audits';
+    use WithCursorPagination;
 
-    protected static ?string $recordTitleAttribute = 'id';
+    protected static string $relationship = 'audits';
 
     public static function getTitle(Model $ownerRecord, string $pageClass): string
     {
