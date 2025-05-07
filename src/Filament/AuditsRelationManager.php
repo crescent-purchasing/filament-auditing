@@ -27,5 +27,4 @@ class AuditsRelationManager extends RelationManager
     {
         return AuditResource::table($table);
     }
-
 }
