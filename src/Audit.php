@@ -20,7 +20,7 @@ class Audit extends BaseAudit implements AuditContract
     protected function title(): Attribute
     {
         $getTitle = function (mixed $value, array $attributes): string {
-            return __('filament-auditing::audit.title', [
+            return __('filament-auditing::model.title', [
                 'type' => $this->type,
                 'id' => $attributes['auditable_id'],
                 'timestamp' => $attributes['created_at'],
@@ -33,7 +33,7 @@ class Audit extends BaseAudit implements AuditContract
     protected function name(): Attribute
     {
         $getName = function (mixed $value, array $attributes): string {
-            return __('filament-auditing::audit.name', [
+            return __('filament-auditing::model.name', [
                 'type' => $this->type,
                 'id' => $attributes['auditable_id'],
             ]);

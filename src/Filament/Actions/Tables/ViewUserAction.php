@@ -27,7 +27,7 @@ class ViewUserAction extends Action
 
         $this->visible();
 
-        $this->label(__('filament-auditing::action.view_user'));
+        $this->label(__('filament-auditing::resource.actions.view_user'));
 
         $this->url(function (Model $record) use ($userResource): ?string {
             return $userResource::getGlobalSearchResultUrl($record);
