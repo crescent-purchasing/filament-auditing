@@ -15,5 +15,4 @@ class ViewAuditAction extends ViewAction
             ViewAuditableAction::make(),
         ]);
     }
-
 }
