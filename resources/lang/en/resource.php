@@ -4,6 +4,8 @@ return [
     'actions' => [
         'view_user' => 'View User',
         'view_user_title' => 'View :title',
+        'view_auditable' => 'View Record',
+        'view_auditable_title' => 'View :title',
     ],
     'relation' => [
         'title' => 'Audit History',

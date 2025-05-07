@@ -3,6 +3,7 @@
 namespace CrescentPurchasing\FilamentAuditing\Filament;
 
 use CrescentPurchasing\FilamentAuditing\Contracts\AuditContract as Audit;
+use CrescentPurchasing\FilamentAuditing\Filament\Actions\Forms\ViewAuditableAction;
 use CrescentPurchasing\FilamentAuditing\Filament\Actions\Forms\ViewUserAction as ViewUserFormAction;
 use CrescentPurchasing\FilamentAuditing\Filament\Actions\Tables\ViewUserAction as ViewUserTableAction;
 use CrescentPurchasing\FilamentAuditing\FilamentAuditingPlugin;
@@ -91,6 +92,7 @@ class AuditResource extends Resource
 
         return $form->schema([
             Tabs::make('AuditTabs')
+                ->registerActions([ViewAuditableAction::make()])
                 ->contained(false)
                 ->columnSpanFull()
                 ->schema([$metaTab, $userTab, $oldTab, $newTab]),
