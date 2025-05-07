@@ -14,16 +14,6 @@ class AuditPage extends ManageRecords
 {
     protected static string $resource = AuditResource::class;
 
-    protected function makeBaseTable(): Table
-    {
-        return FilamentAuditingPlugin::get()->getTable()::make($this);
-    }
-
-    protected function makeForm(): Form
-    {
-        return FilamentAuditingPlugin::get()->getForm()::make($this);
-    }
-
     protected function paginateTableQuery(Builder $query): Paginator | CursorPaginator
     {
         if (! FilamentAuditingPlugin::get()->useCursorPagination()) {
