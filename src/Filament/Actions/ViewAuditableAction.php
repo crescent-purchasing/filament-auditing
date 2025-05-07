@@ -1,9 +1,12 @@
 <?php
 
-namespace CrescentPurchasing\FilamentAuditing\Filament\Actions\Forms;
+namespace CrescentPurchasing\FilamentAuditing\Filament\Actions;
 
+use CrescentPurchasing\FilamentAuditing\Audit;
 use CrescentPurchasing\FilamentAuditing\Filament\Actions\Concerns\ViewsAuditable;
-use Filament\Forms\Components\Actions\Action;
+use Filament\Actions\Action;
+use Filament\FilamentManager;
+use Filament\Resources\Resource;
 
 class ViewAuditableAction extends Action
 {
@@ -15,10 +18,4 @@ class ViewAuditableAction extends Action
         return 'viewAuditable';
     }
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->iconButton();
-    }
 }

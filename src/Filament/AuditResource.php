@@ -92,7 +92,6 @@ class AuditResource extends Resource
 
         return $form->schema([
             Tabs::make('AuditTabs')
-                ->registerActions([ViewAuditableAction::make()])
                 ->contained(false)
                 ->columnSpanFull()
                 ->schema([$metaTab, $userTab, $oldTab, $newTab]),
