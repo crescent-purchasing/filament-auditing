@@ -51,6 +51,12 @@ class Audit extends BaseAudit implements AuditContract
         return Attribute::make(get: $getType);
     }
 
+    /**
+     * Filament doesn't support Polymorphic relationships on Select filters
+     * This is used as a temporary workaround to support the Select filter on Laravel's default User model
+     *
+     * @return BelongsTo<User, $this>
+     */
     public function owner(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');

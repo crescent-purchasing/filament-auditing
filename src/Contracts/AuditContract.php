@@ -3,6 +3,7 @@
 namespace CrescentPurchasing\FilamentAuditing\Contracts;
 
 use CrescentPurchasing\FilamentAuditing\Audit;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User;
 
@@ -12,7 +13,7 @@ use Illuminate\Foundation\Auth\User;
 interface AuditContract
 {
     /**
-     * @return BelongsTo<User, Audit>
+     * @return BelongsTo
      */
     public function owner(): BelongsTo;
 
