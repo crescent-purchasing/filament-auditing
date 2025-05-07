@@ -6,7 +6,7 @@ return [
         'view_user_title' => 'View :title',
     ],
     'relation' => [
-        'title' => 'Audit History'
+        'title' => 'Audit History',
     ],
     'table' => [
         'columns' => [
