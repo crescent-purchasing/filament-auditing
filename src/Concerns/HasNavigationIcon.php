@@ -9,7 +9,7 @@ trait HasNavigationIcon
 {
     protected string | Htmlable | Closure | null $navigationIcon = 'heroicon-o-clock';
 
-    public function getNavigationIcon(): string
+    public function getNavigationIcon(): string | Htmlable | null
     {
         return $this->evaluate($this->navigationIcon);
     }
