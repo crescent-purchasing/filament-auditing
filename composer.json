@@ -39,8 +39,7 @@
     },
     "autoload": {
         "psr-4": {
-            "CrescentPurchasing\\FilamentAuditing\\": "src/",
-            "CrescentPurchasing\\FilamentAuditing\\Database\\Factories\\": "database/factories/"
+            "CrescentPurchasing\\FilamentAuditing\\": "src/"
         }
     },
     "autoload-dev": {
