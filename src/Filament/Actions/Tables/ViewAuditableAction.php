@@ -8,5 +8,4 @@ use Filament\Tables\Actions\Action;
 class ViewAuditableAction extends Action
 {
     use ViewsAuditables;
-
 }

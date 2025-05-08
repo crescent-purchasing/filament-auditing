@@ -8,5 +8,4 @@ use Filament\Tables\Actions\Action;
 class RestoreAuditAction extends Action
 {
     use RestoresAudits;
-
 }
