@@ -19,7 +19,7 @@ use OwenIt\Auditing\Models\Audit as BaseAudit;
  * @property-read string $type
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @property Model $auditable
+ * @property Model|null $auditable
  *
  * @method MorphTo auditable()
  */

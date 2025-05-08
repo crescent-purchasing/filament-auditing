@@ -3,6 +3,7 @@
 namespace CrescentPurchasing\FilamentAuditing\Filament\Actions\Concerns;
 
 use CrescentPurchasing\FilamentAuditing\Audit;
+use Filament\Resources\Resource as FilamentResource;
 
 trait ViewsAuditable
 {
@@ -26,7 +27,7 @@ trait ViewsAuditable
         $this->label(function (Audit $record): string {
             $auditable = $record->auditable;
 
-            /** @var class-string<resource> $resource */
+            /** @var class-string<FilamentResource> $resource */
             $resource = filament()->getModelResource($auditable);
 
             return __('filament-auditing::resource.actions.view_auditable_title', [
@@ -37,7 +38,7 @@ trait ViewsAuditable
         $this->url(function (Audit $record): ?string {
             $auditable = $record->auditable;
 
-            /** @var class-string<resource> $resource */
+            /** @var class-string<FilamentResource> $resource */
             $resource = filament()->getModelResource($auditable);
 
             return $resource::getGlobalSearchResultUrl($auditable);
@@ -46,7 +47,7 @@ trait ViewsAuditable
         $this->icon(function (Audit $record): ?string {
             $auditable = $record->auditable;
 
-            /** @var class-string<resource> $resource */
+            /** @var class-string<FilamentResource> $resource */
             $resource = filament()->getModelResource($auditable);
 
             return $resource::getNavigationIcon();

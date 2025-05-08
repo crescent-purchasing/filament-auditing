@@ -3,7 +3,7 @@
 namespace CrescentPurchasing\FilamentAuditing\Concerns;
 
 use Closure;
-use Filament\Resources;
+use Filament\Resources\Resource as FilamentResource;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User;
 
@@ -29,7 +29,7 @@ trait HasUserResource
     }
 
     /**
-     * @return class-string<Resources\Resource>|null
+     * @return class-string<FilamentResource>|null
      */
     public function getUserResource(): ?string
     {

@@ -14,7 +14,7 @@ use Filament\Forms\Components\Tabs\Tab;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
-use Filament\Resources\Resource;
+use Filament\Resources\Resource as FilamentResource;
 use Filament\Support\Enums\MaxWidth;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Columns\Layout\Split;
@@ -31,7 +31,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
-class AuditResource extends Resource
+class AuditResource extends FilamentResource
 {
     protected static bool $isGloballySearchable = false;
 
@@ -42,7 +42,7 @@ class AuditResource extends Resource
     {
         $auditable = $record->auditable;
 
-        /** @var class-string<resource> $resource */
+        /** @var class-string<FilamentResource> $resource */
         $resource = filament()->getModelResource($auditable);
 
         return __('resource.record_title', [
