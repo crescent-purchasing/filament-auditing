@@ -5,7 +5,7 @@ namespace CrescentPurchasing\FilamentAuditing\Filament\Actions\Concerns;
 use CrescentPurchasing\FilamentAuditing\Audit;
 use Filament\Resources\Resource as FilamentResource;
 
-trait ViewsAuditable
+trait ViewsAuditables
 {
     public static function getDefaultName(): ?string
     {

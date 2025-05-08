@@ -20,8 +20,6 @@ class FilamentAuditingServiceProvider extends PackageServiceProvider
          */
         $package->name(static::$name);
 
-        $package->hasConfigFile();
-
         $package->hasTranslations();
     }
 
