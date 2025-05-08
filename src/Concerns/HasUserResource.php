@@ -14,7 +14,7 @@ trait HasUserResource
     protected string | Closure | null $userResource = null;
 
     /**
-     * @return class-string<Model>|null
+     * @return class-string<User>|null
      */
     public function getUser(): ?string
     {

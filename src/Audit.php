@@ -68,7 +68,9 @@ class Audit extends BaseAudit implements AuditContract
      */
     public function owner(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'user_id');
+        $userClass = FilamentAuditingPlugin::get()->getUser();
+
+        return $this->belongsTo($userClass, 'user_id');
     }
 
     public function getModifiedByType(string $type = 'new'): array
