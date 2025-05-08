@@ -9,11 +9,13 @@ use Filament\Resources\Resource as FilamentResource;
 
 class ViewAuditableAction extends Action
 {
-    use ViewsAuditables;
+    use ViewsAuditables {
+        setUp as baseSetUp;
+    }
 
     protected function setUp(): void
     {
-        parent::setUp();
+        $this->baseSetUp();
 
         $this->iconButton();
 

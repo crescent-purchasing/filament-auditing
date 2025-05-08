@@ -9,11 +9,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class ViewOwnerAction extends Action
 {
-    use ViewsOwners;
+    use ViewsOwners {
+        setUp as baseSetUp;
+    }
 
     protected function setUp(): void
     {
-        parent::setUp();
+        $this->baseSetUp();
 
         $this->iconButton();
 
