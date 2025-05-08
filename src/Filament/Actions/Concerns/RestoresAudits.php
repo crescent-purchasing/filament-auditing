@@ -22,6 +22,8 @@ trait RestoresAudits
 
     protected function setUp(): void
     {
+        parent::setUp();
+
         $this->label(__('filament-auditing::resource.actions.restore_audit.label'));
 
         $this->icon('heroicon-o-arrow-path');
