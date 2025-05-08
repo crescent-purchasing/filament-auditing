@@ -11,6 +11,7 @@ use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
+use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Models\Audit as BaseAudit;
 
 /**
@@ -19,7 +20,7 @@ use OwenIt\Auditing\Models\Audit as BaseAudit;
  * @property-read string $type
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @property Model|null $auditable
+ * @property Auditable|Model|null $auditable
  *
  * @method MorphTo auditable()
  */
