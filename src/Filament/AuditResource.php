@@ -3,7 +3,9 @@
 namespace CrescentPurchasing\FilamentAuditing\Filament;
 
 use CrescentPurchasing\FilamentAuditing\Audit;
+use CrescentPurchasing\FilamentAuditing\Filament\Actions\Forms\ViewAuditableAction as ViewAuditableTableAction;
 use CrescentPurchasing\FilamentAuditing\Filament\Actions\Forms\ViewUserAction as ViewUserFormAction;
+use CrescentPurchasing\FilamentAuditing\Filament\Actions\Tables\RestoreAuditAction;
 use CrescentPurchasing\FilamentAuditing\Filament\Actions\Tables\ViewAuditAction;
 use CrescentPurchasing\FilamentAuditing\Filament\Actions\Tables\ViewUserAction as ViewUserTableAction;
 use CrescentPurchasing\FilamentAuditing\FilamentAuditingPlugin;
@@ -117,8 +119,10 @@ class AuditResource extends FilamentResource
     {
 
         $actions = [
+            RestoreAuditAction::make(),
             ActionGroup::make([
                 ViewAuditAction::make(),
+                ViewAuditableTableAction::make(),
                 ViewUserTableAction::make(),
             ]),
         ];
