@@ -13,6 +13,8 @@ class ViewOwnerAction extends Action
 
     protected function setUp(): void
     {
+        parent::setUp();
+
         $this->iconButton();
 
         $this->label(function (Model $record): string {
