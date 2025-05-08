@@ -4,7 +4,6 @@ namespace CrescentPurchasing\FilamentAuditing\Concerns;
 
 use Closure;
 use Filament\Resources\Resource as FilamentResource;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User;
 
 trait HasUserResource
