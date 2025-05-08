@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'title' => 'Audit History',
     'record_title' => 'Snapshot - :record (:id) at :timestamp',
     'actions' => [
         'restore_audit' => [
@@ -9,10 +10,11 @@ return [
             'restore_from_values' => 'Restoring from Values',
             'restore_to_values' => 'Restoring to Values',
         ],
-        'view_user' => 'View User',
-        'view_user_title' => 'View :title',
-        'view_auditable' => 'View Record',
-        'view_auditable_title' => 'View :title',
+        'view' => [
+            'auditable' => 'View record',
+            'owner' => 'View owner',
+            'title' => 'View :title',
+        ],
     ],
     'relation' => [
         'title' => 'Audit History',

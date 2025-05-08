@@ -24,16 +24,7 @@ trait ViewsAuditables
             return ! empty(filament()->getModelResource($record));
         });
 
-        $this->label(function (Audit $record): string {
-            $auditable = $record->auditable;
-
-            /** @var class-string<FilamentResource> $resource */
-            $resource = filament()->getModelResource($auditable);
-
-            return __('filament-auditing::resource.actions.view_auditable_title', [
-                'title' => $resource::getRecordTitle($auditable),
-            ]);
-        });
+        $this->label(__('filament-auditing::resource.actions.view.auditable'));
 
         $this->url(function (Audit $record): ?string {
             $auditable = $record->auditable;
