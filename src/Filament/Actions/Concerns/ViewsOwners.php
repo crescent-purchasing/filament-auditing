@@ -4,7 +4,6 @@ namespace CrescentPurchasing\FilamentAuditing\Filament\Actions\Concerns;
 
 use CrescentPurchasing\FilamentAuditing\Audit;
 use Filament\Resources\Resource as FilamentResource;
-use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User;
 
@@ -48,10 +47,10 @@ trait ViewsOwners
         });
     }
 
-    private function getOwner(Model $record): Authenticatable | User | null
+    private function getOwner(Model $record): ?User
     {
         return match (true) {
-            $record instanceof Authenticatable => $record,
+            $record instanceof User => $record,
             $record instanceof Audit => $record->owner,
             default => null,
         };
