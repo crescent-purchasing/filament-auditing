@@ -13,10 +13,10 @@ trait HasPermission
         return $this->evaluate($this->permission);
     }
 
-    public function permission(string | Closure $permission): static {
+    public function permission(string | Closure $permission): static
+    {
         $this->permission = $permission;
 
         return $this;
     }
-
 }

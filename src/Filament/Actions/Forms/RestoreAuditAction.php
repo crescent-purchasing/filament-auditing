@@ -8,5 +8,4 @@ use Filament\Forms\Components\Actions\Action;
 class RestoreAuditAction extends Action
 {
     use RestoresAudits;
-
 }
