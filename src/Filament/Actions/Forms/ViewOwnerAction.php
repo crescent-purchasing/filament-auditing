@@ -3,7 +3,6 @@
 namespace CrescentPurchasing\FilamentAuditing\Filament\Actions\Forms;
 
 use CrescentPurchasing\FilamentAuditing\Filament\Actions\Concerns\ViewsOwners;
-use CrescentPurchasing\FilamentAuditing\FilamentAuditingPlugin;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Resources\Resource as FilamentResource;
 use Illuminate\Database\Eloquent\Model;

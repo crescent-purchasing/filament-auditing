@@ -8,5 +8,4 @@ use Filament\Actions\Action;
 class ViewOwnerAction extends Action
 {
     use ViewsOwners;
-
 }
