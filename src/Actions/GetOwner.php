@@ -15,6 +15,10 @@ readonly class GetOwner
 
     public function __invoke(Model $record): ?User
     {
+        if (! $this->filament->isServing()) {
+            return null;
+        }
+
         return match (true) {
             $record instanceof User => $record,
             $record instanceof Audit => $record->owner,
@@ -24,7 +28,9 @@ readonly class GetOwner
 
     public function icon(Model $record): string | Htmlable | null
     {
-        $owner = $this($record);
+        if (! $owner = $this($record)) {
+            return null;
+        }
 
         /** @var class-string<FilamentResource> $resource */
         $resource = $this->filament->getModelResource($owner);
@@ -34,7 +40,9 @@ readonly class GetOwner
 
     public function url(Model $record): ?string
     {
-        $owner = $this($record);
+        if (! $owner = $this($record)) {
+            return null;
+        }
 
         /** @var class-string<FilamentResource> $resource */
         $resource = $this->filament->getModelResource($owner);

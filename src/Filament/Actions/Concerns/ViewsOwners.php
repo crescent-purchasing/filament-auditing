@@ -3,10 +3,7 @@
 namespace CrescentPurchasing\FilamentAuditing\Filament\Actions\Concerns;
 
 use CrescentPurchasing\FilamentAuditing\Actions\GetOwner;
-use CrescentPurchasing\FilamentAuditing\Audit;
-use Filament\Resources\Resource as FilamentResource;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Foundation\Auth\User;
 
 trait ViewsOwners
 {

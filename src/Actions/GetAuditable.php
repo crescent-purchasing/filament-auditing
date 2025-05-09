@@ -14,12 +14,18 @@ readonly class GetAuditable
 
     public function __invoke(Audit $record): ?Model
     {
+        if (! $this->filament->isServing()) {
+            return null;
+        }
+
         return $record->auditable;
     }
 
     public function icon(Audit $record): string | Htmlable | null
     {
-        $auditable = $this($record);
+        if (! $auditable = $this($record)) {
+            return false;
+        }
 
         /** @var class-string<FilamentResource> $resource */
         $resource = $this->filament->getModelResource($auditable);
@@ -30,7 +36,9 @@ readonly class GetAuditable
 
     public function url(Audit $record): ?string
     {
-        $auditable = $this($record);
+        if (! $auditable = $this($record)) {
+            return false;
+        }
 
         /** @var class-string<FilamentResource> $resource */
         $resource = $this->filament->getModelResource($auditable);
