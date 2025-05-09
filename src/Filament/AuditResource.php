@@ -44,7 +44,7 @@ class AuditResource extends FilamentResource
         $resource = filament()->getModelResource($auditable);
 
         return __('filament-auditing::resource.record_title', [
-            'title' => $resource::getRecordTitle($auditable),
+            'record' => $resource::getRecordTitle($auditable),
             'id' => $auditable->getKey(),
             'timestamp' => $record->created_at,
         ]);
