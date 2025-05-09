@@ -9,6 +9,8 @@ use CrescentPurchasing\FilamentAuditing\Filament\Actions\Tables\RestoreAuditActi
 use CrescentPurchasing\FilamentAuditing\Filament\Actions\Tables\ViewAuditableAction;
 use CrescentPurchasing\FilamentAuditing\Filament\Actions\Tables\ViewAuditAction;
 use CrescentPurchasing\FilamentAuditing\Filament\Actions\Tables\ViewOwnerAction;
+use CrescentPurchasing\FilamentAuditing\Filament\RelationManagers\AuditsRelationManager;
+use CrescentPurchasing\FilamentAuditing\Filament\RelationManagers\OwnedAuditsRelationManager;
 use CrescentPurchasing\FilamentAuditing\FilamentAuditingPlugin;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Grid;
@@ -134,7 +136,8 @@ class AuditResource extends FilamentResource
             TextColumn::make('user.email')
                 ->label(__('filament-auditing::resource.fields.user.label'))
                 ->tooltip(fn (Audit $record, GetOwner $getOwner): ?string => $getOwner($record)->getKey())
-                ->url(fn (Audit $record, GetOwner $getOwner): ?string => $getOwner->url($record)),
+                ->url(fn (Audit $record, GetOwner $getOwner): ?string => $getOwner->url($record))
+                ->hiddenOn(OwnedAuditsRelationManager::class),
             TextColumn::make('auditable_type')
                 ->label(__('filament-auditing::resource.fields.auditable_type'))
                 ->tooltip(fn (Audit $record, GetAuditable $getAuditable): ?string => $getAuditable($record)->getKey())
