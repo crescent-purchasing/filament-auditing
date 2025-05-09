@@ -3,11 +3,10 @@
 namespace CrescentPurchasing\FilamentAuditing\Filament;
 
 use CrescentPurchasing\FilamentAuditing\Audit;
-use CrescentPurchasing\FilamentAuditing\Filament\Actions\Forms\ViewOwnerAction as ViewOwnerFormAction;
 use CrescentPurchasing\FilamentAuditing\Filament\Actions\Tables\RestoreAuditAction;
 use CrescentPurchasing\FilamentAuditing\Filament\Actions\Tables\ViewAuditableAction;
 use CrescentPurchasing\FilamentAuditing\Filament\Actions\Tables\ViewAuditAction;
-use CrescentPurchasing\FilamentAuditing\Filament\Actions\Tables\ViewOwnerAction as ViewOwnerTableAction;
+use CrescentPurchasing\FilamentAuditing\Filament\Actions\Tables\ViewOwnerAction;
 use CrescentPurchasing\FilamentAuditing\FilamentAuditingPlugin;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Grid;
@@ -19,10 +18,7 @@ use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Resources\Resource as FilamentResource;
 use Filament\Support\Enums\MaxWidth;
 use Filament\Tables\Actions\ActionGroup;
-use Filament\Tables\Columns\Layout\Split;
-use Filament\Tables\Columns\Layout\Stack;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Columns\TextColumn\TextColumnSize;
 use Filament\Tables\Filters\QueryBuilder;
 use Filament\Tables\Filters\QueryBuilder\Constraints\DateConstraint;
 use Filament\Tables\Filters\SelectFilter;
@@ -88,12 +84,7 @@ class AuditResource extends FilamentResource
             ->schema([
                 Grid::make(1)
                     ->relationship('user')
-                    ->schema([
-                        TextInput::make('id')
-                            ->suffixAction(ViewOwnerFormAction::make()),
-                        TextInput::make('full_name'),
-                        TextInput::make('email'),
-                    ]),
+                    ->schema(FilamentAuditingPlugin::get()->makeUserSchema()),
             ]);
 
         $getTabSchema = function (Audit $record, string $type = 'new'): array {
@@ -126,7 +117,7 @@ class AuditResource extends FilamentResource
             ActionGroup::make([
                 ViewAuditAction::make(),
                 ViewAuditableAction::make(),
-                ViewOwnerTableAction::make(),
+                ViewOwnerAction::make(),
             ]),
         ];
 
@@ -140,7 +131,7 @@ class AuditResource extends FilamentResource
                 ->since(),
             TextColumn::make('user.email')
                 ->label(__('filament-auditing::resource.fields.user.email'))
-                ->action(ViewOwnerTableAction::make('viewOwnerColumn')),
+                ->action(ViewOwnerAction::make('viewOwnerColumn')),
             TextColumn::make('auditable_type')
                 ->label(__('filament-auditing::resource.fields.auditable_type'))
                 ->action(ViewAuditableAction::make('viewAuditableColumn'))
