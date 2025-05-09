@@ -7,6 +7,7 @@ use CrescentPurchasing\FilamentAuditing\Concerns\HasCursorPagination;
 use CrescentPurchasing\FilamentAuditing\Concerns\HasModel;
 use CrescentPurchasing\FilamentAuditing\Concerns\HasNavigationIcon;
 use CrescentPurchasing\FilamentAuditing\Concerns\HasUserResource;
+use CrescentPurchasing\FilamentAuditing\Concerns\HasUserSchema;
 use CrescentPurchasing\FilamentAuditing\Filament\AuditResource;
 use Filament\Contracts\Plugin;
 use Filament\Panel;
@@ -20,6 +21,7 @@ class FilamentAuditingPlugin implements Plugin
     use HasModel;
     use HasNavigationIcon;
     use HasUserResource;
+    use HasUserSchema;
 
     public function getId(): string
     {
