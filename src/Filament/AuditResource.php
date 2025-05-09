@@ -133,10 +133,10 @@ class AuditResource extends FilamentResource
                 ->since(),
             TextColumn::make('user.email')
                 ->label(__('filament-auditing::resource.fields.user.email'))
-                ->url(fn(Audit $record, GetOwner $getOwner): ?string => $getOwner->url($record)),
+                ->url(fn (Audit $record, GetOwner $getOwner): ?string => $getOwner->url($record)),
             TextColumn::make('auditable_type')
                 ->label(__('filament-auditing::resource.fields.auditable_type'))
-                ->url(fn(Audit $record, GetAuditable $getAuditable): ?string => $getAuditable->url($record))
+                ->url(fn (Audit $record, GetAuditable $getAuditable): ?string => $getAuditable->url($record))
                 ->hiddenOn(AuditsRelationManager::class),
             TextColumn::make('event')
                 ->label(__('filament-auditing::resource.fields.event'))

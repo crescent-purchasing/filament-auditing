@@ -4,7 +4,6 @@ namespace CrescentPurchasing\FilamentAuditing\Filament\Actions\Concerns;
 
 use CrescentPurchasing\FilamentAuditing\Actions\GetOwner;
 use CrescentPurchasing\FilamentAuditing\Audit;
-use Filament\Resources\Resource as FilamentResource;
 
 trait ViewsAuditables
 {
