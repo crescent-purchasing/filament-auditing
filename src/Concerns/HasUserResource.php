@@ -4,7 +4,6 @@ namespace CrescentPurchasing\FilamentAuditing\Concerns;
 
 use Closure;
 use Filament\Resources\Resource as FilamentResource;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User;
 
 trait HasUserResource
@@ -14,7 +13,7 @@ trait HasUserResource
     protected string | Closure | null $userResource = null;
 
     /**
-     * @return class-string<Model>|null
+     * @return class-string<User>|null
      */
     public function getUser(): ?string
     {

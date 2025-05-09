@@ -3,11 +3,11 @@
 namespace CrescentPurchasing\FilamentAuditing\Filament;
 
 use CrescentPurchasing\FilamentAuditing\Audit;
-use CrescentPurchasing\FilamentAuditing\Filament\Actions\Forms\ViewUserAction as ViewUserFormAction;
+use CrescentPurchasing\FilamentAuditing\Filament\Actions\Forms\ViewOwnerAction as ViewOwnerFormAction;
 use CrescentPurchasing\FilamentAuditing\Filament\Actions\Tables\RestoreAuditAction;
 use CrescentPurchasing\FilamentAuditing\Filament\Actions\Tables\ViewAuditableAction;
 use CrescentPurchasing\FilamentAuditing\Filament\Actions\Tables\ViewAuditAction;
-use CrescentPurchasing\FilamentAuditing\Filament\Actions\Tables\ViewUserAction as ViewUserTableAction;
+use CrescentPurchasing\FilamentAuditing\Filament\Actions\Tables\ViewOwnerAction as ViewOwnerTableAction;
 use CrescentPurchasing\FilamentAuditing\FilamentAuditingPlugin;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Grid;
@@ -47,7 +47,7 @@ class AuditResource extends FilamentResource
         /** @var class-string<FilamentResource> $resource */
         $resource = filament()->getModelResource($auditable);
 
-        return __('resource.record_title', [
+        return __('filament-auditing::resource.record_title', [
             'title' => $resource::getRecordTitle($auditable),
             'id' => $auditable->getKey(),
             'timestamp' => $record->created_at,
@@ -87,7 +87,7 @@ class AuditResource extends FilamentResource
                     ->relationship('user')
                     ->schema([
                         TextInput::make('id')
-                            ->suffixAction(ViewUserFormAction::make()),
+                            ->suffixAction(ViewOwnerFormAction::make()),
                         TextInput::make('full_name'),
                         TextInput::make('email'),
                     ]),
@@ -123,7 +123,7 @@ class AuditResource extends FilamentResource
             ActionGroup::make([
                 ViewAuditAction::make(),
                 ViewAuditableAction::make(),
-                ViewUserTableAction::make(),
+                ViewOwnerTableAction::make(),
             ]),
         ];
 
