@@ -16,7 +16,9 @@ use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\Tabs\Tab;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource as FilamentResource;
 use Filament\Support\Enums\MaxWidth;
@@ -36,6 +38,26 @@ class AuditResource extends FilamentResource
 {
     protected static bool $isGloballySearchable = false;
 
+    public static function getModel(): string
+    {
+        return FilamentAuditingPlugin::get()->getModel();
+    }
+
+    public static function getNavigationGroup(): ?string
+    {
+        return FilamentAuditingPlugin::get()->getNavigationGroup();
+    }
+
+    public static function getNavigationIcon(): string | Htmlable | null
+    {
+        return FilamentAuditingPlugin::get()->getNavigationIcon();
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('filament-auditing::resource.title');
+    }
+
     /**
      * @param  Audit|null  $record
      */
@@ -53,37 +75,39 @@ class AuditResource extends FilamentResource
         ]);
     }
 
-    public static function getModel(): string
-    {
-        return FilamentAuditingPlugin::get()->getModel();
-    }
-
-    public static function getNavigationIcon(): string | Htmlable | null
-    {
-        return FilamentAuditingPlugin::get()->getNavigationIcon();
-    }
-
     public static function form(Form $form): Form
     {
         $metaTab = Tab::make(__('filament-auditing::resource.tabs.meta'))
             ->schema([
-                DateTimePicker::make('created_at')
-                    ->label(__('filament-auditing::resource.fields.created_at'))
-                    ->inlineLabel(),
-                TextInput::make('event')
-                    ->label(__('filament-auditing::resource.fields.event')),
-                TextInput::make('url')
-                    ->label(__('filament-auditing::resource.fields.url')),
-                TextInput::make('ip_address')
-                    ->label(__('filament-auditing::resource.fields.ip_address')),
-                TextInput::make('user_agent')
-                    ->label(__('filament-auditing::resource.fields.user_agent')),
-                TextInput::make('tags')
-                    ->label(__('filament-auditing::resource.fields.tags')),
+                Grid::make([
+                    'md' => 2,
+                ])->schema([
+                    TextInput::make('event')
+                        ->label(__('filament-auditing::resource.fields.event')),
+                    DateTimePicker::make('created_at')
+                        ->label(__('filament-auditing::resource.fields.created_at')),
+                    TextInput::make('url')
+                        ->label(__('filament-auditing::resource.fields.url')),
+                    TextInput::make('ip_address')
+                        ->label(__('filament-auditing::resource.fields.ip_address')),
+                    Textarea::make('user_agent')
+                        ->rows(3)
+                        ->label(__('filament-auditing::resource.fields.user_agent')),
+                    Textarea::make('tags')
+                        ->rows(3)
+                        ->label(__('filament-auditing::resource.fields.tags')),
+                ]),
             ]);
 
         $userTab = Tabs\Tab::make(__('filament-auditing::resource.tabs.user'))
-            ->hidden(fn (Audit $record) => empty($record->user))
+            ->hidden(function (Audit $record, HasForms $livewire): bool {
+                if ($livewire instanceof OwnedAuditsRelationManager) {
+                    return true;
+                }
+
+                return empty($record->user);
+
+            })
             ->schema([
                 Grid::make(1)
                     ->relationship('user')
