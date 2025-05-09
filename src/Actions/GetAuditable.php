@@ -19,17 +19,13 @@ readonly class GetAuditable
 
     public function __invoke(Audit $record): ?Model
     {
-        if (! $this->filament->getCurrentPanel()) {
-            $this->filament->registerScriptData();
-        }
-
         return $record->auditable;
     }
 
     public function icon(Audit $record): string | Htmlable | null
     {
         if (! $auditable = $this($record)) {
-            return false;
+            return null;
         }
 
         /** @var class-string<FilamentResource> $resource */
@@ -42,7 +38,7 @@ readonly class GetAuditable
     public function url(Audit $record): ?string
     {
         if (! $auditable = $this($record)) {
-            return false;
+            return null;
         }
 
         /** @var class-string<FilamentResource> $resource */
