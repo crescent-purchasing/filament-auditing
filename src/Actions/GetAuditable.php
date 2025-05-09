@@ -14,7 +14,7 @@ readonly class GetAuditable
 
     public function __invoke(Audit $record): ?Model
     {
-        if (! $this->filament->isServing()) {
+        if (! $this->filament->getCurrentPanel()) {
             return null;
         }
 

@@ -15,7 +15,7 @@ readonly class GetOwner
 
     public function __invoke(Model $record): ?User
     {
-        if (! $this->filament->isServing()) {
+        if (! $this->filament->getCurrentPanel()) {
             return null;
         }
 
