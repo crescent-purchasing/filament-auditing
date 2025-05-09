@@ -5,6 +5,7 @@ namespace CrescentPurchasing\FilamentAuditing;
 use CrescentPurchasing\FilamentAuditing\Concerns\HasAuditSchema;
 use CrescentPurchasing\FilamentAuditing\Concerns\HasCursorPagination;
 use CrescentPurchasing\FilamentAuditing\Concerns\HasModel;
+use CrescentPurchasing\FilamentAuditing\Concerns\HasNavigationGroup;
 use CrescentPurchasing\FilamentAuditing\Concerns\HasNavigationIcon;
 use CrescentPurchasing\FilamentAuditing\Concerns\HasUserResource;
 use CrescentPurchasing\FilamentAuditing\Concerns\HasUserSchema;
@@ -19,6 +20,7 @@ class FilamentAuditingPlugin implements Plugin
     use HasAuditSchema;
     use HasCursorPagination;
     use HasModel;
+    use HasNavigationGroup;
     use HasNavigationIcon;
     use HasUserResource;
     use HasUserSchema;
