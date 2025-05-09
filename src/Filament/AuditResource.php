@@ -132,10 +132,12 @@ class AuditResource extends FilamentResource
                 ->dateTimeTooltip()
                 ->since(),
             TextColumn::make('user.email')
-                ->label(__('filament-auditing::resource.fields.user.email'))
+                ->label(__('filament-auditing::resource.fields.user.label'))
+                ->tooltip(fn (Audit $record, GetOwner $getOwner): ?string => $getOwner($record)->getKey())
                 ->url(fn (Audit $record, GetOwner $getOwner): ?string => $getOwner->url($record)),
             TextColumn::make('auditable_type')
                 ->label(__('filament-auditing::resource.fields.auditable_type'))
+                ->tooltip(fn (Audit $record, GetAuditable $getAuditable): ?string => $getAuditable($record)->getKey())
                 ->url(fn (Audit $record, GetAuditable $getAuditable): ?string => $getAuditable->url($record))
                 ->hiddenOn(AuditsRelationManager::class),
             TextColumn::make('event')
