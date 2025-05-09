@@ -10,12 +10,17 @@ use Illuminate\Database\Eloquent\Model;
 
 readonly class GetAuditable
 {
-    public function __construct(private FilamentManager $filament) {}
+    private FilamentManager $filament;
+
+    public function __construct()
+    {
+        $this->filament = filament();
+    }
 
     public function __invoke(Audit $record): ?Model
     {
         if (! $this->filament->getCurrentPanel()) {
-            return null;
+            $this->filament->registerScriptData();
         }
 
         return $record->auditable;

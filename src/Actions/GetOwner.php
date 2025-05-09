@@ -11,14 +11,15 @@ use Illuminate\Foundation\Auth\User;
 
 readonly class GetOwner
 {
-    public function __construct(private FilamentManager $filament) {}
+    private FilamentManager $filament;
+
+    public function __construct()
+    {
+        $this->filament = filament();
+    }
 
     public function __invoke(Model $record): ?User
     {
-        if (! $this->filament->getCurrentPanel()) {
-            return null;
-        }
-
         return match (true) {
             $record instanceof User => $record,
             $record instanceof Audit => $record->owner,
