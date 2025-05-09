@@ -3,7 +3,6 @@
 namespace CrescentPurchasing\FilamentAuditing\Concerns;
 
 use Closure;
-use Illuminate\Contracts\Support\Htmlable;
 
 trait HasNavigationGroup
 {
