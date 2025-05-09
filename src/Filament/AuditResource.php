@@ -178,10 +178,11 @@ class AuditResource extends FilamentResource
                 ->label(__('filament-auditing::resource.fields.user.label'))
                 ->relationship('owner', 'email')
                 ->optionsLimit(8)
+                ->hiddenOn(OwnedAuditsRelationManager::class)
                 ->searchable(),
             SelectFilter::make('auditable_type')
                 ->label(__('filament-auditing::resource.fields.auditable_type'))
-                ->hiddenOn(RelationManager::class)
+                ->hiddenOn(AuditsRelationManager::class)
                 ->optionsLimit(8)
                 ->searchable()
                 ->getSearchResultsUsing($getFilterSearchResults),
