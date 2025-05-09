@@ -18,6 +18,7 @@ use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\Tabs\Tab;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource as FilamentResource;
 use Filament\Support\Enums\MaxWidth;
@@ -99,7 +100,14 @@ class AuditResource extends FilamentResource
             ]);
 
         $userTab = Tabs\Tab::make(__('filament-auditing::resource.tabs.user'))
-            ->hidden(fn (Audit $record) => empty($record->user))
+            ->hidden(function (Audit $record, HasForms $livewire): bool {
+                if ($livewire instanceof OwnedAuditsRelationManager) {
+                    return true;
+                }
+
+                return empty($record->user);
+
+            })
             ->schema([
                 Grid::make(1)
                     ->relationship('user')
