@@ -2,7 +2,7 @@
 
 namespace CrescentPurchasing\FilamentAuditing\Filament\Actions\Concerns;
 
-use CrescentPurchasing\FilamentAuditing\Actions\GetOwner;
+use CrescentPurchasing\FilamentAuditing\Actions\GetAuditable;
 use CrescentPurchasing\FilamentAuditing\Audit;
 
 trait ViewsAuditables
@@ -18,10 +18,10 @@ trait ViewsAuditables
 
         $this->label(__('filament-auditing::resource.actions.view.auditable'));
 
-        $this->icon(fn (Audit $record, GetOwner $getOwner): bool => $getOwner->icon($record));
+        $this->icon(fn (Audit $record, GetAuditable $getAuditable): bool => $getAuditable->icon($record));
 
-        $this->url(fn (Audit $record, GetOwner $getOwner): bool => $getOwner->url($record));
+        $this->url(fn (Audit $record, GetAuditable $getAuditable): bool => $getAuditable->url($record));
 
-        $this->visible(fn (Audit $record, GetOwner $getOwner): bool => $getOwner->visibility($record));
+        $this->visible(fn (Audit $record, GetAuditable $getAuditable): bool => $getAuditable->visibility($record));
     }
 }
