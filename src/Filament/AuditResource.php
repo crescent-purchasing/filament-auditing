@@ -90,10 +90,10 @@ class AuditResource extends FilamentResource
                     TextInput::make('ip_address')
                         ->label(__('filament-auditing::resource.fields.ip_address')),
                     Textarea::make('user_agent')
-                        ->rows(2)
+                        ->rows(3)
                         ->label(__('filament-auditing::resource.fields.user_agent')),
                     Textarea::make('tags')
-                        ->rows(2)
+                        ->rows(3)
                         ->label(__('filament-auditing::resource.fields.tags')),
                 ]),
             ]);
