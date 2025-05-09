@@ -2,6 +2,8 @@
 
 namespace CrescentPurchasing\FilamentAuditing\Filament;
 
+use CrescentPurchasing\FilamentAuditing\Actions\GetAuditable;
+use CrescentPurchasing\FilamentAuditing\Actions\GetOwner;
 use CrescentPurchasing\FilamentAuditing\Audit;
 use CrescentPurchasing\FilamentAuditing\Filament\Actions\Tables\RestoreAuditAction;
 use CrescentPurchasing\FilamentAuditing\Filament\Actions\Tables\ViewAuditableAction;
@@ -131,10 +133,10 @@ class AuditResource extends FilamentResource
                 ->since(),
             TextColumn::make('user.email')
                 ->label(__('filament-auditing::resource.fields.user.email'))
-                ->action(ViewOwnerAction::make('viewOwnerColumn')),
+                ->url(fn(Audit $record, GetOwner $getOwner): ?string => $getOwner->url($record)),
             TextColumn::make('auditable_type')
                 ->label(__('filament-auditing::resource.fields.auditable_type'))
-                ->action(ViewAuditableAction::make('viewAuditableColumn'))
+                ->url(fn(Audit $record, GetAuditable $getAuditable): ?string => $getAuditable->url($record))
                 ->hiddenOn(AuditsRelationManager::class),
             TextColumn::make('event')
                 ->label(__('filament-auditing::resource.fields.event'))
