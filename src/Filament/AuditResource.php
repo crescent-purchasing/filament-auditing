@@ -210,7 +210,7 @@ class AuditResource extends FilamentResource
     public static function getPages(): array
     {
         return [
-            'index' => AuditPage::route('/'),
+            'index' => ManageAudits::route('/'),
         ];
     }
 }
