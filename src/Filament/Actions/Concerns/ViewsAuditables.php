@@ -4,6 +4,7 @@ namespace CrescentPurchasing\FilamentAuditing\Filament\Actions\Concerns;
 
 use CrescentPurchasing\FilamentAuditing\Actions\GetAuditable;
 use CrescentPurchasing\FilamentAuditing\Audit;
+use Illuminate\Contracts\Support\Htmlable;
 
 trait ViewsAuditables
 {
@@ -18,10 +19,10 @@ trait ViewsAuditables
 
         $this->label(__('filament-auditing::resource.actions.view.auditable'));
 
-        $this->icon(fn (Audit $record, GetAuditable $getAuditable): bool => $getAuditable->icon($record));
+        $this->icon(fn (Audit $record, GetAuditable $auditable): string | Htmlable | null => $auditable->icon($record));
 
-        $this->url(fn (Audit $record, GetAuditable $getAuditable): bool => $getAuditable->url($record));
+        $this->url(fn (Audit $record, GetAuditable $auditable): ?string => $auditable->url($record));
 
-        $this->visible(fn (Audit $record, GetAuditable $getAuditable): bool => $getAuditable->visibility($record));
+        $this->visible(fn (Audit $record, GetAuditable $auditable): bool => $auditable->visibility($record));
     }
 }
