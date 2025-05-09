@@ -1,6 +1,6 @@
 <?php
 
-namespace CrescentPurchasing\FilamentAuditing\Filament;
+namespace CrescentPurchasing\FilamentAuditing\Filament\Schemas;
 
 use CrescentPurchasing\FilamentAuditing\Contracts\AuditSchemaContract;
 use Filament\Forms\Components\Placeholder;
@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 
 class AuditSchema implements AuditSchemaContract
 {
-    public static function invoke(array $keys, array $values): array
+    public static function make(array $keys, array $values): array
     {
         $fields = [];
 
@@ -24,10 +24,12 @@ class AuditSchema implements AuditSchemaContract
 
             if (is_scalar($content)) {
                 $field = Placeholder::make($key);
+                $field->translateLabel();
                 $field->inlineLabel();
                 $field->content($content);
             } else {
                 $field = Textarea::make($key);
+                $field->translateLabel();
                 $field->rows(16);
                 $field->readOnly();
                 $field->dehydrated(false);

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 trait HasModel
 {
+    /** @var class-string<Model>|Closure */
     protected string | Closure $model = Audit::class;
 
     /**
@@ -18,6 +19,10 @@ trait HasModel
         return $this->evaluate($this->model);
     }
 
+    /**
+     * @param  class-string<Model>|Closure  $model
+     * @return $this
+     */
     public function model(string | Closure $model): static
     {
         $this->model = $model;

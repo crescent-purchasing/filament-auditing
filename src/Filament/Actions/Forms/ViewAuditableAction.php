@@ -25,7 +25,7 @@ class ViewAuditableAction extends Action
             /** @var class-string<FilamentResource> $resource */
             $resource = filament()->getModelResource($auditable);
 
-            return __('filament-auditing::resource.actions.view_auditable_title', [
+            return __('filament-auditing::resource.actions.view.title', [
                 'title' => $resource::getRecordTitle($auditable),
             ]);
         });

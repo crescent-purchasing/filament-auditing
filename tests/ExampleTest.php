@@ -8,7 +8,7 @@ it('can test', function () {
 });
 
 it('uses translations', function () {
-    expect(__('filament-auditing::resource.table.columns.created_at'))->toBeString()->toBe('Recorded at');
+    expect(__('filament-auditing::resource.fields.created_at'))->toBeString()->toBe('Recorded at');
 });
 
 it('can use attributes', function () {

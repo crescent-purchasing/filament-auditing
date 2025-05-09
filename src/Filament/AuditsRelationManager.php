@@ -16,7 +16,7 @@ class AuditsRelationManager extends RelationManager
 
     public static function getTitle(Model $ownerRecord, string $pageClass): string
     {
-        return __('filament-auditing::resource.relation.title');
+        return __('filament-auditing::resource.relation_title');
     }
 
     public function form(Form $form): Form
