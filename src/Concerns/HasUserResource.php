@@ -8,10 +8,10 @@ use Illuminate\Foundation\Auth\User;
 
 trait HasUserResource
 {
-    /** @var class-string<User>|Closure|null  */
+    /** @var class-string<User>|Closure|null */
     protected string | Closure | null $user = User::class;
 
-    /** @var class-string<FilamentResource>|Closure|null  */
+    /** @var class-string<FilamentResource>|Closure|null */
     protected string | Closure | null $userResource = null;
 
     /**
@@ -23,7 +23,7 @@ trait HasUserResource
     }
 
     /**
-     * @param class-string<User>|Closure|null $user
+     * @param  class-string<User>|Closure|null  $user
      * @return $this
      */
     public function user(string | Closure | null $user): static
@@ -52,7 +52,7 @@ trait HasUserResource
     }
 
     /**
-     * @param class-string<FilamentResource>|Closure|null $userResource
+     * @param  class-string<FilamentResource>|Closure|null  $userResource
      * @return $this
      */
     public function userResource(string | Closure | null $userResource): static
