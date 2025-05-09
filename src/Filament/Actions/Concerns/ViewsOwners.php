@@ -2,6 +2,7 @@
 
 namespace CrescentPurchasing\FilamentAuditing\Filament\Actions\Concerns;
 
+use CrescentPurchasing\FilamentAuditing\Actions\GetOwner;
 use CrescentPurchasing\FilamentAuditing\Audit;
 use Filament\Resources\Resource as FilamentResource;
 use Illuminate\Database\Eloquent\Model;
@@ -20,39 +21,10 @@ trait ViewsOwners
 
         $this->label(__('filament-auditing::resource.actions.view.owner'));
 
-        $this->visible(function (Model $record): bool {
-            if (! $owner = $this->getOwner($record)) {
-                return false;
-            }
+        $this->icon(fn (Model $record, GetOwner $getOwner): ?string => $getOwner->icon($record));
 
-            return ! empty(filament()->getModelResource($owner));
-        });
+        $this->url(fn (Model $record, GetOwner $getOwner): ?string => $getOwner->url($record));
 
-        $this->url(function (Model $record): ?string {
-            $owner = $this->getOwner($record);
-
-            /** @var class-string<FilamentResource> $ownerResource */
-            $ownerResource = filament()->getModelResource($owner);
-
-            return $ownerResource::getGlobalSearchResultUrl($record);
-        });
-
-        $this->icon(function (Model $record): ?string {
-            $owner = $this->getOwner($record);
-
-            /** @var class-string<FilamentResource> $ownerResource */
-            $ownerResource = filament()->getModelResource($owner);
-
-            return $ownerResource::getNavigationIcon();
-        });
-    }
-
-    private function getOwner(Model $record): ?User
-    {
-        return match (true) {
-            $record instanceof User => $record,
-            $record instanceof Audit => $record->owner,
-            default => null,
-        };
+        $this->visible(fn (Model $record, GetOwner $getOwner): ?string => $getOwner->visibility($record));
     }
 }

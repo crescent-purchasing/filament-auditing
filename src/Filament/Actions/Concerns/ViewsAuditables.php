@@ -2,6 +2,7 @@
 
 namespace CrescentPurchasing\FilamentAuditing\Filament\Actions\Concerns;
 
+use CrescentPurchasing\FilamentAuditing\Actions\GetOwner;
 use CrescentPurchasing\FilamentAuditing\Audit;
 use Filament\Resources\Resource as FilamentResource;
 
@@ -16,32 +17,12 @@ trait ViewsAuditables
     {
         parent::setUp();
 
-        $this->visible(function (Audit $record): bool {
-            if (! $record = $record->auditable) {
-                return false;
-            }
-
-            return ! empty(filament()->getModelResource($record));
-        });
-
         $this->label(__('filament-auditing::resource.actions.view.auditable'));
 
-        $this->url(function (Audit $record): ?string {
-            $auditable = $record->auditable;
+        $this->icon(fn (Audit $record, GetOwner $getOwner): bool => $getOwner->icon($record));
 
-            /** @var class-string<FilamentResource> $resource */
-            $resource = filament()->getModelResource($auditable);
+        $this->url(fn (Audit $record, GetOwner $getOwner): bool => $getOwner->url($record));
 
-            return $resource::getGlobalSearchResultUrl($auditable);
-        });
-
-        $this->icon(function (Audit $record): ?string {
-            $auditable = $record->auditable;
-
-            /** @var class-string<FilamentResource> $resource */
-            $resource = filament()->getModelResource($auditable);
-
-            return $resource::getNavigationIcon();
-        });
+        $this->visible(fn (Audit $record, GetOwner $getOwner): bool => $getOwner->visibility($record));
     }
 }
