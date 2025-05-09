@@ -1,7 +1,8 @@
 <?php
 
-namespace CrescentPurchasing\FilamentAuditing\Filament;
+namespace CrescentPurchasing\FilamentAuditing\Filament\RelationManagers;
 
+use CrescentPurchasing\FilamentAuditing\Filament\AuditResource;
 use CrescentPurchasing\FilamentAuditing\Filament\Concerns\WithCursorPagination;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -16,7 +17,7 @@ class AuditsRelationManager extends RelationManager
 
     public static function getTitle(Model $ownerRecord, string $pageClass): string
     {
-        return __('filament-auditing::resource.relation_title');
+        return __('filament-auditing::resource.audit_relation_title');
     }
 
     public function form(Form $form): Form

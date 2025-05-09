@@ -2,8 +2,9 @@
 
 return [
     'title' => 'Audit History',
-    'relation_title' => 'Audit History',
-    'record_title' => 'Snapshot - :record (:id) at :timestamp',
+    'audit_relation_title' => 'History',
+    'owner_relation_title' => 'Auditing',
+    'record_title' => 'Audit - :record (:id) @ :timestamp',
     'actions' => [
         'restore_audit' => [
             'label' => 'Restore',
@@ -18,10 +19,10 @@ return [
         ],
     ],
     'fields' => [
-        'auditable_type' => 'Record Type',
-        'audited_fields' => 'Audited fields',
+        'auditable_type' => 'Record type',
+        'audited_fields' => 'Modified fields',
         'created_at' => 'Recorded at',
-        'created_at_since' => 'Recorded from',
+        'created_at_since' => 'Recorded',
         'event' => 'Event',
         'ip_address' => 'IP address',
         'query' => 'Advanced',
@@ -37,7 +38,7 @@ return [
     ],
     'tabs' => [
         'label' => 'Audit data',
-        'meta' => 'Meta data',
+        'meta' => 'Metadata',
         'new' => 'New (After)',
         'old' => 'Old (Before)',
         'user' => 'User data',
