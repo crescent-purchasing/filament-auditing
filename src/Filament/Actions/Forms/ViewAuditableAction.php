@@ -2,6 +2,7 @@
 
 namespace CrescentPurchasing\FilamentAuditing\Filament\Actions\Forms;
 
+use CrescentPurchasing\FilamentAuditing\Actions\GetAuditable;
 use CrescentPurchasing\FilamentAuditing\Audit;
 use CrescentPurchasing\FilamentAuditing\Filament\Actions\Concerns\ViewsAuditables;
 use Filament\Forms\Components\Actions\Action;
@@ -19,8 +20,8 @@ class ViewAuditableAction extends Action
 
         $this->iconButton();
 
-        $this->label(function (Audit $record): string {
-            $auditable = $record->auditable;
+        $this->label(function (Audit $record, GetAuditable $getAuditable): string {
+            $auditable = $getAuditable($record);
 
             /** @var class-string<FilamentResource> $resource */
             $resource = filament()->getModelResource($auditable);
