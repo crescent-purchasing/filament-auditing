@@ -4,10 +4,12 @@ namespace CrescentPurchasing\FilamentAuditing\Concerns;
 
 use Closure;
 use CrescentPurchasing\FilamentAuditing\Contracts\AuditSchemaContract;
-use CrescentPurchasing\FilamentAuditing\Filament\AuditSchema;
+use CrescentPurchasing\FilamentAuditing\Filament\Schemas\AuditSchema;
+use Filament\Forms\Components\Component;
 
 trait HasAuditSchema
 {
+    /** @var class-string<AuditSchemaContract>|Closure */
     protected string | Closure $auditSchema = AuditSchema::class;
 
     /**
@@ -18,11 +20,18 @@ trait HasAuditSchema
         return $this->evaluate($this->auditSchema);
     }
 
-    public function invokeAuditSchema(array $keys, array $values): array
+    /**
+     * @return Component[]
+     */
+    public function makeAuditSchema(array $keys, array $values): array
     {
-        return $this->getAuditSchema()::invoke($keys, $values);
+        return $this->getAuditSchema()::make($keys, $values);
     }
 
+    /**
+     * @param  class-string<AuditSchemaContract>|Closure  $auditSchema
+     * @return $this
+     */
     public function auditSchema(string | Closure $auditSchema): static
     {
         $this->auditSchema = $auditSchema;

@@ -100,7 +100,7 @@ class AuditResource extends FilamentResource
             $keys = array_keys($record->old_values);
             $mappedFields = $record->getModifiedByType($type);
 
-            return FilamentAuditingPlugin::get()->invokeAuditSchema($keys, $mappedFields);
+            return FilamentAuditingPlugin::get()->makeAuditSchema($keys, $mappedFields);
         };
 
         $oldTab = Tab::make(__('filament-auditing::resource.tabs.old'))

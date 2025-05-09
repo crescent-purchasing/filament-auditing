@@ -2,7 +2,12 @@
 
 namespace CrescentPurchasing\FilamentAuditing\Contracts;
 
+use Filament\Forms\Components\Component;
+
 interface AuditSchemaContract
 {
-    public static function invoke(array $keys, array $values): array;
+    /**
+     * @return Component[]
+     */
+    public static function make(array $keys, array $values): array;
 }

@@ -47,7 +47,7 @@ trait RestoresAudits
 
             $auditSchema = FilamentAuditingPlugin::get()->getAuditSchema();
 
-            $fromSchema = $auditSchema::invoke($keys, $record->auditable->toArray());
+            $fromSchema = $auditSchema::make($keys, $record->auditable->toArray());
 
             return [
                 Toggle::make('restore_to_old')
@@ -59,7 +59,7 @@ trait RestoresAudits
                     ->schema($fromSchema),
                 Section::make(__('filament-auditing::resource.actions.restore_audit.restore_to_values'))
                     ->collapsed(false)
-                    ->schema(fn (Get $get): array => $auditSchema::invoke(
+                    ->schema(fn (Get $get): array => $auditSchema::make(
                         $keys,
                         $get('restore_to_old')
                             ? $record->getModifiedByType('old')
