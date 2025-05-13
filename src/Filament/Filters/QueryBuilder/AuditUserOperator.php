@@ -11,6 +11,7 @@ use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Oper
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
 class AuditUserOperator extends IsRelatedToOperator
 {
@@ -41,19 +42,32 @@ class AuditUserOperator extends IsRelatedToOperator
 
         $value = Arr::wrap($this->getSettings()[$this->valueColumn]);
 
-        $userValue = '';
+        $user = '';
 
         if (is_subclass_of($type, Model::class)) {
-            $userValue = $type::query()->whereKey($value)->value($this->getTitleAttribute());
+            $user = $type::query()->whereKey($value)->value($this->getTitleAttribute());
+        }
+
+        if (! $user) {
+            return __(
+                $this->isInverse() ?
+                    'filament-auditing::resource.fields.user.summary.type_inverse' :
+                    'filament-auditing::resource.fields.user.summary.type_direct',
+                [
+                    'relationship' => $constraint->getAttributeLabel(),
+                    'type' => Str::of($type)->classBasename()->headline(),
+                ],
+            );
         }
 
         return __(
             $this->isInverse() ?
-                'filament-tables::filters/query-builder.operators.relationship.is_related_to.summary.single.inverse' :
-                'filament-tables::filters/query-builder.operators.relationship.is_related_to.summary.single.direct',
+                'filament-auditing::resource.fields.user.summary.value_inverse' :
+                'filament-auditing::resource.fields.user.summary.value_direct',
             [
                 'relationship' => $constraint->getAttributeLabel(),
-                'values' => $userValue,
+                'type' => Str::of($type)->classBasename()->headline(),
+                'value' => $user,
             ],
         );
     }
@@ -114,7 +128,7 @@ class AuditUserOperator extends IsRelatedToOperator
 
         $userValue = $this->getSettings()[$this->valueColumn];
 
-        if(! $userType) {
+        if (! $userType) {
             return $query;
         }
 
@@ -122,7 +136,7 @@ class AuditUserOperator extends IsRelatedToOperator
             $constraint->getRelationshipName(),
             $userType,
             function (Builder $query) use ($userValue): void {
-                if($userValue) {
+                if ($userValue) {
                     $query->whereKey($userValue);
                 }
             },
