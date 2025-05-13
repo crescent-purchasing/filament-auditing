@@ -12,9 +12,9 @@ trait HasUsers
     protected array | Closure $users = [];
 
     /**
-     * @return class-string<User>[]|null
+     * @return class-string<User>[]
      */
-    public function getUsers(): ?string
+    public function getUsers(): array
     {
         return $this->evaluate($this->users);
     }
