@@ -41,15 +41,10 @@ class AuditUserOperator extends IsRelatedToOperator
 
         $value = Arr::wrap($this->getSettings()[$this->valueColumn]);
 
-        $userValues = '';
+        $userValue = '';
 
-        if ($type) {
-            $userValues = $type::query()->whereKey($value)
-                ->pluck($this->getTitleAttribute())
-                ->join(
-                    glue: __('filament-tables::filters/query-builder.operators.relationship.is_related_to.summary.values_glue.0'),
-                    finalGlue: __('filament-tables::filters/query-builder.operators.relationship.is_related_to.summary.values_glue.final')
-                );
+        if (is_subclass_of($type, Model::class)) {
+            $userValue = $type::query()->whereKey($value)->value($this->getTitleAttribute());
         }
 
         return __(
@@ -58,7 +53,7 @@ class AuditUserOperator extends IsRelatedToOperator
                 'filament-tables::filters/query-builder.operators.relationship.is_related_to.summary.single.direct',
             [
                 'relationship' => $constraint->getAttributeLabel(),
-                'values' => $userValues,
+                'values' => $userValue,
             ],
         );
     }
@@ -70,7 +65,6 @@ class AuditUserOperator extends IsRelatedToOperator
         $morphGrid->schema(function (Grid $component): array {
             $types = Arr::mapWithKeys($this->getTypes(), function (string $item) {
                 $type = Type::make($item);
-                $type->label(__('filament-auditing::resource.fields.user.label'));
                 $type->titleAttribute($this->getTitleAttribute());
 
                 return [$type->getAlias() => $type];
@@ -120,11 +114,17 @@ class AuditUserOperator extends IsRelatedToOperator
 
         $userValue = $this->getSettings()[$this->valueColumn];
 
+        if(! $userType) {
+            return $query;
+        }
+
         return $query->{$this->isInverse() ? 'whereDoesntHaveMorph' : 'whereHasMorph'}(
             $constraint->getRelationshipName(),
             $userType,
             function (Builder $query) use ($userValue): void {
-                $query->whereKey($userValue);
+                if($userValue) {
+                    $query->whereKey($userValue);
+                }
             },
         );
     }
