@@ -10,6 +10,7 @@ use CrescentPurchasing\FilamentAuditing\Filament\Actions\Tables\ViewAuditableAct
 use CrescentPurchasing\FilamentAuditing\Filament\Actions\Tables\ViewAuditAction;
 use CrescentPurchasing\FilamentAuditing\Filament\Actions\Tables\ViewOwnerAction;
 use CrescentPurchasing\FilamentAuditing\Filament\Filters\QueryBuilder\AuditUserConstraint;
+use CrescentPurchasing\FilamentAuditing\Filament\Filters\QueryBuilder\AuditUserOperator;
 use CrescentPurchasing\FilamentAuditing\Filament\RelationManagers\AuditsRelationManager;
 use CrescentPurchasing\FilamentAuditing\Filament\RelationManagers\OwnedAuditsRelationManager;
 use CrescentPurchasing\FilamentAuditing\FilamentAuditingPlugin;
@@ -149,7 +150,7 @@ class AuditResource extends FilamentResource
 
         $table->filters(static::getTableFilters());
 
-        $table->filtersFormWidth(MaxWidth::ExtraLarge);
+        $table->filtersFormWidth(MaxWidth::TwoExtraLarge);
 
         $table->filtersLayout(FiltersLayout::Modal);
 
@@ -234,7 +235,11 @@ class AuditResource extends FilamentResource
                 ->label(__('filament-auditing::resource.fields.query'))
                 ->constraints([
                     AuditUserConstraint::make('user')
-                        ->types(FilamentAuditingPlugin::get()->getUsers()),
+                        ->selectable(
+                            AuditUserOperator::make()
+                                ->titleAttribute('email')
+                                ->types(FilamentAuditingPlugin::get()->getUsers())
+                        ),
                     SelectConstraint::make('auditable_type')
                         ->label(__('filament-auditing::resource.fields.auditable_type'))
                         ->searchable()

@@ -2,7 +2,6 @@
 
 namespace CrescentPurchasing\FilamentAuditing\Filament\Filters\QueryBuilder;
 
-use Filament\Forms\Components\Field;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\MorphToSelect\Type;
 use Filament\Forms\Components\Select;
@@ -37,14 +36,21 @@ class AuditUserOperator extends IsRelatedToOperator
     {
         $constraint = $this->getConstraint();
 
-        /** @var class-string<Model> $type */
-        $type = $this->getSettings()['user_type'];
+        /** @var ?class-string<Model> $type */
+        $type = $this->getSettings()[$this->typeColumn];
 
-        $value = Arr::wrap($this->getSettings()['user_id']);
+        $value = Arr::wrap($this->getSettings()[$this->valueColumn]);
 
-        $userValues = $type::query()->whereKey($value)
-            ->pluck($this->getTitleAttribute())
-            ->join(glue: __('filament-tables::filters/query-builder.operators.relationship.is_related_to.summary.values_glue.0'), finalGlue: __('filament-tables::filters/query-builder.operators.relationship.is_related_to.summary.values_glue.final'));
+        $userValues = '';
+
+        if ($type) {
+            $userValues = $type::query()->whereKey($value)
+                ->pluck($this->getTitleAttribute())
+                ->join(
+                    glue: __('filament-tables::filters/query-builder.operators.relationship.is_related_to.summary.values_glue.0'),
+                    finalGlue: __('filament-tables::filters/query-builder.operators.relationship.is_related_to.summary.values_glue.final')
+                );
+        }
 
         return __(
             $this->isInverse() ?
@@ -62,11 +68,12 @@ class AuditUserOperator extends IsRelatedToOperator
         $morphGrid = Grid::make(3);
         $morphGrid->columnSpanFull();
         $morphGrid->schema(function (Grid $component): array {
-            $types = Arr::map($this->getTypes(), function (string $item) {
+            $types = Arr::mapWithKeys($this->getTypes(), function (string $item) {
                 $type = Type::make($item);
+                $type->label(__('filament-auditing::resource.fields.user.label'));
                 $type->titleAttribute($this->getTitleAttribute());
 
-                return $type;
+                return [$type->getAlias() => $type];
             });
 
             $typeLabels = Arr::map($types, fn (Type $type): string => $type->getLabel());
@@ -79,11 +86,11 @@ class AuditUserOperator extends IsRelatedToOperator
             $selectedType = $types[$component->evaluate(fn (Get $get): ?string => $get($this->typeColumn))] ?? null;
 
             $typeSelect = Select::make($this->typeColumn);
-            $typeSelect->label(__('filament-auditing::resource.fields.user.label'));
+            $typeSelect->label(__('filament-auditing::resource.fields.user.type_label'));
             $typeSelect->options($typeLabels);
             $typeSelect->native($this->isNative());
             $typeSelect->live();
-            $typeSelect->afterStateUpdated(function (Set $set, Field $component) {
+            $typeSelect->afterStateUpdated(function (Set $set) use ($component) {
                 $set($this->valueColumn, null);
                 $component->callAfterStateUpdated();
             });
@@ -91,7 +98,6 @@ class AuditUserOperator extends IsRelatedToOperator
             $valueSelect = Select::make($this->valueColumn);
             $valueSelect->columnSpan(2);
             $valueSelect->label($selectedType?->getLabel());
-            $valueSelect->hiddenLabel();
             $valueSelect->searchable();
             $valueSelect->getSearchResultsUsing($selectedType?->getSearchResultsUsing);
             $valueSelect->getOptionLabelUsing($selectedType?->getOptionLabelUsing);

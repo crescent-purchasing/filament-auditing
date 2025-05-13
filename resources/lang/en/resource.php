@@ -31,6 +31,7 @@ return [
         'user_agent' => 'User agent',
         'user' => [
             'label' => 'Owner',
+            'type_label' => 'Type',
             'id' => 'ID',
             'email' => 'Email',
         ],
