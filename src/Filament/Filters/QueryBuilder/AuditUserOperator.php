@@ -114,7 +114,7 @@ class AuditUserOperator extends IsRelatedToOperator
 
         $userValue = $this->getSettings()[$this->valueColumn];
 
-        if(! $userType) {
+        if (! $userType) {
             return $query;
         }
 
@@ -122,7 +122,7 @@ class AuditUserOperator extends IsRelatedToOperator
             $constraint->getRelationshipName(),
             $userType,
             function (Builder $query) use ($userValue): void {
-                if($userValue) {
+                if ($userValue) {
                     $query->whereKey($userValue);
                 }
             },
