@@ -23,8 +23,8 @@ class FilamentAuditingPlugin implements Plugin
     use HasModel;
     use HasNavigationGroup;
     use HasNavigationIcon;
-    use HasUsers;
     use HasUserResource;
+    use HasUsers;
     use HasUserSchema;
 
     public function getId(): string
