@@ -19,5 +19,4 @@ readonly class FormatEvent
             ->headline()
             ->toString();
     }
-
 }

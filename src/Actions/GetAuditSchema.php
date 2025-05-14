@@ -47,5 +47,4 @@ readonly class GetAuditSchema
 
         return $fields;
     }
-
 }

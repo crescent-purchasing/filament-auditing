@@ -2,7 +2,6 @@
 
 namespace CrescentPurchasing\FilamentAuditing;
 
-use Livewire\Features\SupportTesting\Testable;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 

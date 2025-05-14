@@ -13,5 +13,4 @@ readonly class GetModifiedFields
 
         return Arr::map($audit->getModified(), fn (array $value) => $value[$type] ?? null);
     }
-
 }

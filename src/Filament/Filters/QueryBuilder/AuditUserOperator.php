@@ -120,6 +120,7 @@ class AuditUserOperator extends IsRelatedToOperator
 
         /**
          * @var ?Type $selectedType
+         *
          * @phpstan-ignore argument.type
          */
         $selectedType = $types[$component->evaluate(fn (Get $get): ?string => $get($this->typeColumn))] ?? null;

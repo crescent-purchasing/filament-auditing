@@ -7,7 +7,6 @@ use Filament\Forms\Components\Component;
 
 trait HasUserSchema
 {
-
     /** @var Component[]|Closure */
     protected array | Closure $userSchema = [];
 
