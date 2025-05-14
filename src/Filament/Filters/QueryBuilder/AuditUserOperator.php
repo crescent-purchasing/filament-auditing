@@ -2,6 +2,8 @@
 
 namespace CrescentPurchasing\FilamentAuditing\Filament\Filters\QueryBuilder;
 
+use CrescentPurchasing\FilamentAuditing\Actions\FormatAuditableType;
+use CrescentPurchasing\FilamentAuditing\FilamentAuditingPlugin;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\MorphToSelect\Type;
 use Filament\Forms\Components\Select;
@@ -11,7 +13,6 @@ use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Oper
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 
 class AuditUserOperator extends IsRelatedToOperator
 {
@@ -48,6 +49,8 @@ class AuditUserOperator extends IsRelatedToOperator
             $user = $type::query()->whereKey($value)->value($this->getTitleAttribute());
         }
 
+        $formattedType = (new FormatAuditableType(FilamentAuditingPlugin::get()))($type);
+
         if (! $user) {
             return __(
                 $this->isInverse() ?
@@ -55,7 +58,7 @@ class AuditUserOperator extends IsRelatedToOperator
                     'filament-auditing::resource.fields.user.summary.type_direct',
                 [
                     'relationship' => $constraint->getAttributeLabel(),
-                    'type' => Str::of($type)->classBasename()->headline(),
+                    'type' => $formattedType,
                 ],
             );
         }
@@ -66,7 +69,7 @@ class AuditUserOperator extends IsRelatedToOperator
                 'filament-auditing::resource.fields.user.summary.value_direct',
             [
                 'relationship' => $constraint->getAttributeLabel(),
-                'type' => Str::of($type)->classBasename()->headline(),
+                'type' => $formattedType,
                 'value' => $user,
             ],
         );
@@ -76,46 +79,7 @@ class AuditUserOperator extends IsRelatedToOperator
     {
         $morphGrid = Grid::make(3);
         $morphGrid->columnSpanFull();
-        $morphGrid->schema(function (Grid $component): array {
-            $types = Arr::mapWithKeys($this->getTypes(), function (string $item) {
-                $type = Type::make($item);
-                $type->titleAttribute($this->getTitleAttribute());
-
-                return [$type->getAlias() => $type];
-            });
-
-            $typeLabels = Arr::map($types, fn (Type $type): string => $type->getLabel());
-
-            /**
-             * @var ?Type $selectedType
-             *
-             * @phpstan-ignore-next-line
-             */
-            $selectedType = $types[$component->evaluate(fn (Get $get): ?string => $get($this->typeColumn))] ?? null;
-
-            $typeSelect = Select::make($this->typeColumn);
-            $typeSelect->label(__('filament-auditing::resource.fields.user.type_label'));
-            $typeSelect->options($typeLabels);
-            $typeSelect->native($this->isNative());
-            $typeSelect->live();
-            $typeSelect->afterStateUpdated(function (Set $set) use ($component) {
-                $set($this->valueColumn, null);
-                $component->callAfterStateUpdated();
-            });
-
-            $valueSelect = Select::make($this->valueColumn);
-            $valueSelect->columnSpan(2);
-            $valueSelect->label($selectedType?->getLabel());
-            $valueSelect->searchable();
-            $valueSelect->getSearchResultsUsing($selectedType?->getSearchResultsUsing);
-            $valueSelect->getOptionLabelUsing($selectedType?->getOptionLabelUsing);
-            $valueSelect->native();
-            $valueSelect->hidden(blank($selectedType));
-            $valueSelect->dehydratedWhenHidden();
-            $valueSelect->optionsLimit(7);
-
-            return [$typeSelect, $valueSelect];
-        });
+        $morphGrid->schema($this->getMorphGridSchema(...));
 
         return [$morphGrid];
     }
@@ -141,5 +105,46 @@ class AuditUserOperator extends IsRelatedToOperator
                 }
             },
         );
+    }
+
+    protected function getMorphGridSchema(Grid $component): array
+    {
+        $types = Arr::mapWithKeys($this->getTypes(), function (string $item) {
+            $type = Type::make($item);
+            $type->titleAttribute($this->getTitleAttribute());
+
+            return [$type->getAlias() => $type];
+        });
+
+        $typeLabels = Arr::map($types, fn (Type $type): string => $type->getLabel());
+
+        /**
+         * @var ?Type $selectedType
+         * @phpstan-ignore argument.type
+         */
+        $selectedType = $types[$component->evaluate(fn (Get $get): ?string => $get($this->typeColumn))] ?? null;
+
+        $typeSelect = Select::make($this->typeColumn);
+        $typeSelect->label(__('filament-auditing::resource.fields.user.type_label'));
+        $typeSelect->options($typeLabels);
+        $typeSelect->native($this->isNative());
+        $typeSelect->live();
+        $typeSelect->afterStateUpdated(function (Set $set) use ($component) {
+            $set($this->valueColumn, null);
+            $component->callAfterStateUpdated();
+        });
+
+        $valueSelect = Select::make($this->valueColumn);
+        $valueSelect->columnSpan(2);
+        $valueSelect->label($selectedType?->getLabel());
+        $valueSelect->searchable();
+        $valueSelect->getSearchResultsUsing($selectedType?->getSearchResultsUsing);
+        $valueSelect->getOptionLabelUsing($selectedType?->getOptionLabelUsing);
+        $valueSelect->native();
+        $valueSelect->hidden(blank($selectedType));
+        $valueSelect->dehydratedWhenHidden();
+        $valueSelect->optionsLimit(7);
+
+        return [$typeSelect, $valueSelect];
     }
 }
