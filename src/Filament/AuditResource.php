@@ -195,13 +195,14 @@ class AuditResource extends FilamentResource
                 ->hiddenOn(OwnedAuditsRelationManager::class),
             TextColumn::make('auditable_type')
                 ->label(__('filament-auditing::resource.fields.auditable_type'))
+                ->formatStateUsing(fn (string $state, FormatAuditableType $format): string => $format($state))
                 ->tooltip(fn (Audit $record, GetAuditable $getAuditable): ?string => $getAuditable($record)->getKey())
                 ->url(fn (Audit $record, GetAuditable $getAuditable): ?string => $getAuditable->url($record))
                 ->hiddenOn(AuditsRelationManager::class),
             TextColumn::make('event')
                 ->label(__('filament-auditing::resource.fields.event'))
                 ->visibleFrom('md')
-                ->formatStateUsing(fn (string $state, FormatEvent $event): string => $event($state)),
+                ->formatStateUsing(fn (string $state, FormatEvent $format): string => $format($state)),
             TextColumn::make('fields')
                 ->label(__('filament-auditing::resource.fields.audited_fields'))
                 ->extraAttributes(['class' => 'font-mono'])
@@ -214,19 +215,25 @@ class AuditResource extends FilamentResource
 
     protected static function getTableFilters(): array
     {
-        $getAuditableTypeSearchResults = function (string $search): array {
+        $getAuditableTypeSearchResults = function (string $search, FormatAuditableType $format): array {
             $model = FilamentAuditingPlugin::get()->getModel();
             $results = $model::query()
                 ->whereLike('auditable_type', '%' . $search . '%')
                 ->distinct()
-                ->get('auditable_type');
+                ->pluck('auditable_type');
 
-            return $results->pluck('type', 'auditable_type')->toArray();
+            return $results->mapWithKeys(function (string $item) use ($format): array {
+                return [$item => $format($item)];
+            })->toArray();
         };
 
-        $getEventOptions = function (Repository $config, FormatEvent $event): array {
+        $getAuditableOptionLabel = function (?string $value, FormatAuditableType $format): string {
+            return $format($value);
+        };
+
+        $getEventOptions = function (Repository $config, FormatEvent $format): array {
             $events = $config->array('audit.events');
-            $mapEvent = fn (string $item): array => [$item => $event($item)];
+            $mapEvent = fn (string $item): array => [$item => $format($item)];
 
             return Arr::mapWithKeys($events, $mapEvent);
         };
@@ -244,9 +251,7 @@ class AuditResource extends FilamentResource
                     SelectConstraint::make('auditable_type')
                         ->label(__('filament-auditing::resource.fields.auditable_type'))
                         ->searchable()
-                        ->getOptionLabelUsing(function (?string $value, FormatAuditableType $auditableType): string {
-                            return $auditableType($value);
-                        })
+                        ->getOptionLabelUsing($getAuditableOptionLabel)
                         ->getSearchResultsUsing($getAuditableTypeSearchResults)
                         ->optionsLimit(7),
                     SelectConstraint::make('event')
