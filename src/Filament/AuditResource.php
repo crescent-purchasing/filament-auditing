@@ -2,13 +2,17 @@
 
 namespace CrescentPurchasing\FilamentAuditing\Filament;
 
+use CrescentPurchasing\FilamentAuditing\Actions\FormatAuditableType;
+use CrescentPurchasing\FilamentAuditing\Actions\FormatEvent;
 use CrescentPurchasing\FilamentAuditing\Actions\GetAuditable;
-use CrescentPurchasing\FilamentAuditing\Actions\GetOwner;
-use CrescentPurchasing\FilamentAuditing\Audit;
+use CrescentPurchasing\FilamentAuditing\Actions\GetAuditSchema;
+use CrescentPurchasing\FilamentAuditing\Actions\GetModifiedFields;
+use CrescentPurchasing\FilamentAuditing\Actions\GetUser;
+use CrescentPurchasing\FilamentAuditing\Actions\GetUserSchema;
 use CrescentPurchasing\FilamentAuditing\Filament\Actions\Tables\RestoreAuditAction;
 use CrescentPurchasing\FilamentAuditing\Filament\Actions\Tables\ViewAuditableAction;
 use CrescentPurchasing\FilamentAuditing\Filament\Actions\Tables\ViewAuditAction;
-use CrescentPurchasing\FilamentAuditing\Filament\Actions\Tables\ViewOwnerAction;
+use CrescentPurchasing\FilamentAuditing\Filament\Actions\Tables\ViewUserAction;
 use CrescentPurchasing\FilamentAuditing\Filament\Filters\QueryBuilder\AuditUserConstraint;
 use CrescentPurchasing\FilamentAuditing\Filament\Filters\QueryBuilder\AuditUserOperator;
 use CrescentPurchasing\FilamentAuditing\Filament\RelationManagers\AuditsRelationManager;
@@ -33,9 +37,10 @@ use Filament\Tables\Filters\QueryBuilder\Constraints\SelectConstraint;
 use Filament\Tables\Table;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
+use OwenIt\Auditing\Models\Audit;
 
 class AuditResource extends FilamentResource
 {
@@ -74,7 +79,7 @@ class AuditResource extends FilamentResource
         return __('filament-auditing::resource.record_title', [
             'record' => $resource::getRecordTitle($auditable),
             'id' => $auditable->getKey(),
-            'timestamp' => $record->created_at,
+            'timestamp' => $record->created_at, // @phpstan-ignore  property.notFound
         ]);
     }
 
@@ -114,22 +119,19 @@ class AuditResource extends FilamentResource
             ->schema([
                 Grid::make(1)
                     ->relationship('user')
-                    ->schema(FilamentAuditingPlugin::get()->makeUserSchema()),
+                    ->schema(fn (GetUserSchema $userSchema): array => $userSchema()),
             ]);
-
-        $getTabSchema = function (Audit $record, string $type = 'new'): array {
-            $keys = array_keys($record->old_values);
-            $mappedFields = $record->getModifiedByType($type);
-
-            return FilamentAuditingPlugin::get()->makeAuditSchema($keys, $mappedFields);
-        };
 
         $oldTab = Tab::make(__('filament-auditing::resource.tabs.old'))
             ->hidden(fn (Audit $record) => empty($record->old_values))
-            ->schema(fn (Audit $record): array => $getTabSchema($record, 'old'));
+            ->schema(function (Audit $record, GetAuditSchema $schema, GetModifiedFields $fields): array {
+                return $schema($fields($record, true));
+            });
 
         $newTab = Tab::make(__('filament-auditing::resource.tabs.new'))
-            ->schema(fn (Audit $record): array => $getTabSchema($record, 'new'));
+            ->schema(function (Audit $record, GetAuditSchema $schema, GetModifiedFields $fields): array {
+                return $schema($fields($record));
+            });
 
         return $form->schema([
             Tabs::make(__('filament-auditing::resource.tabs.label'))
@@ -172,7 +174,7 @@ class AuditResource extends FilamentResource
             ActionGroup::make([
                 ViewAuditAction::make(),
                 ViewAuditableAction::make(),
-                ViewOwnerAction::make(),
+                ViewUserAction::make(),
             ]),
         ];
     }
@@ -189,18 +191,19 @@ class AuditResource extends FilamentResource
                 ->since(),
             TextColumn::make('user.email')
                 ->label(__('filament-auditing::resource.fields.user.label'))
-                ->tooltip(fn (Audit $record, GetOwner $getOwner): ?string => $getOwner($record)->getKey())
-                ->url(fn (Audit $record, GetOwner $getOwner): ?string => $getOwner->url($record))
+                ->tooltip(fn (Audit $record, GetUser $getUser): ?string => $getUser($record)->getKey())
+                ->url(fn (Audit $record, GetUser $getUser): ?string => $getUser->url($record))
                 ->hiddenOn(OwnedAuditsRelationManager::class),
             TextColumn::make('auditable_type')
                 ->label(__('filament-auditing::resource.fields.auditable_type'))
+                ->formatStateUsing(fn (string $state, FormatAuditableType $format): string => $format($state))
                 ->tooltip(fn (Audit $record, GetAuditable $getAuditable): ?string => $getAuditable($record)->getKey())
                 ->url(fn (Audit $record, GetAuditable $getAuditable): ?string => $getAuditable->url($record))
                 ->hiddenOn(AuditsRelationManager::class),
             TextColumn::make('event')
                 ->label(__('filament-auditing::resource.fields.event'))
                 ->visibleFrom('md')
-                ->formatStateUsing(fn (string $state): string => Str::headline($state)),
+                ->formatStateUsing(fn (string $state, FormatEvent $format): string => $format($state)),
             TextColumn::make('fields')
                 ->label(__('filament-auditing::resource.fields.audited_fields'))
                 ->extraAttributes(['class' => 'font-mono'])
@@ -213,19 +216,27 @@ class AuditResource extends FilamentResource
 
     protected static function getTableFilters(): array
     {
-        $getAuditableTypeSearchResults = function (string $search): array {
+        $getAuditableTypeSearchResults = function (FormatAuditableType $format, string $search = ''): array {
             $model = FilamentAuditingPlugin::get()->getModel();
             $results = $model::query()
-                ->whereLike('auditable_type', '%' . $search . '%')
+                ->when($search, function (Builder $query, string $search): void {
+                    $query->whereLike('auditable_type', '%' . $search . '%');
+                })
                 ->distinct()
-                ->get('auditable_type');
+                ->pluck('auditable_type');
 
-            return $results->pluck('type', 'auditable_type')->toArray();
+            return $results->mapWithKeys(function (string $item) use ($format): array {
+                return [$item => $format($item)];
+            })->toArray();
         };
 
-        $getEventOptions = function (Repository $config): array {
+        $getAuditableOptionLabel = function (?string $value, FormatAuditableType $format): string {
+            return $format($value);
+        };
+
+        $getEventOptions = function (Repository $config, FormatEvent $format): array {
             $events = $config->array('audit.events');
-            $mapEvent = fn (string $item): array => [$item => Str::headline($item)];
+            $mapEvent = fn (string $item): array => [$item => $format($item)];
 
             return Arr::mapWithKeys($events, $mapEvent);
         };
@@ -243,7 +254,8 @@ class AuditResource extends FilamentResource
                     SelectConstraint::make('auditable_type')
                         ->label(__('filament-auditing::resource.fields.auditable_type'))
                         ->searchable()
-                        ->getOptionLabelUsing(fn ($value) => Str::of($value)->classBasename()->headline()->toString())
+                        ->options($getAuditableTypeSearchResults)
+                        ->getOptionLabelUsing($getAuditableOptionLabel)
                         ->getSearchResultsUsing($getAuditableTypeSearchResults)
                         ->optionsLimit(7),
                     SelectConstraint::make('event')

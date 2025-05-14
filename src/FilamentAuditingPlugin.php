@@ -2,12 +2,12 @@
 
 namespace CrescentPurchasing\FilamentAuditing;
 
-use CrescentPurchasing\FilamentAuditing\Concerns\HasAuditSchema;
+use CrescentPurchasing\FilamentAuditing\Concerns\FormatsAuditableType;
+use CrescentPurchasing\FilamentAuditing\Concerns\FormatsEvent;
 use CrescentPurchasing\FilamentAuditing\Concerns\HasCursorPagination;
 use CrescentPurchasing\FilamentAuditing\Concerns\HasModel;
 use CrescentPurchasing\FilamentAuditing\Concerns\HasNavigationGroup;
 use CrescentPurchasing\FilamentAuditing\Concerns\HasNavigationIcon;
-use CrescentPurchasing\FilamentAuditing\Concerns\HasUserResource;
 use CrescentPurchasing\FilamentAuditing\Concerns\HasUsers;
 use CrescentPurchasing\FilamentAuditing\Concerns\HasUserSchema;
 use CrescentPurchasing\FilamentAuditing\Filament\AuditResource;
@@ -18,12 +18,12 @@ use Filament\Support\Concerns\EvaluatesClosures;
 class FilamentAuditingPlugin implements Plugin
 {
     use EvaluatesClosures;
-    use HasAuditSchema;
+    use FormatsAuditableType;
+    use FormatsEvent;
     use HasCursorPagination;
     use HasModel;
     use HasNavigationGroup;
     use HasNavigationIcon;
-    use HasUserResource;
     use HasUsers;
     use HasUserSchema;
 

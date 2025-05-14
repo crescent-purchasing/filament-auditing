@@ -2,14 +2,15 @@
 
 namespace CrescentPurchasing\FilamentAuditing\Filament\Actions\Concerns;
 
-use CrescentPurchasing\FilamentAuditing\Audit;
-use CrescentPurchasing\FilamentAuditing\FilamentAuditingPlugin;
+use CrescentPurchasing\FilamentAuditing\Actions\GetAuditSchema;
+use CrescentPurchasing\FilamentAuditing\Actions\GetModifiedFields;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Get;
 use Illuminate\Auth\AuthManager;
 use Illuminate\Foundation\Auth\User;
 use Livewire\Component;
+use OwenIt\Auditing\Models\Audit;
 
 trait RestoresAudits
 {
@@ -42,12 +43,10 @@ trait RestoresAudits
 
         });
 
-        $this->form(function (Audit $record): array {
+        $this->form(function (Audit $record, GetAuditSchema $schema, GetModifiedFields $fields): array {
             $keys = array_keys($record->new_values);
 
-            $auditSchema = FilamentAuditingPlugin::get()->getAuditSchema();
-
-            $fromSchema = $auditSchema::make($keys, $record->auditable->toArray());
+            $fromSchema = $schema($record->auditable->toArray(), $keys);
 
             return [
                 Toggle::make('restore_to_old')
@@ -59,19 +58,14 @@ trait RestoresAudits
                     ->schema($fromSchema),
                 Section::make(__('filament-auditing::resource.actions.restore_audit.restore_to_values'))
                     ->collapsed(false)
-                    ->schema(fn (Get $get): array => $auditSchema::make(
-                        $keys,
-                        $get('restore_to_old')
-                            ? $record->getModifiedByType('old')
-                            : $record->getModifiedByType('new')
-                    )),
+                    ->schema(fn (Get $get): array => $schema($fields($record, $get('restore_to_old')))),
             ];
         });
 
         $this->action(function (Audit $record, array $data): void {
             $auditable = $record->auditable;
 
-            $auditable->transitionTo($record, $data['old']);
+            $auditable->transitionTo($record, $data['restore_to_old']);
             $auditable->save();
 
         });

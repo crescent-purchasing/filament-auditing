@@ -3,8 +3,8 @@
 namespace CrescentPurchasing\FilamentAuditing\Concerns;
 
 use Closure;
-use CrescentPurchasing\FilamentAuditing\Audit;
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Models\Audit;
 
 trait HasModel
 {

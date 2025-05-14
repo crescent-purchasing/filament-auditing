@@ -1,17 +1,22 @@
 <?php
 
-namespace CrescentPurchasing\FilamentAuditing\Filament\Schemas;
+namespace CrescentPurchasing\FilamentAuditing\Actions;
 
-use CrescentPurchasing\FilamentAuditing\Contracts\AuditSchemaContract;
+use Filament\Forms\Components\Component;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Textarea;
 use Illuminate\Support\Str;
 
-class AuditSchema implements AuditSchemaContract
+readonly class GetAuditSchema
 {
-    public static function make(array $keys, array $values): array
+    /**
+     * @return Component[]
+     */
+    public function __invoke(array $values, ?array $keys = null): array
     {
         $fields = [];
+
+        $keys ??= array_keys($values);
 
         foreach ($keys as $key) {
 
