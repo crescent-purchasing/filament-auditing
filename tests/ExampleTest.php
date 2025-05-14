@@ -1,7 +1,7 @@
 <?php
 
-use CrescentPurchasing\FilamentAuditing\Audit;
 use Illuminate\Support\Str;
+use OwenIt\Auditing\Models\Audit;
 
 it('can test', function () {
     expect(true)->toBeTrue();
@@ -12,7 +12,7 @@ it('uses translations', function () {
 });
 
 it('can use attributes', function () {
-    $model = new Audit;
+    $model = new Audit();
 
     $type = Audit::class;
     $id = 1;
