@@ -37,6 +37,7 @@ use Filament\Tables\Filters\QueryBuilder\Constraints\SelectConstraint;
 use Filament\Tables\Table;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use OwenIt\Auditing\Models\Audit;
@@ -215,10 +216,12 @@ class AuditResource extends FilamentResource
 
     protected static function getTableFilters(): array
     {
-        $getAuditableTypeSearchResults = function (string $search, FormatAuditableType $format): array {
+        $getAuditableTypeSearchResults = function (FormatAuditableType $format, string $search = ''): array {
             $model = FilamentAuditingPlugin::get()->getModel();
             $results = $model::query()
-                ->whereLike('auditable_type', '%' . $search . '%')
+                ->when($search, function (Builder $query, string $search): void {
+                    $query->whereLike('auditable_type', '%' . $search . '%');
+                })
                 ->distinct()
                 ->pluck('auditable_type');
 
@@ -251,6 +254,7 @@ class AuditResource extends FilamentResource
                     SelectConstraint::make('auditable_type')
                         ->label(__('filament-auditing::resource.fields.auditable_type'))
                         ->searchable()
+                        ->options($getAuditableTypeSearchResults)
                         ->getOptionLabelUsing($getAuditableOptionLabel)
                         ->getSearchResultsUsing($getAuditableTypeSearchResults)
                         ->optionsLimit(7),
