@@ -2,12 +2,12 @@
 
 namespace CrescentPurchasing\FilamentAuditing\Actions;
 
-use CrescentPurchasing\FilamentAuditing\Audit;
 use Filament\FilamentManager;
 use Filament\Resources\Resource as FilamentResource;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User;
+use OwenIt\Auditing\Models\Audit;
 
 readonly class GetOwner
 {
@@ -22,7 +22,7 @@ readonly class GetOwner
     {
         return match (true) {
             $record instanceof User => $record,
-            $record instanceof Audit => $record->owner,
+            $record instanceof Audit => $record->user,
             default => null,
         };
     }

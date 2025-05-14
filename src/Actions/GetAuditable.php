@@ -2,11 +2,11 @@
 
 namespace CrescentPurchasing\FilamentAuditing\Actions;
 
-use CrescentPurchasing\FilamentAuditing\Audit;
 use Filament\FilamentManager;
 use Filament\Resources\Resource as FilamentResource;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Models\Audit;
 
 readonly class GetAuditable
 {
