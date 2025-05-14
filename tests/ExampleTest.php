@@ -12,7 +12,7 @@ it('uses translations', function () {
 });
 
 it('can use attributes', function () {
-    $model = new Audit();
+    $model = new Audit;
 
     $type = Audit::class;
     $id = 1;
