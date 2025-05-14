@@ -2,7 +2,6 @@
 
 namespace CrescentPurchasing\FilamentAuditing;
 
-use CrescentPurchasing\FilamentAuditing\Testing\TestsFilamentAuditing;
 use Livewire\Features\SupportTesting\Testable;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -21,14 +20,5 @@ class FilamentAuditingServiceProvider extends PackageServiceProvider
         $package->name(static::$name);
 
         $package->hasTranslations();
-    }
-
-    public function packageRegistered(): void {}
-
-    public function packageBooted(): void
-    {
-
-        // Testing
-        Testable::mixin(new TestsFilamentAuditing);
     }
 }
