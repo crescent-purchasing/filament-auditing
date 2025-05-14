@@ -3,10 +3,10 @@
 namespace CrescentPurchasing\FilamentAuditing\Filament\Actions\Forms;
 
 use CrescentPurchasing\FilamentAuditing\Actions\GetAuditable;
-use CrescentPurchasing\FilamentAuditing\Audit;
 use CrescentPurchasing\FilamentAuditing\Filament\Actions\Concerns\ViewsAuditables;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Resources\Resource as FilamentResource;
+use OwenIt\Auditing\Models\Audit;
 
 class ViewAuditableAction extends Action
 {

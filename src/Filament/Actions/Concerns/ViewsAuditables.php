@@ -3,8 +3,8 @@
 namespace CrescentPurchasing\FilamentAuditing\Filament\Actions\Concerns;
 
 use CrescentPurchasing\FilamentAuditing\Actions\GetAuditable;
-use CrescentPurchasing\FilamentAuditing\Audit;
 use Illuminate\Contracts\Support\Htmlable;
+use OwenIt\Auditing\Models\Audit;
 
 trait ViewsAuditables
 {
