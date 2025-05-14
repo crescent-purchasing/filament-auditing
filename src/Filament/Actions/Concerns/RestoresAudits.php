@@ -65,7 +65,7 @@ trait RestoresAudits
         $this->action(function (Audit $record, array $data): void {
             $auditable = $record->auditable;
 
-            $auditable->transitionTo($record, $data['old']);
+            $auditable->transitionTo($record, $data['restore_to_old']);
             $auditable->save();
 
         });
