@@ -1,16 +1,19 @@
 <?php
 
-namespace CrescentPurchasing\FilamentAuditing\Filament\Schemas;
+namespace CrescentPurchasing\FilamentAuditing\Actions;
 
-use CrescentPurchasing\FilamentAuditing\Contracts\UserSchemaContract;
 use CrescentPurchasing\FilamentAuditing\Filament\Actions\Forms\ViewOwnerAction as ViewOwnerFormAction;
 use CrescentPurchasing\FilamentAuditing\FilamentAuditingPlugin;
+use Filament\Forms\Components\Component;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\TextInput;
 
-class UserSchema implements UserSchemaContract
+readonly class GetUserSchema
 {
-    public static function make(): array
+    /**
+     * @return Component[]
+     */
+    public function __invoke(): array
     {
         $baseSchema = Grid::make(3)->schema([
             TextInput::make('email')
@@ -21,8 +24,9 @@ class UserSchema implements UserSchemaContract
                 ->suffixAction(ViewOwnerFormAction::make()),
         ]);
 
-        $userSchema = FilamentAuditingPlugin::get()->getExtraUserFields();
+        $userSchema = FilamentAuditingPlugin::get()->getUserSchema();
 
         return [$baseSchema, ...$userSchema];
     }
+
 }
