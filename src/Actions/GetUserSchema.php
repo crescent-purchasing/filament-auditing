@@ -2,7 +2,7 @@
 
 namespace CrescentPurchasing\FilamentAuditing\Actions;
 
-use CrescentPurchasing\FilamentAuditing\Filament\Actions\Forms\ViewOwnerAction as ViewOwnerFormAction;
+use CrescentPurchasing\FilamentAuditing\Filament\Actions\Forms\ViewUserAction;
 use CrescentPurchasing\FilamentAuditing\FilamentAuditingPlugin;
 use Filament\Forms\Components\Component;
 use Filament\Forms\Components\Grid;
@@ -24,7 +24,7 @@ readonly class GetUserSchema
                 ->columnSpan(2),
             TextInput::make('id')
                 ->label(__('filament-auditing::resource.fields.user.id'))
-                ->suffixAction(ViewOwnerFormAction::make()),
+                ->suffixAction(ViewUserAction::make()),
         ]);
 
         $userSchema = $this->plugin->getUserSchema();

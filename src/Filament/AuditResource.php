@@ -7,12 +7,12 @@ use CrescentPurchasing\FilamentAuditing\Actions\FormatEvent;
 use CrescentPurchasing\FilamentAuditing\Actions\GetAuditable;
 use CrescentPurchasing\FilamentAuditing\Actions\GetAuditSchema;
 use CrescentPurchasing\FilamentAuditing\Actions\GetModifiedFields;
-use CrescentPurchasing\FilamentAuditing\Actions\GetOwner;
+use CrescentPurchasing\FilamentAuditing\Actions\GetUser;
 use CrescentPurchasing\FilamentAuditing\Actions\GetUserSchema;
 use CrescentPurchasing\FilamentAuditing\Filament\Actions\Tables\RestoreAuditAction;
 use CrescentPurchasing\FilamentAuditing\Filament\Actions\Tables\ViewAuditableAction;
 use CrescentPurchasing\FilamentAuditing\Filament\Actions\Tables\ViewAuditAction;
-use CrescentPurchasing\FilamentAuditing\Filament\Actions\Tables\ViewOwnerAction;
+use CrescentPurchasing\FilamentAuditing\Filament\Actions\Tables\ViewUserAction;
 use CrescentPurchasing\FilamentAuditing\Filament\Filters\QueryBuilder\AuditUserConstraint;
 use CrescentPurchasing\FilamentAuditing\Filament\Filters\QueryBuilder\AuditUserOperator;
 use CrescentPurchasing\FilamentAuditing\Filament\RelationManagers\AuditsRelationManager;
@@ -173,7 +173,7 @@ class AuditResource extends FilamentResource
             ActionGroup::make([
                 ViewAuditAction::make(),
                 ViewAuditableAction::make(),
-                ViewOwnerAction::make(),
+                ViewUserAction::make(),
             ]),
         ];
     }
@@ -190,8 +190,8 @@ class AuditResource extends FilamentResource
                 ->since(),
             TextColumn::make('user.email')
                 ->label(__('filament-auditing::resource.fields.user.label'))
-                ->tooltip(fn (Audit $record, GetOwner $getOwner): ?string => $getOwner($record)->getKey())
-                ->url(fn (Audit $record, GetOwner $getOwner): ?string => $getOwner->url($record))
+                ->tooltip(fn (Audit $record, GetUser $getUser): ?string => $getUser($record)->getKey())
+                ->url(fn (Audit $record, GetUser $getUser): ?string => $getUser->url($record))
                 ->hiddenOn(OwnedAuditsRelationManager::class),
             TextColumn::make('auditable_type')
                 ->label(__('filament-auditing::resource.fields.auditable_type'))
