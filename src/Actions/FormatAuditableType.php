@@ -7,7 +7,12 @@ use Illuminate\Support\Str;
 
 readonly class FormatAuditableType
 {
-    public function __construct(private FilamentAuditingPlugin $plugin) {}
+    private FilamentAuditingPlugin $plugin;
+
+    public function __construct()
+    {
+        $this->plugin = FilamentAuditingPlugin::get();
+    }
 
     public function __invoke(string $type): string
     {

@@ -3,7 +3,6 @@
 namespace CrescentPurchasing\FilamentAuditing\Filament\Filters\QueryBuilder;
 
 use CrescentPurchasing\FilamentAuditing\Actions\FormatAuditableType;
-use CrescentPurchasing\FilamentAuditing\FilamentAuditingPlugin;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\MorphToSelect\Type;
 use Filament\Forms\Components\Select;
@@ -49,7 +48,7 @@ class AuditUserOperator extends IsRelatedToOperator
             $user = $type::query()->whereKey($value)->value($this->getTitleAttribute());
         }
 
-        $formattedType = (new FormatAuditableType(FilamentAuditingPlugin::get()))($type);
+        $formattedType = (new FormatAuditableType)($type);
 
         if (! $user) {
             return __(

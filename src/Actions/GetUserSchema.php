@@ -10,7 +10,12 @@ use Filament\Forms\Components\TextInput;
 
 readonly class GetUserSchema
 {
-    public function __construct(private FilamentAuditingPlugin $plugin) {}
+    private FilamentAuditingPlugin $plugin;
+
+    public function __construct()
+    {
+        $this->plugin = FilamentAuditingPlugin::get();
+    }
 
     /**
      * @return Component[]
