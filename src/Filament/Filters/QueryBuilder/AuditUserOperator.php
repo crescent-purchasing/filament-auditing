@@ -48,7 +48,7 @@ class AuditUserOperator extends IsRelatedToOperator
             $user = $type::query()->whereKey($value)->value($this->getTitleAttribute());
         }
 
-        $formattedType = (new FormatAuditableType)($type);
+        $formattedType = (new FormatAuditableType)($type ?? '');
 
         if (! $user) {
             return __(
@@ -108,9 +108,12 @@ class AuditUserOperator extends IsRelatedToOperator
 
     protected function getMorphGridSchema(Grid $component): array
     {
+
         $types = Arr::mapWithKeys($this->getTypes(), function (string $item) {
+            $format = new FormatAuditableType;
             $type = Type::make($item);
             $type->titleAttribute($this->getTitleAttribute());
+            $type->label($format($item));
 
             return [$type->getAlias() => $type];
         });
