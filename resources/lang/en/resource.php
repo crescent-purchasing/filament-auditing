@@ -31,10 +31,17 @@ return [
         'user_agent' => 'User agent',
         'user' => [
             'label' => 'Owner',
+            'type_label' => 'Type',
             'id' => 'ID',
             'email' => 'Email',
+            'summary' => [
+                'type_direct' => ':relationship is :type',
+                'type_inverse' => ':relationship is not :type',
+                'value_direct' => ':relationship (:type) is :value',
+                'value_inverse' => ':relationship (:type) is not :value',
+            ],
         ],
-        'id' => 'id',
+        'id' => 'ID',
     ],
     'tabs' => [
         'label' => 'Audit data',

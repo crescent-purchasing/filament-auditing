@@ -9,6 +9,8 @@ use CrescentPurchasing\FilamentAuditing\Filament\Actions\Tables\RestoreAuditActi
 use CrescentPurchasing\FilamentAuditing\Filament\Actions\Tables\ViewAuditableAction;
 use CrescentPurchasing\FilamentAuditing\Filament\Actions\Tables\ViewAuditAction;
 use CrescentPurchasing\FilamentAuditing\Filament\Actions\Tables\ViewOwnerAction;
+use CrescentPurchasing\FilamentAuditing\Filament\Filters\QueryBuilder\AuditUserConstraint;
+use CrescentPurchasing\FilamentAuditing\Filament\Filters\QueryBuilder\AuditUserOperator;
 use CrescentPurchasing\FilamentAuditing\Filament\RelationManagers\AuditsRelationManager;
 use CrescentPurchasing\FilamentAuditing\Filament\RelationManagers\OwnedAuditsRelationManager;
 use CrescentPurchasing\FilamentAuditing\FilamentAuditingPlugin;
@@ -24,9 +26,10 @@ use Filament\Resources\Resource as FilamentResource;
 use Filament\Support\Enums\MaxWidth;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\QueryBuilder;
 use Filament\Tables\Filters\QueryBuilder\Constraints\DateConstraint;
-use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Filters\QueryBuilder\Constraints\SelectConstraint;
 use Filament\Tables\Table;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Support\Htmlable;
@@ -139,7 +142,32 @@ class AuditResource extends FilamentResource
     public static function table(Table $table): Table
     {
 
-        $actions = [
+        $table->actions(static::getTableActions());
+
+        $table->columns(static::getTableColumns());
+
+        $table->defaultSort('id', 'desc');
+
+        $table->filters(static::getTableFilters());
+
+        $table->filtersFormWidth(MaxWidth::TwoExtraLarge);
+
+        $table->filtersLayout(FiltersLayout::Modal);
+
+        return $table;
+
+    }
+
+    public static function getPages(): array
+    {
+        return [
+            'index' => ManageAudits::route('/'),
+        ];
+    }
+
+    protected static function getTableActions(): array
+    {
+        return [
             RestoreAuditAction::make(),
             ActionGroup::make([
                 ViewAuditAction::make(),
@@ -147,8 +175,11 @@ class AuditResource extends FilamentResource
                 ViewOwnerAction::make(),
             ]),
         ];
+    }
 
-        $columns = [
+    protected static function getTableColumns(): array
+    {
+        return [
             TextColumn::make('id')
                 ->label(__('filament-auditing::resource.fields.id'))
                 ->sortable(),
@@ -178,8 +209,11 @@ class AuditResource extends FilamentResource
                     return array_keys($record->new_values);
                 }),
         ];
+    }
 
-        $getFilterSearchResults = function (string $search): array {
+    protected static function getTableFilters(): array
+    {
+        $getAuditableTypeSearchResults = function (string $search): array {
             $model = FilamentAuditingPlugin::get()->getModel();
             $results = $model::query()
                 ->whereLike('auditable_type', '%' . $search . '%')
@@ -189,50 +223,35 @@ class AuditResource extends FilamentResource
             return $results->pluck('type', 'auditable_type')->toArray();
         };
 
-        $getOptions = function (Repository $config): array {
+        $getEventOptions = function (Repository $config): array {
             $events = $config->array('audit.events');
             $mapEvent = fn (string $item): array => [$item => Str::headline($item)];
 
             return Arr::mapWithKeys($events, $mapEvent);
         };
 
-        $filters = [
-            SelectFilter::make('user')
-                ->label(__('filament-auditing::resource.fields.user.label'))
-                ->relationship('owner', 'email')
-                ->optionsLimit(8)
-                ->hiddenOn(OwnedAuditsRelationManager::class)
-                ->searchable(),
-            SelectFilter::make('auditable_type')
-                ->label(__('filament-auditing::resource.fields.auditable_type'))
-                ->hiddenOn(AuditsRelationManager::class)
-                ->optionsLimit(8)
-                ->searchable()
-                ->getSearchResultsUsing($getFilterSearchResults),
-            SelectFilter::make('event')
-                ->label(__('filament-auditing::resource.fields.event'))
-                ->options($getOptions),
+        return [
             QueryBuilder::make('timestamp')
                 ->label(__('filament-auditing::resource.fields.query'))
                 ->constraints([
+                    AuditUserConstraint::make('user')
+                        ->selectable(
+                            AuditUserOperator::make()
+                                ->titleAttribute('email')
+                                ->types(FilamentAuditingPlugin::get()->getUsers())
+                        ),
+                    SelectConstraint::make('auditable_type')
+                        ->label(__('filament-auditing::resource.fields.auditable_type'))
+                        ->searchable()
+                        ->getOptionLabelUsing(fn ($value) => Str::of($value)->classBasename()->headline()->toString())
+                        ->getSearchResultsUsing($getAuditableTypeSearchResults)
+                        ->optionsLimit(7),
+                    SelectConstraint::make('event')
+                        ->label(__('filament-auditing::resource.fields.event'))
+                        ->options($getEventOptions),
                     DateConstraint::make('created_at')
                         ->label(__('filament-auditing::resource.fields.created_at')),
                 ]),
-        ];
-
-        return $table
-            ->actions($actions)
-            ->columns($columns)
-            ->defaultSort('id', 'desc')
-            ->filters($filters)
-            ->filtersFormWidth(MaxWidth::ExtraLarge);
-
-    }
-
-    public static function getPages(): array
-    {
-        return [
-            'index' => ManageAudits::route('/'),
         ];
     }
 }
