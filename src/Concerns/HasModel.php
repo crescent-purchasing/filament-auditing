@@ -3,16 +3,15 @@
 namespace CrescentPurchasing\FilamentAuditing\Concerns;
 
 use Closure;
-use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Models\Audit;
 
 trait HasModel
 {
-    /** @var class-string<Model>|Closure */
+    /** @var class-string<Audit>|Closure */
     protected string | Closure $model = Audit::class;
 
     /**
-     * @return class-string<Model>
+     * @return class-string<Audit>
      */
     public function getModel(): string
     {
@@ -20,7 +19,7 @@ trait HasModel
     }
 
     /**
-     * @param  class-string<Model>|Closure  $model
+     * @param  class-string<Audit>|Closure  $model
      * @return $this
      */
     public function model(string | Closure $model): static

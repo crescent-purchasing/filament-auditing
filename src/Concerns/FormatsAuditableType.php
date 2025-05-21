@@ -7,7 +7,7 @@ use Closure;
 trait FormatsAuditableType
 {
     /**
-     * @var Closure(?string): ?string|null
+     * @var Closure(): ?string|null
      */
     protected ?Closure $formatAuditableTypeUsing = null;
 
@@ -16,9 +16,11 @@ trait FormatsAuditableType
         return $this->formatAuditableTypeUsing !== null;
     }
 
-    public function formatAuditableType(?string $value): ?string
+    public function formatAuditableType(string $value): ?string
     {
-        return ($this->formatAuditableTypeUsing)($value);
+        return $this->evaluate($this->formatAuditableTypeUsing, [
+            'value' => $value,
+        ]);
     }
 
     public function formatAuditableTypeUsing(?Closure $formatAuditableTypeUsing): static

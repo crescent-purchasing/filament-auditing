@@ -3,6 +3,8 @@
 namespace CrescentPurchasing\FilamentAuditing\Filament\Filters\QueryBuilder;
 
 use CrescentPurchasing\FilamentAuditing\Actions\FormatAuditableType;
+use Exception;
+use Filament\Forms\Components\Field;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\MorphToSelect\Type;
 use Filament\Forms\Components\Select;
@@ -11,7 +13,9 @@ use Filament\Forms\Set;
 use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Arr;
+use OwenIt\Auditing\Models\Audit;
 
 class AuditUserOperator extends IsRelatedToOperator
 {
@@ -19,13 +23,23 @@ class AuditUserOperator extends IsRelatedToOperator
 
     protected string $valueColumn = 'user_id';
 
+    /**
+     * @var class-string<User>[]
+     */
     protected array $types = [];
 
-    public function getTypes()
+    /**
+     * @return class-string<User>[]
+     */
+    public function getTypes(): array
     {
         return $this->evaluate($this->types);
     }
 
+    /**
+     * @param  class-string<User>[]  $types
+     * @return $this
+     */
     public function types(array $types): static
     {
         $this->types = $types;
@@ -38,9 +52,9 @@ class AuditUserOperator extends IsRelatedToOperator
         $constraint = $this->getConstraint();
 
         /** @var ?class-string<Model> $type */
-        $type = $this->getSettings()[$this->typeColumn];
+        $type = $this->getSettings()[$this->typeColumn] ?? null;
 
-        $value = Arr::wrap($this->getSettings()[$this->valueColumn]);
+        $value = Arr::wrap($this->getSettings()[$this->valueColumn] ?? null);
 
         $user = '';
 
@@ -48,7 +62,7 @@ class AuditUserOperator extends IsRelatedToOperator
             $user = $type::query()->whereKey($value)->value($this->getTitleAttribute());
         }
 
-        $formattedType = (new FormatAuditableType)($type ?? '');
+        $formattedType = (new FormatAuditableType)($type);
 
         if (! $user) {
             return __(
@@ -83,6 +97,12 @@ class AuditUserOperator extends IsRelatedToOperator
         return [$morphGrid];
     }
 
+    /**
+     * @param  Builder<Audit>  $query
+     * @return Builder<Audit>
+     *
+     * @throws Exception
+     */
     public function apply(Builder $query, string $qualifiedColumn): Builder
     {
         $constraint = $this->getConstraint();
@@ -106,6 +126,9 @@ class AuditUserOperator extends IsRelatedToOperator
         );
     }
 
+    /**
+     * @return Field[]
+     */
     protected function getMorphGridSchema(Grid $component): array
     {
 

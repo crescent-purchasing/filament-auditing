@@ -14,7 +14,7 @@ readonly class FormatEvent
         $this->plugin = FilamentAuditingPlugin::get();
     }
 
-    public function __invoke(string $type): string
+    public function __invoke(string $type): ?string
     {
         if ($this->plugin->formatsEvent()) {
             return $this->plugin->formatEvent($type);

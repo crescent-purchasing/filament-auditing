@@ -14,7 +14,7 @@ readonly class FormatAuditableType
         $this->plugin = FilamentAuditingPlugin::get();
     }
 
-    public function __invoke(string $type): string
+    public function __invoke(string $type): ?string
     {
         if ($this->plugin->formatsAuditableType()) {
             return $this->plugin->formatAuditableType($type);
