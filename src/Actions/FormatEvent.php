@@ -14,13 +14,13 @@ readonly class FormatEvent
         $this->plugin = FilamentAuditingPlugin::get();
     }
 
-    public function __invoke(string $type): ?string
+    public function __invoke(string $event): ?string
     {
         if ($this->plugin->formatsEvent()) {
-            return $this->plugin->formatEvent($type);
+            return $this->plugin->formatEvent($event);
         }
 
-        return Str::of($type)
+        return Str::of($event)
             ->headline()
             ->toString();
     }
