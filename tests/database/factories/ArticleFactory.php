@@ -16,9 +16,10 @@ class ArticleFactory extends Factory
     public function definition()
     {
         return [
-            'title' => fake()->unique()->sentence,
-            'content' => fake()->unique()->paragraph(6),
+            'title' => $this->faker->unique()->sentence,
+            'content' => $this->faker->unique()->paragraph(6),
             'user_id' => User::factory(),
+            'reviewed' => $this->faker->boolean(),
             'published_at' => null,
         ];
     }

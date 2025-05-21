@@ -12,10 +12,10 @@ class UserFactory extends Factory
     public function definition()
     {
         return [
-            'is_admin' => fake()->randomElement([0, 1]),
-            'first_name' => fake()->firstName,
-            'last_name' => fake()->lastName,
-            'email' => fake()->unique()->safeEmail,
+            'is_admin' => $this->faker->randomElement([0, 1]),
+            'first_name' => $this->faker->firstName,
+            'last_name' => $this->faker->lastName,
+            'email' => $this->faker->unique()->safeEmail,
         ];
     }
 }
