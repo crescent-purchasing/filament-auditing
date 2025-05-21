@@ -28,9 +28,12 @@ use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource as FilamentResource;
 use Filament\Support\Enums\MaxWidth;
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\ActionGroup;
+use Filament\Tables\Columns\Column;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\FiltersLayout;
+use Filament\Tables\Filters\BaseFilter;
 use Filament\Tables\Filters\QueryBuilder;
 use Filament\Tables\Filters\QueryBuilder\Constraints\DateConstraint;
 use Filament\Tables\Filters\QueryBuilder\Constraints\SelectConstraint;
@@ -71,15 +74,16 @@ class AuditResource extends FilamentResource
      */
     public static function getRecordTitle(?Model $record): string | Htmlable | null
     {
-        $auditable = $record->auditable;
+        $getAuditable = new GetAuditable;
 
-        /** @var class-string<FilamentResource> $resource */
-        $resource = filament()->getModelResource($auditable);
+        $auditable = $getAuditable($record);
+
+        $recordTitle = $getAuditable->title($auditable);
 
         return __('filament-auditing::resource.record_title', [
-            'record' => $resource::getRecordTitle($auditable),
-            'id' => $auditable->getKey(),
-            'timestamp' => $record->created_at, // @phpstan-ignore  property.notFound
+            'record' => $recordTitle ?? '',
+            'id' => $auditable?->getKey() ?? '',
+            'timestamp' => $record->created_at ?? '',
         ]);
     }
 
@@ -167,6 +171,9 @@ class AuditResource extends FilamentResource
         ];
     }
 
+    /**
+     * @return array<Action | ActionGroup>
+     */
     protected static function getTableActions(): array
     {
         return [
@@ -179,6 +186,9 @@ class AuditResource extends FilamentResource
         ];
     }
 
+    /**
+     * @return Column[]
+     */
     protected static function getTableColumns(): array
     {
         return [
@@ -191,19 +201,19 @@ class AuditResource extends FilamentResource
                 ->since(),
             TextColumn::make('user.email')
                 ->label(__('filament-auditing::resource.fields.user.label'))
-                ->tooltip(fn (Audit $record, GetUser $getUser): ?string => $getUser($record)->getKey())
+                ->tooltip(fn (Audit $record, GetUser $getUser): ?string => $getUser($record)?->getKey())
                 ->url(fn (Audit $record, GetUser $getUser): ?string => $getUser->url($record))
                 ->hiddenOn(OwnedAuditsRelationManager::class),
             TextColumn::make('auditable_type')
                 ->label(__('filament-auditing::resource.fields.auditable_type'))
-                ->formatStateUsing(fn (string $state, FormatAuditableType $format): string => $format($state))
-                ->tooltip(fn (Audit $record, GetAuditable $getAuditable): ?string => $getAuditable($record)->getKey())
+                ->formatStateUsing(fn (string $state, FormatAuditableType $format): ?string => $format($state))
+                ->tooltip(fn (Audit $record, GetAuditable $getAuditable): ?string => $getAuditable($record)?->getKey())
                 ->url(fn (Audit $record, GetAuditable $getAuditable): ?string => $getAuditable->url($record))
                 ->hiddenOn(AuditsRelationManager::class),
             TextColumn::make('event')
                 ->label(__('filament-auditing::resource.fields.event'))
                 ->visibleFrom('md')
-                ->formatStateUsing(fn (string $state, FormatEvent $format): string => $format($state)),
+                ->formatStateUsing(fn (string $state, FormatEvent $format): ?string => $format($state)),
             TextColumn::make('fields')
                 ->label(__('filament-auditing::resource.fields.audited_fields'))
                 ->extraAttributes(['class' => 'font-mono'])
@@ -214,6 +224,11 @@ class AuditResource extends FilamentResource
         ];
     }
 
+    /**
+     * @return BaseFilter[]
+     *
+     * @throws \Exception
+     */
     protected static function getTableFilters(): array
     {
         $getAuditableTypeSearchResults = function (FormatAuditableType $format, string $search = ''): array {
@@ -223,15 +238,15 @@ class AuditResource extends FilamentResource
                     $query->whereLike('auditable_type', '%' . $search . '%');
                 })
                 ->distinct()
-                ->pluck('auditable_type');
+                ->pluck('auditable_type'); // @phpstan-ignore argument.type
 
             return $results->mapWithKeys(function (string $item) use ($format): array {
                 return [$item => $format($item)];
             })->toArray();
         };
 
-        $getAuditableOptionLabel = function (?string $value, FormatAuditableType $format): string {
-            return $format($value);
+        $getAuditableOptionLabel = function (?string $value, FormatAuditableType $format): ?string {
+            return $format($value ?? '');
         };
 
         $getEventOptions = function (Repository $config, FormatEvent $format): array {

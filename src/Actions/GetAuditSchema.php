@@ -10,6 +10,8 @@ use Illuminate\Support\Str;
 readonly class GetAuditSchema
 {
     /**
+     * @param  array<string, mixed>  $values
+     * @param  string[]|null  $keys
      * @return Component[]
      */
     public function __invoke(array $values, ?array $keys = null): array
@@ -38,7 +40,7 @@ readonly class GetAuditSchema
                 $field->rows(16);
                 $field->readOnly();
                 $field->dehydrated(false);
-                $field->formatStateUsing(fn (): string => json_encode($content, JSON_PRETTY_PRINT));
+                $field->formatStateUsing(fn (): string => json_encode($content, JSON_PRETTY_PRINT) ?: '');
                 $field->extraInputAttributes(['class' => 'font-mono']);
             }
 

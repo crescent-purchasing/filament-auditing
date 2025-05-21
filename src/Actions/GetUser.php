@@ -39,6 +39,25 @@ readonly class GetUser
         return $resource::getNavigationIcon();
     }
 
+    public function title(Model $record): ?string
+    {
+        if (! $user = $this($record)) {
+            return null;
+        }
+
+        /** @var class-string<FilamentResource> $resource */
+        $resource = filament()->getModelResource($user);
+
+        $title = $resource::getRecordTitle($user);
+
+        if ($title instanceof Htmlable) {
+            $title = $title->toHtml();
+        }
+
+        return $title;
+
+    }
+
     public function url(Model $record): ?string
     {
         if (! $user = $this($record)) {

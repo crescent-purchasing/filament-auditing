@@ -7,7 +7,7 @@ use Closure;
 trait FormatsEvent
 {
     /**
-     * @var Closure(?string): ?string|null
+     * @var Closure(): ?string|null
      */
     protected ?Closure $formatEventUsing = null;
 
@@ -16,9 +16,11 @@ trait FormatsEvent
         return $this->formatEventUsing !== null;
     }
 
-    public function formatEvent(?string $value): ?string
+    public function formatEvent(string $value): ?string
     {
-        return ($this->formatEventUsing)($value);
+        return $this->evaluate($this->formatEventUsing, [
+            'value' => $value,
+        ]);
     }
 
     public function formatEventUsing(?Closure $formatEventUsing): static
