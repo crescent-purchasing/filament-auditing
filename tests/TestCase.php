@@ -38,7 +38,7 @@ class TestCase extends Orchestra
         // Audit
         config()->set('audit.drivers.database.table', 'audit_testing');
         config()->set('audit.drivers.database.connection', 'testing');
-        config()->set('audit.user.morph_prefix', 'prefix');
+        config()->set('audit.user.morph_prefix', 'user');
         config()->set('audit.user.resolver', UserResolver::class);
         config()->set('audit.user.guards', [
             'web',
