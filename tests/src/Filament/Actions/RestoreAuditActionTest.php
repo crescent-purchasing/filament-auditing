@@ -71,3 +71,22 @@ it('can restore audits to old values', function () {
 
     expect($article->refresh())->title->toBe($oldTitle);
 });
+
+it('cannot restore audits without permission', function () {
+    test()->admin->update([
+        'email' => 'big.chungus@example.com',
+    ]);
+
+    test()->actingAs(test()->admin);
+
+    $article = Article::factory()->create();
+
+    $article->update([
+        'title' => 'I have been updated!',
+    ]);
+
+    $firstAudit = Audit::latest('id')->firstOrFail();
+
+    livewire(ManageAudits::class)
+        ->assertTableActionDisabled(RestoreAuditAction::class, $firstAudit);
+});
