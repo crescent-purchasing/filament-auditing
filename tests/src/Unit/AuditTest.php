@@ -20,8 +20,7 @@ it('resolves audit data', function () {
 
     $resolvedData = $audit->resolveData();
 
-    expect($resolvedData)->toHaveCount(16)
-        ->and($resolvedData)->toMatchArray([
+    expect($resolvedData)->toHaveCount(16)->toMatchArray([
             'audit_id' => 1,
             'audit_event' => 'created',
             'audit_url' => UrlResolver::resolveCommandLine(),
