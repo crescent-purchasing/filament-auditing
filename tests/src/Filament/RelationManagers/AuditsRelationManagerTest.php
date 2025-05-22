@@ -33,3 +33,18 @@ it('can list related audits', function () {
         'pageClass' => EditArticle::class,
     ])->assertCanSeeTableRecords($article->audits);
 });
+
+it('cannot see unrelated audits', function () {
+    test()->actingAs(test()->admin);
+
+    $article = Article::factory()->create([
+        'title' => ' I have been created!',
+    ]);
+
+    $unrelated = Article::factory()->create();
+
+    livewire(AuditsRelationManager::class, [
+        'ownerRecord' => $article,
+        'pageClass' => EditArticle::class,
+    ])->assertCanNotSeeTableRecords($unrelated->audits);
+});
