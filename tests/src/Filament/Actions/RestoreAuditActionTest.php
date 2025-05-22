@@ -90,3 +90,18 @@ it('cannot restore audits without permission', function () {
     livewire(ManageAudits::class)
         ->assertTableActionDisabled(RestoreAuditAction::class, $firstAudit);
 });
+
+it('cannot restore audits of deleted records', function () {
+    test()->actingAs(test()->admin);
+
+    $article = Article::factory()->create();
+
+    $article->delete();
+
+    expect(Article::count())->toBeEmpty();
+
+    $audit = Audit::latest('id')->firstOrFail();
+
+    livewire(ManageAudits::class)
+        ->assertTableActionDisabled(RestoreAuditAction::class, $audit);
+});
