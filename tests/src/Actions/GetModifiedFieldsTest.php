@@ -5,7 +5,7 @@ use CrescentPurchasing\FilamentAuditing\Tests\Models\Article;
 use OwenIt\Auditing\Models\Audit;
 
 beforeEach(function () {
-    $this->getModifiedFields = new GetModifiedFields();
+    $this->getModifiedFields = new GetModifiedFields;
 
     $this->article = Article::factory()->create([
         'title' => 'I have been created!',

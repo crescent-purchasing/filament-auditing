@@ -1,6 +1,5 @@
 <?php
 
-
 use CrescentPurchasing\FilamentAuditing\Actions\GetUserSchema;
 use CrescentPurchasing\FilamentAuditing\FilamentAuditingPlugin;
 use Filament\Forms\Components\Component;
@@ -9,7 +8,7 @@ use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\TextInput;
 
 beforeEach(function () {
-    $this->getUserSchema = new GetUserSchema();
+    $this->getUserSchema = new GetUserSchema;
 });
 
 it('gets the default schema for the user form', function () {

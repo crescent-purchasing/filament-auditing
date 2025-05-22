@@ -7,7 +7,7 @@ use CrescentPurchasing\FilamentAuditing\Tests\Models\User;
 use OwenIt\Auditing\Models\Audit;
 
 beforeEach(function () {
-    $this->getUser = new GetUser();
+    $this->getUser = new GetUser;
 
     test()->actingAs(test()->admin);
 

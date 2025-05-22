@@ -1,6 +1,5 @@
 <?php
 
-use Carbon\Carbon;
 use CrescentPurchasing\FilamentAuditing\Filament\Actions\Tables\ViewAuditAction;
 use CrescentPurchasing\FilamentAuditing\Filament\ManageAudits;
 use CrescentPurchasing\FilamentAuditing\Tests\Models\Article;
