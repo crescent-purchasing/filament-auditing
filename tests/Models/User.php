@@ -45,13 +45,15 @@ class User extends Authenticatable implements Auditable, FilamentUser, HasName
     }
 
     /**
-     * @return MorphMany<Audit|Model, $this>
+     * @return MorphMany<Audit, $this>
      */
     public function ownedAudits(): MorphMany
     {
-        return $this->morphMany(
-            Config::get('audit.implementation', Audit::class),
-            'auditable'
-        );
+        /** @var class-string<Audit> $model */
+        $model = Config::get('audit.implementation', Audit::class);
+
+        $morphPrefix = Config::get('audit.user.morph_prefix', 'user');
+
+        return $this->morphMany($model, $morphPrefix);
     }
 }
