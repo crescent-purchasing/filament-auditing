@@ -7,16 +7,23 @@ use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasName;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Config;
 use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Models\Audit;
 
+/**
+ * @property bool $is_admin
+ * @property string $first_name
+ * @property string $last_name
+ * @property string $email
+ */
 class User extends Authenticatable implements Auditable, FilamentUser, HasName
 {
+    /** @use HasFactory<UserFactory> */
     use HasFactory;
+
     use \OwenIt\Auditing\Auditable;
 
     protected static string $factory = UserFactory::class;

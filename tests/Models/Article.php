@@ -7,8 +7,17 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 use OwenIt\Auditing\Contracts\Auditable;
 
+/**
+ * @property string $title
+ * @property string $content
+ * @property bool $reviewed
+ * @property ?Carbon $published_at
+ * @property ?int $user_id
+ * @property ?User $user
+ */
 class Article extends Model implements Auditable
 {
     use HasFactory;
