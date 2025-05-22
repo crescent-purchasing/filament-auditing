@@ -26,7 +26,7 @@ class TestingPanelProvider extends PanelProvider
 {
     public function boot(): void
     {
-        Gate::define('restoreAudit', function (User $user, Model $auditable) {
+        Gate::define('restoreAudit', function (User $user) {
             return $user->email === 'dr.morbius@example.com';
         });
     }
