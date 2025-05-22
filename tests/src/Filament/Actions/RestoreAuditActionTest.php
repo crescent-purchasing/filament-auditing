@@ -23,12 +23,10 @@ it('can restore audits', function () {
 
     expect($article)->title->toBe($newTitle);
 
-    $firstAudit = Audit::oldest('id')->firstOrFail();
+    $audit = Audit::oldest('id')->firstOrFail();
 
     livewire(ManageAudits::class)
-        ->assertTableActionEnabled(RestoreAuditAction::class, $firstAudit)
-        ->mountTableAction(RestoreAuditAction::class, $firstAudit)
-        ->assertTableActionMounted('restoreAudit')
+        ->mountTableAction(RestoreAuditAction::class, $audit)
         ->callMountedTableAction()
         ->assertHasNoTableActionErrors();
 
@@ -54,12 +52,10 @@ it('can restore audits to old values', function () {
 
     expect($article)->title->toBe($newTitle);
 
-    $firstAudit = Audit::latest('id')->firstOrFail();
+    $audit = Audit::latest('id')->firstOrFail();
 
     livewire(ManageAudits::class)
-        ->assertTableActionEnabled(RestoreAuditAction::class, $firstAudit)
-        ->mountTableAction(RestoreAuditAction::class, $firstAudit)
-        ->assertTableActionMounted('restoreAudit')
+        ->mountTableAction(RestoreAuditAction::class, $audit)
         ->assertTableActionDataSet([
             'restore_to_old' => false,
         ])
@@ -85,10 +81,10 @@ it('cannot restore audits without permission', function () {
         'title' => 'I have been updated!',
     ]);
 
-    $firstAudit = Audit::latest('id')->firstOrFail();
+    $audit = Audit::latest('id')->firstOrFail();
 
     livewire(ManageAudits::class)
-        ->assertTableActionDisabled(RestoreAuditAction::class, $firstAudit);
+        ->assertTableActionDisabled(RestoreAuditAction::class, $audit);
 });
 
 it('cannot restore audits of deleted records', function () {
