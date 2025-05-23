@@ -18,15 +18,25 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use OwenIt\Auditing\Events\Auditing;
 
 class TestingPanelProvider extends PanelProvider
 {
     public function boot(): void
     {
-        Gate::define('restoreAudit', function (User $user) {
+        Gate::define('restoreAudit', function (User $user): bool {
             return $user->email === 'dr.morbius@example.com';
+        });
+
+        Event::listen(function (Auditing $event): bool {
+            if (! $event->model instanceof User) {
+                return true;
+            }
+
+            return $event->model->email !== 'dr.morbius@example.com';
         });
     }
 
