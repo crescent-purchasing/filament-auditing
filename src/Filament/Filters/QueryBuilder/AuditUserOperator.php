@@ -135,6 +135,7 @@ class AuditUserOperator extends IsRelatedToOperator
 
     protected function getUserPrefix(): string
     {
+        /** @phpstan-ignore argument.type */
         return $this->evaluate(fn (Repository $config): string => $config->string('audit.user.morph_prefix'));
     }
 
