@@ -15,7 +15,6 @@ beforeEach(function () {
                 ->types(FilamentAuditingPlugin::get()->getUsers())
         );
 
-
     $this->operator = $this->constraint->getOperator('isRelatedTo');
 
     $this->operator->constraint($this->constraint);
