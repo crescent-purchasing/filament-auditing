@@ -7,7 +7,7 @@ use Closure;
 trait FormatsAuditableType
 {
     /**
-     * @var Closure(): ?string|null
+     * @var Closure(string): ?string|null
      */
     protected ?Closure $formatAuditableTypeUsing = null;
 
@@ -18,6 +18,7 @@ trait FormatsAuditableType
 
     public function formatAuditableType(string $value): ?string
     {
+        /** @phpstan-ignore argument.type */
         return $this->evaluate($this->formatAuditableTypeUsing, [
             'value' => $value,
         ]);

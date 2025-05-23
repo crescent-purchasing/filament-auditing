@@ -2,18 +2,14 @@
 <phpunit
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.2/phpunit.xsd"
-    backupGlobals="false"
     bootstrap="vendor/autoload.php"
     colors="true"
-    processIsolation="false"
-    stopOnFailure="false"
     executionOrder="random"
     failOnWarning="true"
     failOnRisky="true"
     failOnEmptyTestSuite="true"
     beStrictAboutOutputDuringTests="true"
     cacheDirectory=".phpunit.cache"
-    backupStaticProperties="false"
 >
     <testsuites>
         <testsuite name="CrescentPurchasing Test Suite">
@@ -27,12 +23,20 @@
             <clover outputFile="build/logs/clover.xml"/>
         </report>
     </coverage>
+    <groups>
+        <exclude>
+            <group>command-line-url-resolver</group>
+        </exclude>
+    </groups>
     <logging>
         <junit outputFile="build/report.junit.xml"/>
     </logging>
     <source>
         <include>
-            <directory suffix=".php">./src</directory>
+            <directory>./src</directory>
         </include>
     </source>
+    <php>
+        <env name="APP_KEY" value="12345678901234567890123456789012"/>
+    </php>
 </phpunit>

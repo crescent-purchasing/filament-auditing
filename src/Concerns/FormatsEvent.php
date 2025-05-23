@@ -7,7 +7,7 @@ use Closure;
 trait FormatsEvent
 {
     /**
-     * @var Closure(): ?string|null
+     * @var Closure(string): ?string|null
      */
     protected ?Closure $formatEventUsing = null;
 
@@ -18,6 +18,8 @@ trait FormatsEvent
 
     public function formatEvent(string $value): ?string
     {
+
+        /** @phpstan-ignore argument.type */
         return $this->evaluate($this->formatEventUsing, [
             'value' => $value,
         ]);

@@ -30,7 +30,9 @@ trait RestoresAudits
         $this->icon('heroicon-o-arrow-path');
 
         $this->disabled(function (Audit $record, AuthManager $auth): bool {
-            if ($record->event !== 'updated') {
+            $disabledEvents = ['deleted', 'restored'];
+
+            if (in_array($record->event, $disabledEvents)) {
                 return true;
             }
 
@@ -52,6 +54,7 @@ trait RestoresAudits
                 Toggle::make('restore_to_old')
                     ->label(__('filament-auditing::resource.actions.restore_audit.restore_to_old'))
                     ->inlineLabel()
+                    ->disabled(fn (): bool => $record->event !== 'updated')
                     ->live(),
                 Section::make(__('filament-auditing::resource.actions.restore_audit.restore_from_values'))
                     ->collapsed()
@@ -65,7 +68,7 @@ trait RestoresAudits
         $this->action(function (Audit $record, array $data): void {
             $auditable = $record->auditable;
 
-            $auditable->transitionTo($record, $data['restore_to_old']);
+            $auditable->transitionTo($record, $data['restore_to_old'] ?? false);
             $auditable->save();
 
         });
