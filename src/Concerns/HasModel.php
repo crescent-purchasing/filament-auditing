@@ -3,18 +3,23 @@
 namespace CrescentPurchasing\FilamentAuditing\Concerns;
 
 use Closure;
+use Illuminate\Support\Facades\Config;
 use OwenIt\Auditing\Models\Audit;
 
 trait HasModel
 {
-    /** @var class-string<Audit>|Closure */
-    protected string | Closure $model = Audit::class;
+    /** @var class-string<Audit>|Closure|null */
+    protected string | Closure | null $model = null;
 
     /**
      * @return class-string<Audit>
      */
     public function getModel(): string
     {
+        if (empty($this->model)) {
+            return $this->getDefaultModel();
+        }
+
         return $this->evaluate($this->model);
     }
 
@@ -27,5 +32,13 @@ trait HasModel
         $this->model = $model;
 
         return $this;
+    }
+
+    /**
+     * @return class-string<Audit>
+     */
+    private function getDefaultModel(): string
+    {
+        return Config::get('audit.implementation');
     }
 }
