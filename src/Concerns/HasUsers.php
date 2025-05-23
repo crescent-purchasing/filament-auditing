@@ -34,6 +34,9 @@ trait HasUsers
         return $this;
     }
 
+    /**
+     * @return class-string<User>[]
+     */
     private function getDefaultUsers(): array
     {
         $guards = Config::get('audit.user.guards', [
