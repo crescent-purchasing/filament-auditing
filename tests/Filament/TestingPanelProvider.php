@@ -49,7 +49,6 @@ class TestingPanelProvider extends PanelProvider
             ])
             ->resources([
                 ArticleResource::class,
-                AuditResource::class,
                 UserResource::class,
             ])
             ->middleware([
@@ -67,8 +66,7 @@ class TestingPanelProvider extends PanelProvider
                 Authenticate::class,
             ])
             ->plugins([
-                FilamentAuditingPlugin::make()
-                    ->users([User::class]),
+                FilamentAuditingPlugin::make(),
             ]);
     }
 }

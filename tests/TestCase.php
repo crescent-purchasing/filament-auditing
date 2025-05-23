@@ -49,6 +49,8 @@ class TestCase extends Orchestra
             'provider' => 'users',
         ]);
 
+        config()->set('auth.providers.users.model', User::class);
+
         config()->set('audit.resolvers.url', UrlResolver::class);
         config()->set('audit.resolvers.ip_address', IpAddressResolver::class);
         config()->set('audit.resolvers.user_agent', UserAgentResolver::class);
