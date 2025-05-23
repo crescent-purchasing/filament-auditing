@@ -44,10 +44,11 @@ it('can filter audits by User Type', function () {
         'title' => 'I am owned by the new user!',
     ]);
 
+    $typeColumn = config('audit.user.morph_prefix') . '_type';
+
     $filteredAudits = $this->operator
         ->settings([
-            'user_type' => User::class,
-            'user_id' => null,
+            $typeColumn => User::class,
         ])
         ->apply(Audit::query(), '')->get();
 
@@ -76,10 +77,13 @@ it('can filter audits by a specific User', function () {
         'title' => 'I am owned by the admin!',
     ]);
 
+    $typeColumn = config('audit.user.morph_prefix') . '_type';
+    $valueColumn = config('audit.user.morph_prefix') . '_id';
+
     $filteredAudits = $this->operator
         ->settings([
-            'user_type' => User::class,
-            'user_id' => test()->admin->id,
+            $typeColumn => User::class,
+            $valueColumn => test()->admin->id,
         ])
         ->apply(Audit::query(), '')->get();
 
