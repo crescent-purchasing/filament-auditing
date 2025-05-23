@@ -11,6 +11,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
 use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
+use Illuminate\Config\Repository;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User;
@@ -19,9 +20,15 @@ use OwenIt\Auditing\Models\Audit;
 
 class AuditUserOperator extends IsRelatedToOperator
 {
-    protected string $typeColumn = 'user_type';
+    public function getTypeColumn(): string
+    {
+        return $this->getUserPrefix() . '_type';
+    }
 
-    protected string $valueColumn = 'user_id';
+    public function getValueColumn(): string
+    {
+        return $this->getUserPrefix() . '_id';
+    }
 
     /**
      * @var class-string<User>[]
@@ -52,9 +59,9 @@ class AuditUserOperator extends IsRelatedToOperator
         $constraint = $this->getConstraint();
 
         /** @var ?class-string<Model> $type */
-        $type = $this->getSettings()[$this->typeColumn] ?? null;
+        $type = $this->getSettings()[$this->getTypeColumn()] ?? null;
 
-        $value = Arr::wrap($this->getSettings()[$this->valueColumn] ?? null);
+        $value = Arr::wrap($this->getSettings()[$this->getValueColumn()] ?? null);
 
         $user = '';
 
@@ -107,9 +114,9 @@ class AuditUserOperator extends IsRelatedToOperator
     {
         $constraint = $this->getConstraint();
 
-        $userType = $this->getSettings()[$this->typeColumn];
+        $userType = $this->getSettings()[$this->getTypeColumn()] ?? null;
 
-        $userValue = $this->getSettings()[$this->valueColumn];
+        $userValue = $this->getSettings()[$this->getValueColumn()] ?? null;
 
         if (! $userType) {
             return $query;
@@ -124,6 +131,12 @@ class AuditUserOperator extends IsRelatedToOperator
                 }
             },
         );
+    }
+
+    protected function getUserPrefix(): string
+    {
+        /** @phpstan-ignore argument.type */
+        return $this->evaluate(fn (Repository $config): string => $config->string('audit.user.morph_prefix'));
     }
 
     /**
@@ -148,19 +161,19 @@ class AuditUserOperator extends IsRelatedToOperator
          *
          * @phpstan-ignore argument.type
          */
-        $selectedType = $types[$component->evaluate(fn (Get $get): ?string => $get($this->typeColumn))] ?? null;
+        $selectedType = $types[$component->evaluate(fn (Get $get): ?string => $get($this->getTypeColumn()))] ?? null;
 
-        $typeSelect = Select::make($this->typeColumn);
+        $typeSelect = Select::make($this->getValueColumn());
         $typeSelect->label(__('filament-auditing::resource.fields.user.type_label'));
         $typeSelect->options($typeLabels);
         $typeSelect->native($this->isNative());
         $typeSelect->live();
         $typeSelect->afterStateUpdated(function (Set $set) use ($component) {
-            $set($this->valueColumn, null);
+            $set($this->getTypeColumn(), null);
             $component->callAfterStateUpdated();
         });
 
-        $valueSelect = Select::make($this->valueColumn);
+        $valueSelect = Select::make($this->getValueColumn());
         $valueSelect->columnSpan(2);
         $valueSelect->label($selectedType?->getLabel());
         $valueSelect->searchable();
