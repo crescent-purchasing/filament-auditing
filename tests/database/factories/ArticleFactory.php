@@ -3,7 +3,6 @@
 namespace CrescentPurchasing\FilamentAuditing\Tests\database\factories;
 
 use CrescentPurchasing\FilamentAuditing\Tests\Models\Article;
-use CrescentPurchasing\FilamentAuditing\Tests\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**

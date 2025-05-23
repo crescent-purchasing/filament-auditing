@@ -5,7 +5,6 @@ use CrescentPurchasing\FilamentAuditing\Filament\Filters\QueryBuilder\AuditUserO
 use CrescentPurchasing\FilamentAuditing\FilamentAuditingPlugin;
 use CrescentPurchasing\FilamentAuditing\Tests\Models\Article;
 use CrescentPurchasing\FilamentAuditing\Tests\Models\User;
-use Illuminate\Support\Facades\Log;
 use OwenIt\Auditing\Models\Audit;
 
 beforeEach(function () {

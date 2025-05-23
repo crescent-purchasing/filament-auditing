@@ -22,6 +22,7 @@ class Article extends Model implements Auditable
 {
     /** @use HasFactory<ArticleFactory> */
     use HasFactory;
+
     use \OwenIt\Auditing\Auditable;
 
     protected static string $factory = ArticleFactory::class;
