@@ -23,7 +23,6 @@ class User extends Authenticatable implements Auditable, FilamentUser, HasName
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory;
-
     use \OwenIt\Auditing\Auditable;
 
     protected static string $factory = UserFactory::class;
