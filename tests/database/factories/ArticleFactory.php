@@ -13,14 +13,14 @@ class ArticleFactory extends Factory
 {
     protected $model = Article::class;
 
-    public function definition()
+    public function definition(): array
     {
         return [
             'title' => $this->faker->unique()->sentence,
             'content' => $this->faker->unique()->paragraph(6),
             'reviewed' => $this->faker->boolean(),
             'published_at' => null,
-            'user_id' => User::factory(),
+            'user_id' => null,
         ];
     }
 }
