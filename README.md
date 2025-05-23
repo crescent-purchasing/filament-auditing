@@ -87,7 +87,7 @@ It should also provide some basic configuration that will work for most use-case
 
 ### Relation Manager
 
-The plugin allows you to views the audit history of a specific record.
+The plugin allows you to view the audit history of a specific record.
 To do so, simply add the Relation Manager to the resource:
 
 ```php
@@ -250,13 +250,13 @@ Please see [CONTRIBUTING](.github/CONTRIBUTING.md) for details.
 
 ## Security Vulnerabilities
 
-Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
+Please review [our security policy](https://github.com/crescent-purchasing/filament-auditing/security/policy) on how to report security vulnerabilities.
 
 ## Credits
 
 - [Crescent Purchasing .Ltd](https://github.com/crescent-purchasing)
 - [Robert Lyons](https://github.com/aSeriousDeveloper)
-- [All Contributors](../../contributors)
+- [All Contributors](https://github.com/crescent-purchasing/filament-auditing/contributors)
 
 ## License
 
