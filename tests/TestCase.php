@@ -64,9 +64,6 @@ class TestCase extends Orchestra
 
         $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
 
-        $console = config()->get('audit.console', true);
-        config()->set('audit.console', false);
-
         $user = User::factory()->create([
             'is_admin' => true,
             'first_name' => 'Michael',
@@ -75,8 +72,6 @@ class TestCase extends Orchestra
         ]);
 
         test()->admin = $user;
-
-        config()->set('audit.console', $console);
     }
 
     protected function getPackageProviders($app): array
