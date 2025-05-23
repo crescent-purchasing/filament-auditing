@@ -2,7 +2,6 @@
 
 namespace CrescentPurchasing\FilamentAuditing\Tests\Filament;
 
-use CrescentPurchasing\FilamentAuditing\Filament\AuditResource;
 use CrescentPurchasing\FilamentAuditing\FilamentAuditingPlugin;
 use CrescentPurchasing\FilamentAuditing\Tests\Filament\Resources\Article\ArticleResource;
 use CrescentPurchasing\FilamentAuditing\Tests\Filament\Resources\User\UserResource;
