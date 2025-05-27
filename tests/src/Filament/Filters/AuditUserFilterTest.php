@@ -92,3 +92,48 @@ it('can filter audits by a specific User', function () {
     expect($allAudits)->toHaveCount(3)
         ->and($filteredAudits)->toHaveCount(1);
 });
+
+describe('summary', function () {
+    it('gives correct summary when type & user are provided', function () {
+        $expectedSummary = __('filament-auditing::resource.fields.user.summary.value_direct', [
+            'relationship' => 'Owner',
+            'type' => 'User',
+            'value' => test()->admin->email,
+        ]);
+
+        $typeColumn = config('audit.user.morph_prefix') . '_type';
+        $valueColumn = config('audit.user.morph_prefix') . '_id';
+
+        $summary = $this->operator
+            ->settings([
+                $typeColumn => User::class,
+                $valueColumn => test()->admin->id,
+            ])
+            ->getSummary();
+
+        expect($summary)->toBe($expectedSummary);
+
+    })->issue(28);
+
+    it('gives correct summary when only Type is provided', function () {
+        $expectedSummary = __('filament-auditing::resource.fields.user.summary.type_direct', [
+            'relationship' => 'Owner',
+            'type' => 'User',
+        ]);
+
+        $typeColumn = config('audit.user.morph_prefix') . '_type';
+
+        $summary = $this->operator
+            ->settings([
+                $typeColumn => User::class,
+            ])
+            ->getSummary();
+
+        expect($summary)->toBe($expectedSummary);
+
+    })->issue(28);
+
+    it('does not throw an exception on getSummary with type is empty', function () {
+        $this->operator->getSummary();
+    })->throwsNoExceptions()->issue(28);
+});

@@ -56,43 +56,42 @@ class AuditUserOperator extends IsRelatedToOperator
 
     public function getSummary(): string
     {
-        $constraint = $this->getConstraint();
-
         /** @var ?class-string<Model> $type */
         $type = $this->getSettings()[$this->getTypeColumn()] ?? null;
 
-        $value = Arr::wrap($this->getSettings()[$this->getValueColumn()] ?? null);
+        $value = $this->getSettings()[$this->getValueColumn()] ?? null;
 
-        $user = '';
-
-        if (is_subclass_of($type, Model::class)) {
-            $user = $type::query()->whereKey($value)->value($this->getTitleAttribute());
+        if (! is_subclass_of($type, Model::class)) {
+            return '';
         }
+
+        $relationshipLabel = $this->getConstraint()->getAttributeLabel();
 
         $formattedType = (new FormatAuditableType)($type);
 
-        if (! $user) {
+        if ($userTitle = $type::query()->whereKey($value)->value($this->getTitleAttribute())) {
             return __(
                 $this->isInverse() ?
-                    'filament-auditing::resource.fields.user.summary.type_inverse' :
-                    'filament-auditing::resource.fields.user.summary.type_direct',
+                    'filament-auditing::resource.fields.user.summary.value_inverse' :
+                    'filament-auditing::resource.fields.user.summary.value_direct',
                 [
-                    'relationship' => $constraint->getAttributeLabel(),
+                    'relationship' => $relationshipLabel,
                     'type' => $formattedType,
+                    'value' => $userTitle,
                 ],
             );
         }
 
         return __(
             $this->isInverse() ?
-                'filament-auditing::resource.fields.user.summary.value_inverse' :
-                'filament-auditing::resource.fields.user.summary.value_direct',
+                'filament-auditing::resource.fields.user.summary.type_inverse' :
+                'filament-auditing::resource.fields.user.summary.type_direct',
             [
-                'relationship' => $constraint->getAttributeLabel(),
+                'relationship' => $relationshipLabel,
                 'type' => $formattedType,
-                'value' => $user,
             ],
         );
+
     }
 
     public function getFormSchema(): array
