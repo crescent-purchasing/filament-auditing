@@ -1,5 +1,7 @@
 # Auditing for Filament
 
+![Filament Auditing Banner](./art/auditing-banner.png)
+
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/crescent-purchasing/filament-auditing.svg?style=flat-square)](https://packagist.org/packages/crescent-purchasing/filament-auditing)
 [![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/crescent-purchasing/filament-auditing/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/crescent-purchasing/filament-auditing/actions?query=workflow%3Arun-tests+branch%3Amain)
 [![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/crescent-purchasing/filament-auditing/fix-php-code-styling.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/crescent-purchasing/filament-auditing/actions?query=workflow%3A"Fix+PHP+code+styling"+branch%3Amain)
@@ -7,6 +9,20 @@
 
 View and manage Audit History for your Laravel Models in Filament.
 Built upon the [Laravel Auditing package by OwenIT](https://laravel-auditing.com/).
+
+## Screenshots
+
+### Audit Overview
+![Audits table displaying multiple recorded Audits](./art/auditing-audits.png)
+
+### Viewing Audits
+![Modal view of Audit information after clicking on an Audit](./art/auditing-audit.png)
+
+### Filtering Audits
+![Modal view of form when filtering Audit History](./art/auditing-filters.png)
+
+### Restoring Audits
+![Modal view of form when restoring to a past Audit](./art/auditing-restore.png)
 
 ## Features
 
