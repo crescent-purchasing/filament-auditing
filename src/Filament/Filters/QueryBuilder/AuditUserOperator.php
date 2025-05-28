@@ -155,32 +155,32 @@ class AuditUserOperator extends IsRelatedToOperator
 
         $typeLabels = Arr::map($types, fn (Type $type): string => $type->getLabel());
 
-        /**
-         * @var ?Type $selectedType
-         *
-         * @phpstan-ignore argument.type
-         */
-        $selectedType = $types[$component->evaluate(fn (Get $get): ?string => $get($this->getTypeColumn()))] ?? null;
-
-        $typeSelect = Select::make($this->getValueColumn());
+        $typeSelect = Select::make($this->getTypeColumn());
         $typeSelect->label(__('filament-auditing::resource.fields.user.type_label'));
         $typeSelect->options($typeLabels);
         $typeSelect->native($this->isNative());
         $typeSelect->live();
         $typeSelect->afterStateUpdated(function (Set $set) use ($component) {
-            $set($this->getTypeColumn(), null);
+            $set($this->getValueColumn(), null);
             $component->callAfterStateUpdated();
         });
 
+        /**
+         * @var ?Type $selectedType
+         *
+         * @phpstan-ignore argument.type
+         */
+        $selectedType = $component->evaluate(fn (Get $get): ?Type => $types[$get($this->getTypeColumn())] ?? null);
+
         $valueSelect = Select::make($this->getValueColumn());
-        $valueSelect->columnSpan(2);
         $valueSelect->label($selectedType?->getLabel());
+        $valueSelect->hidden(blank($selectedType));
+        $valueSelect->dehydratedWhenHidden();
+        $valueSelect->columnSpan(2);
+        $valueSelect->native();
         $valueSelect->searchable();
         $valueSelect->getSearchResultsUsing($selectedType?->getSearchResultsUsing);
         $valueSelect->getOptionLabelUsing($selectedType?->getOptionLabelUsing);
-        $valueSelect->native();
-        $valueSelect->hidden(blank($selectedType));
-        $valueSelect->dehydratedWhenHidden();
         $valueSelect->optionsLimit(7);
 
         return [$typeSelect, $valueSelect];
