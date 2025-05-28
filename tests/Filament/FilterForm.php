@@ -17,7 +17,7 @@ class FilterForm extends Component implements HasForms
 {
     use InteractsWithForms;
 
-    /** @var array<string, mixed>|null  */
+    /** @var array<string, mixed>|null */
     public ?array $data = [];
 
     public function mount(): void
