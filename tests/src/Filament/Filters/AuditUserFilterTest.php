@@ -3,9 +3,13 @@
 use CrescentPurchasing\FilamentAuditing\Filament\Filters\QueryBuilder\AuditUserConstraint;
 use CrescentPurchasing\FilamentAuditing\Filament\Filters\QueryBuilder\AuditUserOperator;
 use CrescentPurchasing\FilamentAuditing\FilamentAuditingPlugin;
+use CrescentPurchasing\FilamentAuditing\Tests\Filament\FilterForm;
 use CrescentPurchasing\FilamentAuditing\Tests\Models\Article;
 use CrescentPurchasing\FilamentAuditing\Tests\Models\User;
+use Filament\Forms\Components\Grid;
 use OwenIt\Auditing\Models\Audit;
+
+use function Pest\Livewire\livewire;
 
 beforeEach(function () {
     $this->constraint = AuditUserConstraint::make('user')
@@ -136,4 +140,36 @@ describe('summary', function () {
     it('does not throw an exception on getSummary with type is empty', function () {
         $this->operator->getSummary();
     })->throwsNoExceptions()->issue(28);
+});
+
+describe('form schema', function () {
+    it('generates a form schema in a grid', function () {
+        $schema = $this->operator->getFormSchema();
+
+        expect($schema[0])->toBeInstanceOf(Grid::class);
+    });
+
+    it('hides user select when type is empty', function () {
+        $typeColumn = config('audit.user.morph_prefix') . '_type';
+        $valueColumn = config('audit.user.morph_prefix') . '_id';
+
+        livewire(FilterForm::class)
+            ->fillForm([
+                $typeColumn => null,
+            ])
+            ->assertFormFieldExists($valueColumn)
+            ->assertFormFieldIsHidden($valueColumn);
+    });
+
+    it('displays user select when type column is filled', function () {
+        $typeColumn = config('audit.user.morph_prefix') . '_type';
+        $valueColumn = config('audit.user.morph_prefix') . '_id';
+
+        livewire(FilterForm::class)
+            ->fillForm([
+                $typeColumn => User::class,
+            ])
+            ->assertFormFieldIsVisible($typeColumn)
+            ->assertFormFieldIsVisible($valueColumn);
+    });
 });

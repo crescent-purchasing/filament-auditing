@@ -257,7 +257,7 @@ class AuditResource extends FilamentResource
         };
 
         return [
-            QueryBuilder::make('timestamp')
+            QueryBuilder::make('audit_query')
                 ->label(__('filament-auditing::resource.fields.query'))
                 ->constraints([
                     AuditUserConstraint::make('user')
