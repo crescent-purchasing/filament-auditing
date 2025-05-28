@@ -17,6 +17,7 @@ class FilterForm extends Component implements HasForms
 {
     use InteractsWithForms;
 
+    /** @var array<string, mixed>|null  */
     public ?array $data = [];
 
     public function mount(): void
@@ -43,7 +44,7 @@ class FilterForm extends Component implements HasForms
             ->statePath('data');
     }
 
-    public function render()
+    public function render(): string
     {
         return <<<'HTML'
         <div>
