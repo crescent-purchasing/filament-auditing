@@ -4,6 +4,7 @@ namespace CrescentPurchasing\FilamentAuditing\Filament\Actions\Concerns;
 
 use CrescentPurchasing\FilamentAuditing\Actions\GetAuditable;
 use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Support\Facades\Auth;
 use OwenIt\Auditing\Models\Audit;
 
 trait ViewsAuditables
@@ -23,6 +24,9 @@ trait ViewsAuditables
 
         $this->url(fn (Audit $record, GetAuditable $auditable): ?string => $auditable->url($record));
 
-        $this->visible(fn (Audit $record, GetAuditable $auditable): bool => $auditable->visibility($record));
+            $this->visible(function (Model $record, GetAuditable $auditable) {
+            $targetModel = $auditable($record);
+            return $targetModel && Auth::user()?->can('view', $targetModel);
+        });
     }
 }
