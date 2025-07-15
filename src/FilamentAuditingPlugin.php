@@ -27,6 +27,8 @@ class FilamentAuditingPlugin implements Plugin
     use HasUsers;
     use HasUserSchema;
 
+    protected string $restorePermission = 'restoreAudit';
+
     public function getId(): string
     {
         return 'filament-auditing';
@@ -47,6 +49,18 @@ class FilamentAuditingPlugin implements Plugin
     public static function make(): static
     {
         return app(static::class);
+    }
+
+    public function permission(string $permission): static
+    {
+        $this->restorePermission = $permission;
+
+        return $this;
+    }
+
+    public function getRestorePermission(): string
+    {
+        return $this->restorePermission;
     }
 
     public static function get(): static
