@@ -10,6 +10,7 @@ use CrescentPurchasing\FilamentAuditing\Concerns\HasNavigationGroup;
 use CrescentPurchasing\FilamentAuditing\Concerns\HasNavigationIcon;
 use CrescentPurchasing\FilamentAuditing\Concerns\HasUsers;
 use CrescentPurchasing\FilamentAuditing\Concerns\HasUserSchema;
+use CrescentPurchasing\FilamentAuditing\Filament\Actions\Concerns\HasPermission;
 use CrescentPurchasing\FilamentAuditing\Filament\AuditResource;
 use Filament\Contracts\Plugin;
 use Filament\Panel;
@@ -26,8 +27,7 @@ class FilamentAuditingPlugin implements Plugin
     use HasNavigationIcon;
     use HasUsers;
     use HasUserSchema;
-
-    protected string $restorePermission = 'restoreAudit';
+    use HasPermission;
 
     public function getId(): string
     {
@@ -49,18 +49,6 @@ class FilamentAuditingPlugin implements Plugin
     public static function make(): static
     {
         return app(static::class);
-    }
-
-    public function permission(string $permission): static
-    {
-        $this->restorePermission = $permission;
-
-        return $this;
-    }
-
-    public function getRestorePermission(): string
-    {
-        return $this->restorePermission;
     }
 
     public static function get(): static

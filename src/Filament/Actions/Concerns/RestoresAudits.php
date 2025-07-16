@@ -4,6 +4,7 @@ namespace CrescentPurchasing\FilamentAuditing\Filament\Actions\Concerns;
 
 use CrescentPurchasing\FilamentAuditing\Actions\GetAuditSchema;
 use CrescentPurchasing\FilamentAuditing\Actions\GetModifiedFields;
+use CrescentPurchasing\FilamentAuditing\FilamentAuditingPlugin;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Get;
@@ -14,8 +15,6 @@ use OwenIt\Auditing\Models\Audit;
 
 trait RestoresAudits
 {
-    use HasPermission;
-
     public static function getDefaultName(): ?string
     {
         return 'restoreAudit';
@@ -36,7 +35,7 @@ trait RestoresAudits
                 return true;
             }
 
-            $permission = $this->getPermission();
+            $permission = FilamentAuditingPlugin::get()->getPermission();
 
             /** @var User $user */
             $user = $auth->user();
@@ -54,14 +53,14 @@ trait RestoresAudits
                 Toggle::make('restore_to_old')
                     ->label(__('filament-auditing::resource.actions.restore_audit.restore_to_old'))
                     ->inlineLabel()
-                    ->disabled(fn (): bool => $record->event !== 'updated')
+                    ->disabled(fn(): bool => $record->event !== 'updated')
                     ->live(),
                 Section::make(__('filament-auditing::resource.actions.restore_audit.restore_from_values'))
                     ->collapsed()
                     ->schema($fromSchema),
                 Section::make(__('filament-auditing::resource.actions.restore_audit.restore_to_values'))
                     ->collapsed(false)
-                    ->schema(fn (Get $get): array => $schema($fields($record, $get('restore_to_old')))),
+                    ->schema(fn(Get $get): array => $schema($fields($record, $get('restore_to_old')))),
             ];
         });
 

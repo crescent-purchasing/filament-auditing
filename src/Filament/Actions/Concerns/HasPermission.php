@@ -3,19 +3,14 @@
 namespace CrescentPurchasing\FilamentAuditing\Filament\Actions\Concerns;
 
 use Closure;
-use CrescentPurchasing\FilamentAuditing\FilamentAuditingPlugin;
 
 trait HasPermission
 {
-    protected string | Closure | null $permission = null;
+    protected string | Closure | null $permission = 'restoreAudit';
 
-    public function getPermission(): string
+    public function getPermission(): string | null
     {
-        if ($this->permission) {
-            return $this->evaluate($this->permission);
-        }
-
-        return FilamentAuditingPlugin::get()->getRestorePermission();
+        return $this->evaluate($this->permission);
     }
 
     public function permission(string | Closure $permission): static
