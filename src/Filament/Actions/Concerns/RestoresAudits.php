@@ -53,14 +53,14 @@ trait RestoresAudits
                 Toggle::make('restore_to_old')
                     ->label(__('filament-auditing::resource.actions.restore_audit.restore_to_old'))
                     ->inlineLabel()
-                    ->disabled(fn(): bool => $record->event !== 'updated')
+                    ->disabled(fn (): bool => $record->event !== 'updated')
                     ->live(),
                 Section::make(__('filament-auditing::resource.actions.restore_audit.restore_from_values'))
                     ->collapsed()
                     ->schema($fromSchema),
                 Section::make(__('filament-auditing::resource.actions.restore_audit.restore_to_values'))
                     ->collapsed(false)
-                    ->schema(fn(Get $get): array => $schema($fields($record, $get('restore_to_old')))),
+                    ->schema(fn (Get $get): array => $schema($fields($record, $get('restore_to_old')))),
             ];
         });
 

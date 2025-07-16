@@ -8,12 +8,12 @@ trait HasPermission
 {
     protected string | Closure | null $permission = 'restoreAudit';
 
-    public function getPermission(): string | null
+    public function getPermission(): ?string
     {
         return $this->evaluate($this->permission);
     }
 
-    public function permission(string | Closure $permission): static
+    public function permission(string | Closure | null $permission): static
     {
         $this->permission = $permission;
 
