@@ -72,10 +72,6 @@ readonly class GetUser
 
     public function visibility(Model $record): bool
     {
-        if (! $user = $this($record)) {
-            return false;
-        }
-
-        return ! empty($this->filament->getModelResource($user));
+        return ! empty($this->url($record));
     }
 }
