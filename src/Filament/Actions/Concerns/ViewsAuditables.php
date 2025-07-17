@@ -24,9 +24,6 @@ trait ViewsAuditables
 
         $this->url(fn (Audit $record, GetAuditable $auditable): ?string => $auditable->url($record));
 
-            $this->visible(function (Model $record, GetAuditable $auditable) {
-            $targetModel = $auditable($record);
-            return $targetModel && Auth::user()?->can('view', $targetModel);
-        });
+        $this->visible(fn (Audit $record, GetAuditable $auditable): bool => $auditable->visibility($record));
     }
 }

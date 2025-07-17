@@ -20,13 +20,10 @@ trait ViewsUsers
 
         $this->label(__('filament-auditing::resource.actions.view.owner'));
 
-        $this->icon(fn(Model $record, GetUser $user): string | Htmlable | null => $user->icon($record));
+        $this->icon(fn (Model $record, GetUser $user): string | Htmlable | null => $user->icon($record));
 
-        $this->url(fn(Model $record, GetUser $user): ?string => $user->url($record));
+        $this->url(fn (Model $record, GetUser $user): ?string => $user->url($record));
 
-        $this->visible(function (Model $record, GetUser $user) {
-            $targetUser = $user($record);
-            return $targetUser && Auth::user()?->can('view', $targetUser);
-        });
+        $this->visible(fn (Model $record, GetUser $user): bool => $user->visibility($record));
     }
 }
