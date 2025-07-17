@@ -5,6 +5,8 @@ use CrescentPurchasing\FilamentAuditing\Tests\Filament\Resources\Article\Article
 use CrescentPurchasing\FilamentAuditing\Tests\Models\Article;
 
 beforeEach(function () {
+    test()->actingAs(test()->admin);
+
     $this->getAuditable = new GetAuditable;
 
     $this->articleTitle = 'Example post title!';
