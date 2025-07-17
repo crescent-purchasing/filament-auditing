@@ -221,6 +221,17 @@ FilamentAuditingPlugin::make()
     ->navigationIcon('heroicon-o-check')
 ```
 
+### Restore Permission
+
+The permission used for Audit restoration is `restoreAudit` by default. You can set this using `restorePermission()`
+
+```php
+use CrescentPurchasing\FilamentAuditing\FilamentAuditingPlugin;
+
+FilamentAuditingPlugin::make()
+    ->restorePermission('goToOldAudit')
+```
+
 ### Users
 
 The default list of User classes is determined using the `audit.user.guards` config value.

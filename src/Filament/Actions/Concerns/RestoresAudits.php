@@ -5,12 +5,9 @@ namespace CrescentPurchasing\FilamentAuditing\Filament\Actions\Concerns;
 use CrescentPurchasing\FilamentAuditing\Actions\GetAuditSchema;
 use CrescentPurchasing\FilamentAuditing\Actions\GetModifiedFields;
 use CrescentPurchasing\FilamentAuditing\Actions\RestoreAudit;
-use CrescentPurchasing\FilamentAuditing\FilamentAuditingPlugin;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Get;
-use Illuminate\Auth\AuthManager;
-use Illuminate\Foundation\Auth\User;
 use Livewire\Component;
 use OwenIt\Auditing\Models\Audit;
 
@@ -29,7 +26,7 @@ trait RestoresAudits
 
         $this->icon('heroicon-o-arrow-path');
 
-        $this->disabled(function (RestoreAudit $restore, Audit $record, AuthManager $auth): bool {
+        $this->disabled(function (RestoreAudit $restore, Audit $record): bool {
             if (! $restore->isEnabled($record)) {
                 return true;
             }

@@ -32,7 +32,7 @@ readonly class RestoreAudit
     {
         $permission = $this->plugin->getRestorePermission();
 
-        if(! $auditable = $record->auditable) {
+        if (! $auditable = $record->auditable) {
             return false;
         }
 

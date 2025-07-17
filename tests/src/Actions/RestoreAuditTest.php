@@ -3,8 +3,6 @@
 use CrescentPurchasing\FilamentAuditing\Actions\RestoreAudit;
 use CrescentPurchasing\FilamentAuditing\FilamentAuditingPlugin;
 use CrescentPurchasing\FilamentAuditing\Tests\Models\Article;
-use CrescentPurchasing\FilamentAuditing\Tests\Models\User;
-use Illuminate\Support\Facades\Gate;
 use OwenIt\Auditing\Models\Audit;
 
 beforeEach(function () {
