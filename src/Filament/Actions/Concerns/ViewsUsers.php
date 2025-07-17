@@ -4,7 +4,6 @@ namespace CrescentPurchasing\FilamentAuditing\Filament\Actions\Concerns;
 
 use CrescentPurchasing\FilamentAuditing\Actions\GetUser;
 use Illuminate\Contracts\Support\Htmlable;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 
 trait ViewsUsers

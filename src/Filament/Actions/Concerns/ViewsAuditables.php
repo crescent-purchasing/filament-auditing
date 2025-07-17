@@ -4,7 +4,6 @@ namespace CrescentPurchasing\FilamentAuditing\Filament\Actions\Concerns;
 
 use CrescentPurchasing\FilamentAuditing\Actions\GetAuditable;
 use Illuminate\Contracts\Support\Htmlable;
-use Illuminate\Support\Facades\Auth;
 use OwenIt\Auditing\Models\Audit;
 
 trait ViewsAuditables
