@@ -58,9 +58,6 @@ class TestCase extends Orchestra
         config()->set('audit.console', true);
         config()->set('audit.empty_values', true);
         config()->set('audit.queue.enable', true);
-
-        // Encryption key for tests
-        config()->set('app.key', 'base64:' . base64_encode(random_bytes(32)));
     }
 
     protected function setUp(): void
@@ -77,19 +74,6 @@ class TestCase extends Orchestra
         ]);
 
         test()->admin = $user;
-
-        \Illuminate\Support\Facades\Gate::define('restoreAudit_article', function ($user) {
-            return true;
-        });
-        \Illuminate\Support\Facades\Gate::define('custom_permission_article', function ($user) {
-            return true;
-        });
-        \Illuminate\Support\Facades\Gate::define('closure_based_permission', function ($user) {
-            return true;
-        });
-        \Illuminate\Support\Facades\Gate::define('missing_permission', function ($user) {
-            return false;
-        });
     }
 
     protected function getPackageProviders($app): array
