@@ -67,7 +67,7 @@ readonly class GetUser
         /** @var class-string<FilamentResource> $resource */
         $resource = $this->filament->getModelResource($user);
 
-        return $resource::getGlobalSearchResultUrl($record);
+        return $resource::getGlobalSearchResultUrl($user);
     }
 
     public function visibility(Model $record): bool
