@@ -72,10 +72,6 @@ readonly class GetAuditable
 
     public function visibility(?Model $record): bool
     {
-        if (! $auditable = $this($record)) {
-            return false;
-        }
-
-        return ! empty($this->filament->getModelResource($auditable));
+        return ! empty($this->url($record));
     }
 }
