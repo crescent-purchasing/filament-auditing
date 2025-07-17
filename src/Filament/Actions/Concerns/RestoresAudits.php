@@ -4,6 +4,7 @@ namespace CrescentPurchasing\FilamentAuditing\Filament\Actions\Concerns;
 
 use CrescentPurchasing\FilamentAuditing\Actions\GetAuditSchema;
 use CrescentPurchasing\FilamentAuditing\Actions\GetModifiedFields;
+use CrescentPurchasing\FilamentAuditing\Actions\RestoreAudit;
 use CrescentPurchasing\FilamentAuditing\FilamentAuditingPlugin;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Toggle;
@@ -28,19 +29,16 @@ trait RestoresAudits
 
         $this->icon('heroicon-o-arrow-path');
 
-        $this->disabled(function (Audit $record, AuthManager $auth): bool {
-            $disabledEvents = ['deleted', 'restored'];
-
-            if (in_array($record->event, $disabledEvents)) {
+        $this->disabled(function (RestoreAudit $restore, Audit $record, AuthManager $auth): bool {
+            if (! $restore->isEnabled($record)) {
                 return true;
             }
 
-            $permission = FilamentAuditingPlugin::get()->getPermission();
+            if (! $restore->isAuthorized($record)) {
+                return true;
+            }
 
-            /** @var User $user */
-            $user = $auth->user();
-
-            return $user->cannot($permission, $record->auditable);
+            return false;
 
         });
 
@@ -64,12 +62,8 @@ trait RestoresAudits
             ];
         });
 
-        $this->action(function (Audit $record, array $data): void {
-            $auditable = $record->auditable;
-
-            $auditable->transitionTo($record, $data['restore_to_old'] ?? false);
-            $auditable->save();
-
+        $this->action(function (RestoreAudit $restore, Audit $record, array $data): void {
+            $restore($record, $data['restore_to_old'] ?? false);
         });
 
         $this->after(function (Component $livewire): void {

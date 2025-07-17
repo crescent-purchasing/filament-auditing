@@ -10,7 +10,7 @@ use CrescentPurchasing\FilamentAuditing\Concerns\HasNavigationGroup;
 use CrescentPurchasing\FilamentAuditing\Concerns\HasNavigationIcon;
 use CrescentPurchasing\FilamentAuditing\Concerns\HasUsers;
 use CrescentPurchasing\FilamentAuditing\Concerns\HasUserSchema;
-use CrescentPurchasing\FilamentAuditing\Filament\Actions\Concerns\HasPermission;
+use CrescentPurchasing\FilamentAuditing\Concerns\HasRestorePermission;
 use CrescentPurchasing\FilamentAuditing\Filament\AuditResource;
 use Filament\Contracts\Plugin;
 use Filament\Panel;
@@ -25,7 +25,7 @@ class FilamentAuditingPlugin implements Plugin
     use HasModel;
     use HasNavigationGroup;
     use HasNavigationIcon;
-    use HasPermission;
+    use HasRestorePermission;
     use HasUsers;
     use HasUserSchema;
 
