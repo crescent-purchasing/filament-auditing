@@ -70,8 +70,11 @@ readonly class GetAuditable
         return $resource::getGlobalSearchResultUrl($auditable);
     }
 
-    public function visibility(?Model $record): bool
+    public function visibility(?Model $record): ?bool
     {
-        return ! empty($this->url($record));
+        if (! $auditable = $this($record)) {
+            return false;
+        }
+         return auth()->user()->can('view', $auditable) && ! empty($this->url($record)); 
     }
 }
