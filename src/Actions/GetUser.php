@@ -73,7 +73,7 @@ readonly class GetUser
     public function visibility(Model $record): ?bool
     {
         if (! $user = $this($record)) {
-            return false;
+            return null;
         }
         return auth()->user()->can('view', $user) && ! empty($this->url($record));
     }

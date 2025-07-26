@@ -73,7 +73,7 @@ readonly class GetAuditable
     public function visibility(?Model $record): ?bool
     {
         if (! $auditable = $this($record)) {
-            return false;
+            return null;
         }
          return auth()->user()->can('view', $auditable) && ! empty($this->url($record)); 
     }
