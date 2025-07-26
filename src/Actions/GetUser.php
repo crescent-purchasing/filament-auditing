@@ -70,8 +70,11 @@ readonly class GetUser
         return $resource::getGlobalSearchResultUrl($user);
     }
 
-    public function visibility(Model $record): bool
+    public function visibility(Model $record): ?bool
     {
-        return ! empty($this->url($record));
+        if (! $user = $this($record)) {
+            return null;
+        }
+        return auth()->user()->can('view', $user) && ! empty($this->url($record));
     }
 }
