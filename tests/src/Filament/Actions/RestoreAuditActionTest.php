@@ -6,6 +6,7 @@ use CrescentPurchasing\FilamentAuditing\Tests\Models\Article;
 use CrescentPurchasing\FilamentAuditing\Tests\Models\User;
 use Illuminate\Support\Facades\Gate;
 use OwenIt\Auditing\Models\Audit;
+
 use function Pest\Livewire\livewire;
 
 beforeEach(function () {

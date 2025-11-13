@@ -25,7 +25,6 @@ use Filament\Actions\ActionGroup;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Contracts\HasForms;
 use Filament\Resources\Resource as FilamentResource;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Tabs;

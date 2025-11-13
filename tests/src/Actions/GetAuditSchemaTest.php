@@ -1,9 +1,9 @@
 <?php
 
-use Filament\Schemas\Components\Component;
 use CrescentPurchasing\FilamentAuditing\Actions\GetAuditSchema;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Textarea;
+use Filament\Schemas\Components\Component;
 
 beforeEach(function () {
     $this->getAuditSchema = new GetAuditSchema;

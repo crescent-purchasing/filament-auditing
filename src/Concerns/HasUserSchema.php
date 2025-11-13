@@ -18,7 +18,7 @@ trait HasUserSchema
     }
 
     /**
-     * @param \Filament\Schemas\Components\Component[]|Closure $userSchema
+     * @param  \Filament\Schemas\Components\Component[]|Closure  $userSchema
      * @return $this
      */
     public function userSchema(array | Closure $userSchema): static

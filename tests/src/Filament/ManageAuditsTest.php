@@ -4,6 +4,7 @@ use CrescentPurchasing\FilamentAuditing\Filament\Actions\Tables\ViewAuditAction;
 use CrescentPurchasing\FilamentAuditing\Filament\Resources\Audits\Pages\ManageAudits;
 use CrescentPurchasing\FilamentAuditing\Tests\Models\Article;
 use OwenIt\Auditing\Models\Audit;
+
 use function Pest\Livewire\livewire;
 
 it('can view Audit History', function () {

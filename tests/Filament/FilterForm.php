@@ -2,20 +2,20 @@
 
 namespace CrescentPurchasing\FilamentAuditing\Tests\Filament;
 
-use Filament\Actions\Contracts\HasActions;
-use Filament\Actions\Concerns\InteractsWithActions;
-use Filament\Schemas\Schema;
 use CrescentPurchasing\FilamentAuditing\Filament\Filters\QueryBuilder\AuditUserConstraint;
 use CrescentPurchasing\FilamentAuditing\Filament\Filters\QueryBuilder\AuditUserOperator;
 use CrescentPurchasing\FilamentAuditing\FilamentAuditingPlugin;
+use Filament\Actions\Concerns\InteractsWithActions;
+use Filament\Actions\Contracts\HasActions;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
+use Filament\Schemas\Schema;
 use Livewire\Component;
 
 /**
  * @property Schema $form
  */
-class FilterForm extends Component implements HasForms, HasActions
+class FilterForm extends Component implements HasActions, HasForms
 {
     use InteractsWithActions;
     use InteractsWithForms;

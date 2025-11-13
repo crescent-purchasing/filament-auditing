@@ -2,7 +2,4 @@
 
 namespace CrescentPurchasing\FilamentAuditing\Filament\Resources\Audits\Schemas;
 
-class AuditForm
-{
-
-}
+class AuditForm {}

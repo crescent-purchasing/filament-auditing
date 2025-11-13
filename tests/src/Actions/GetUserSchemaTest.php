@@ -1,11 +1,11 @@
 <?php
 
-use Filament\Schemas\Components\Grid;
-use Filament\Schemas\Components\Component;
 use CrescentPurchasing\FilamentAuditing\Actions\GetUserSchema;
 use CrescentPurchasing\FilamentAuditing\FilamentAuditingPlugin;
 use Filament\Forms\Components\Field;
 use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Component;
+use Filament\Schemas\Components\Grid;
 
 beforeEach(function () {
     $this->getUserSchema = new GetUserSchema;
