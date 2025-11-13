@@ -1,10 +1,10 @@
 <?php
 
+use Filament\Schemas\Components\Grid;
+use Filament\Schemas\Components\Component;
 use CrescentPurchasing\FilamentAuditing\Actions\GetUserSchema;
 use CrescentPurchasing\FilamentAuditing\FilamentAuditingPlugin;
-use Filament\Forms\Components\Component;
 use Filament\Forms\Components\Field;
-use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\TextInput;
 
 beforeEach(function () {

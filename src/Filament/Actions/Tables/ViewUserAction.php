@@ -2,8 +2,8 @@
 
 namespace CrescentPurchasing\FilamentAuditing\Filament\Actions\Tables;
 
+use Filament\Actions\Action;
 use CrescentPurchasing\FilamentAuditing\Filament\Actions\Concerns\ViewsUsers;
-use Filament\Tables\Actions\Action;
 
 class ViewUserAction extends Action
 {

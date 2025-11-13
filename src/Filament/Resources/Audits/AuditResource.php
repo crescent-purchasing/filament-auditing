@@ -1,6 +1,6 @@
 <?php
 
-namespace CrescentPurchasing\FilamentAuditing\Filament;
+namespace CrescentPurchasing\FilamentAuditing\Filament\Resources\Audits;
 
 use CrescentPurchasing\FilamentAuditing\Actions\FormatAuditableType;
 use CrescentPurchasing\FilamentAuditing\Actions\FormatEvent;
@@ -17,19 +17,22 @@ use CrescentPurchasing\FilamentAuditing\Filament\Filters\QueryBuilder\AuditUserC
 use CrescentPurchasing\FilamentAuditing\Filament\Filters\QueryBuilder\AuditUserOperator;
 use CrescentPurchasing\FilamentAuditing\Filament\RelationManagers\AuditsRelationManager;
 use CrescentPurchasing\FilamentAuditing\Filament\RelationManagers\OwnedAuditsRelationManager;
+use CrescentPurchasing\FilamentAuditing\Filament\Resources\Audits\Pages\ManageAudits;
 use CrescentPurchasing\FilamentAuditing\FilamentAuditingPlugin;
+use Exception;
+use Filament\Actions\Action;
+use Filament\Actions\ActionGroup;
 use Filament\Forms\Components\DateTimePicker;
-use Filament\Forms\Components\Grid;
-use Filament\Forms\Components\Tabs;
-use Filament\Forms\Components\Tabs\Tab;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Contracts\HasForms;
-use Filament\Forms\Form;
 use Filament\Resources\Resource as FilamentResource;
-use Filament\Support\Enums\MaxWidth;
-use Filament\Tables\Actions\Action;
-use Filament\Tables\Actions\ActionGroup;
+use Filament\Schemas\Components\Grid;
+use Filament\Schemas\Components\Tabs;
+use Filament\Schemas\Components\Tabs\Tab;
+use Filament\Schemas\Contracts\HasSchemas;
+use Filament\Schemas\Schema;
+use Filament\Support\Enums\Width;
 use Filament\Tables\Columns\Column;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\FiltersLayout;
@@ -87,7 +90,7 @@ class AuditResource extends FilamentResource
         ]);
     }
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
         $metaTab = Tab::make(__('filament-auditing::resource.tabs.meta'))
             ->schema([
@@ -111,8 +114,8 @@ class AuditResource extends FilamentResource
                 ]),
             ]);
 
-        $userTab = Tabs\Tab::make(__('filament-auditing::resource.tabs.user'))
-            ->hidden(function (Audit $record, HasForms $livewire): bool {
+        $userTab = Tab::make(__('filament-auditing::resource.tabs.user'))
+            ->hidden(function (Audit $record, HasSchemas $livewire): bool {
                 if ($livewire instanceof OwnedAuditsRelationManager) {
                     return true;
                 }
@@ -137,7 +140,7 @@ class AuditResource extends FilamentResource
                 return $schema($fields($record));
             });
 
-        return $form->schema([
+        return $schema->components([
             Tabs::make(__('filament-auditing::resource.tabs.label'))
                 ->contained(false)
                 ->columnSpanFull()
@@ -148,7 +151,7 @@ class AuditResource extends FilamentResource
     public static function table(Table $table): Table
     {
 
-        $table->actions(static::getTableActions());
+        $table->recordActions(static::getTableActions());
 
         $table->columns(static::getTableColumns());
 
@@ -156,7 +159,7 @@ class AuditResource extends FilamentResource
 
         $table->filters(static::getTableFilters());
 
-        $table->filtersFormWidth(MaxWidth::TwoExtraLarge);
+        $table->filtersFormWidth(Width::TwoExtraLarge);
 
         $table->filtersLayout(FiltersLayout::Modal);
 
@@ -172,7 +175,7 @@ class AuditResource extends FilamentResource
     }
 
     /**
-     * @return array<Action | ActionGroup>
+     * @return array<Action|ActionGroup>
      */
     protected static function getTableActions(): array
     {
@@ -227,7 +230,7 @@ class AuditResource extends FilamentResource
     /**
      * @return BaseFilter[]
      *
-     * @throws \Exception
+     * @throws Exception
      */
     protected static function getTableFilters(): array
     {

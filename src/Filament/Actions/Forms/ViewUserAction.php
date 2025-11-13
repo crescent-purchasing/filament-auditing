@@ -2,9 +2,9 @@
 
 namespace CrescentPurchasing\FilamentAuditing\Filament\Actions\Forms;
 
+use Filament\Actions\Action;
 use CrescentPurchasing\FilamentAuditing\Actions\GetUser;
 use CrescentPurchasing\FilamentAuditing\Filament\Actions\Concerns\ViewsUsers;
-use Filament\Forms\Components\Actions\Action;
 use Illuminate\Database\Eloquent\Model;
 
 class ViewUserAction extends Action

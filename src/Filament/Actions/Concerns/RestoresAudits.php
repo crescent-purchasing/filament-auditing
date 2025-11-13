@@ -2,12 +2,12 @@
 
 namespace CrescentPurchasing\FilamentAuditing\Filament\Actions\Concerns;
 
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Utilities\Get;
 use CrescentPurchasing\FilamentAuditing\Actions\GetAuditSchema;
 use CrescentPurchasing\FilamentAuditing\Actions\GetModifiedFields;
 use CrescentPurchasing\FilamentAuditing\Actions\RestoreAudit;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Toggle;
-use Filament\Forms\Get;
 use Livewire\Component;
 use OwenIt\Auditing\Models\Audit;
 
@@ -39,10 +39,10 @@ trait RestoresAudits
 
         });
 
-        $this->form(function (Audit $record, GetAuditSchema $schema, GetModifiedFields $fields): array {
+        $this->schema(function (Audit $record, GetAuditSchema $auditSchema, GetModifiedFields $fields): array {
             $keys = array_keys($record->new_values);
 
-            $fromSchema = $schema($record->auditable->toArray(), $keys);
+            $fromSchema = $auditSchema($record->auditable?->toArray(), $keys);
 
             return [
                 Toggle::make('restore_to_old')
@@ -55,7 +55,7 @@ trait RestoresAudits
                     ->schema($fromSchema),
                 Section::make(__('filament-auditing::resource.actions.restore_audit.restore_to_values'))
                     ->collapsed(false)
-                    ->schema(fn (Get $get): array => $schema($fields($record, $get('restore_to_old')))),
+                    ->schema(fn (Get $get): array => $auditSchema($fields($record, $get('restore_to_old')))),
             ];
         });
 

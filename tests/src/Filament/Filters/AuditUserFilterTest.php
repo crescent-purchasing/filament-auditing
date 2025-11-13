@@ -1,12 +1,12 @@
 <?php
 
+use Filament\Schemas\Components\Grid;
 use CrescentPurchasing\FilamentAuditing\Filament\Filters\QueryBuilder\AuditUserConstraint;
 use CrescentPurchasing\FilamentAuditing\Filament\Filters\QueryBuilder\AuditUserOperator;
 use CrescentPurchasing\FilamentAuditing\FilamentAuditingPlugin;
 use CrescentPurchasing\FilamentAuditing\Tests\Filament\FilterForm;
 use CrescentPurchasing\FilamentAuditing\Tests\Models\Article;
 use CrescentPurchasing\FilamentAuditing\Tests\Models\User;
-use Filament\Forms\Components\Grid;
 use OwenIt\Auditing\Models\Audit;
 
 use function Pest\Livewire\livewire;

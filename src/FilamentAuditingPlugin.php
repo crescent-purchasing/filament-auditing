@@ -11,7 +11,7 @@ use CrescentPurchasing\FilamentAuditing\Concerns\HasNavigationIcon;
 use CrescentPurchasing\FilamentAuditing\Concerns\HasRestorePermission;
 use CrescentPurchasing\FilamentAuditing\Concerns\HasUsers;
 use CrescentPurchasing\FilamentAuditing\Concerns\HasUserSchema;
-use CrescentPurchasing\FilamentAuditing\Filament\AuditResource;
+use CrescentPurchasing\FilamentAuditing\Filament\Resources\Audits\AuditResource;
 use Filament\Contracts\Plugin;
 use Filament\Panel;
 use Filament\Support\Concerns\EvaluatesClosures;
@@ -53,7 +53,7 @@ class FilamentAuditingPlugin implements Plugin
 
     public static function get(): static
     {
-        if (! ($currentPanel = filament()->getCurrentPanel())) {
+        if (! ($currentPanel = filament()->getCurrentOrDefaultPanel())) {
             return app(static::class);
         }
 

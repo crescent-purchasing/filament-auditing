@@ -1,7 +1,7 @@
 <?php
 
+use Filament\Schemas\Components\Component;
 use CrescentPurchasing\FilamentAuditing\Actions\GetAuditSchema;
-use Filament\Forms\Components\Component;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Textarea;
 

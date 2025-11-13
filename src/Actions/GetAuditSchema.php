@@ -2,7 +2,6 @@
 
 namespace CrescentPurchasing\FilamentAuditing\Actions;
 
-use Filament\Forms\Components\Component;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Textarea;
 use Illuminate\Support\Str;
@@ -12,7 +11,7 @@ readonly class GetAuditSchema
     /**
      * @param  array<string, mixed>  $values
      * @param  string[]|null  $keys
-     * @return Component[]
+     * @return \Filament\Schemas\Components\Component[]
      */
     public function __invoke(array $values, ?array $keys = null): array
     {

@@ -2,10 +2,9 @@
 
 namespace CrescentPurchasing\FilamentAuditing\Actions;
 
+use Filament\Schemas\Components\Grid;
 use CrescentPurchasing\FilamentAuditing\Filament\Actions\Forms\ViewUserAction;
 use CrescentPurchasing\FilamentAuditing\FilamentAuditingPlugin;
-use Filament\Forms\Components\Component;
-use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\TextInput;
 
 readonly class GetUserSchema
@@ -18,7 +17,7 @@ readonly class GetUserSchema
     }
 
     /**
-     * @return Component[]
+     * @return \Filament\Schemas\Components\Component[]
      */
     public function __invoke(): array
     {

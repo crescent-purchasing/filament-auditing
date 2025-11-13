@@ -2,9 +2,9 @@
 
 namespace CrescentPurchasing\FilamentAuditing\Filament\Actions\Forms;
 
+use Filament\Actions\Action;
 use CrescentPurchasing\FilamentAuditing\Actions\GetAuditable;
 use CrescentPurchasing\FilamentAuditing\Filament\Actions\Concerns\ViewsAuditables;
-use Filament\Forms\Components\Actions\Action;
 use OwenIt\Auditing\Models\Audit;
 
 class ViewAuditableAction extends Action
