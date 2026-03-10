@@ -1,11 +1,11 @@
 <?php
 
-use Filament\Schemas\Components\Grid;
-use Filament\Schemas\Components\Component;
 use CrescentPurchasing\FilamentAuditing\Actions\GetUserSchema;
 use CrescentPurchasing\FilamentAuditing\FilamentAuditingPlugin;
 use Filament\Forms\Components\Field;
 use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Component;
+use Filament\Schemas\Components\Grid;
 
 beforeEach(function () {
     $this->getUserSchema = new GetUserSchema;
@@ -15,7 +15,7 @@ it('gets the default schema for the user form', function () {
     $schema = ($this->getUserSchema)();
 
     expect($schema)->toHaveCount(1)->toContainOnlyInstancesOf(Grid::class)
-        ->and($schema[0]->getChildComponents())->toContainOnlyInstancesOf(Field::class)->toHaveCount(2);
+        ->and($schema[0]->getDefaultChildComponents())->toContainOnlyInstancesOf(Field::class)->toHaveCount(2);
 });
 
 it('allows specifying custom fields', function () {

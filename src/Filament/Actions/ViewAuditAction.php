@@ -1,10 +1,8 @@
 <?php
 
-namespace CrescentPurchasing\FilamentAuditing\Filament\Actions\Tables;
+namespace CrescentPurchasing\FilamentAuditing\Filament\Actions;
 
 use Filament\Actions\ViewAction;
-use CrescentPurchasing\FilamentAuditing\Filament\Actions\RestoreAuditAction;
-use CrescentPurchasing\FilamentAuditing\Filament\Actions\ViewAuditableAction;
 
 class ViewAuditAction extends ViewAction
 {

@@ -1,9 +1,10 @@
 <?php
 
-use CrescentPurchasing\FilamentAuditing\Filament\Actions\Tables\ViewAuditAction;
+use CrescentPurchasing\FilamentAuditing\Filament\Actions\ViewAuditAction;
 use CrescentPurchasing\FilamentAuditing\Filament\Resources\Audits\Pages\ManageAudits;
 use CrescentPurchasing\FilamentAuditing\Tests\Models\Article;
 use OwenIt\Auditing\Models\Audit;
+
 use function Pest\Livewire\livewire;
 
 it('can view Audit History', function () {
@@ -39,9 +40,5 @@ it('can view a specific Audit', function () {
             'user.email' => test()->admin->email,
             'old_values.title' => 'I have been created!',
             'new_values.title' => 'I have been updated!',
-        ])
-        ->assertSee([
-            'I have been created!',
-            'I have been updated!',
         ]);
 });

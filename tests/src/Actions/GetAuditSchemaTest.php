@@ -1,9 +1,9 @@
 <?php
 
-use Filament\Schemas\Components\Component;
 use CrescentPurchasing\FilamentAuditing\Actions\GetAuditSchema;
-use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Textarea;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Schemas\Components\Component;
 
 beforeEach(function () {
     $this->getAuditSchema = new GetAuditSchema;
@@ -34,7 +34,7 @@ it('does not include values not in keys', function () {
     $schema = ($this->getAuditSchema)($this->values, $keys);
 
     expect($schema)->toBeArray()->toHaveCount(1)
-        ->and($schema[0])->toBeInstanceOf(Placeholder::class)
+        ->and($schema[0])->toBeInstanceOf(TextEntry::class)
         ->and($schema[0]->getName())->toBe('title');
 });
 
@@ -50,12 +50,12 @@ it('converts strings to Placeholders', function () {
     $keys = ['title'];
     $schema = ($this->getAuditSchema)($this->values, $keys);
 
-    /** @var ?Placeholder $title */
+    /** @var ?TextEntry $title */
     $title = array_pop($schema);
 
-    expect($title)->toBeInstanceOf(Placeholder::class)
+    expect($title)->toBeInstanceOf(TextEntry::class)
         ->and($title->getName())->toBe('title')
-        ->and($title->getContent())->toBeScalar()->toBe('I am a title!');
+        ->and($title->getState())->toBeScalar()->toBe('I am a title!');
 
 });
 
@@ -64,12 +64,12 @@ it('converts integers to Placeholders', function () {
 
     $schema = ($this->getAuditSchema)($this->values, $keys);
 
-    /** @var ?Placeholder $value */
+    /** @var ?TextEntry $value */
     $value = array_pop($schema);
 
-    expect($value)->toBeInstanceOf(Placeholder::class)
+    expect($value)->toBeInstanceOf(TextEntry::class)
         ->and($value->getName())->toBe('value')
-        ->and($value->getContent())->toBeScalar()->toBe(123);
+        ->and($value->getState())->toBeScalar()->toBe(123);
 
 });
 

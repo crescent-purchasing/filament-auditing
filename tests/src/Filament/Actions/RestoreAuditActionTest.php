@@ -1,11 +1,12 @@
 <?php
 
-use CrescentPurchasing\FilamentAuditing\Filament\Actions\Tables\RestoreAuditAction;
+use CrescentPurchasing\FilamentAuditing\Filament\Actions\RestoreAuditAction;
 use CrescentPurchasing\FilamentAuditing\Filament\Resources\Audits\Pages\ManageAudits;
 use CrescentPurchasing\FilamentAuditing\Tests\Models\Article;
 use CrescentPurchasing\FilamentAuditing\Tests\Models\User;
 use Illuminate\Support\Facades\Gate;
 use OwenIt\Auditing\Models\Audit;
+
 use function Pest\Livewire\livewire;
 
 beforeEach(function () {

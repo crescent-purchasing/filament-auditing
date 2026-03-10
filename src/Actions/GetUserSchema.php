@@ -2,10 +2,10 @@
 
 namespace CrescentPurchasing\FilamentAuditing\Actions;
 
-use Filament\Schemas\Components\Grid;
-use CrescentPurchasing\FilamentAuditing\Filament\Actions\Forms\ViewUserAction;
+use CrescentPurchasing\FilamentAuditing\Filament\Actions\ViewUserAction;
 use CrescentPurchasing\FilamentAuditing\FilamentAuditingPlugin;
 use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Grid;
 
 readonly class GetUserSchema
 {
