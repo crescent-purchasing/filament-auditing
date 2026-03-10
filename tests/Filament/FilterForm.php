@@ -5,16 +5,19 @@ namespace CrescentPurchasing\FilamentAuditing\Tests\Filament;
 use CrescentPurchasing\FilamentAuditing\Filament\Filters\QueryBuilder\AuditUserConstraint;
 use CrescentPurchasing\FilamentAuditing\Filament\Filters\QueryBuilder\AuditUserOperator;
 use CrescentPurchasing\FilamentAuditing\FilamentAuditingPlugin;
+use Filament\Actions\Concerns\InteractsWithActions;
+use Filament\Actions\Contracts\HasActions;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Livewire\Component;
 
 /**
- * @property Form $form
+ * @property Schema $form
  */
-class FilterForm extends Component implements HasForms
+class FilterForm extends Component implements HasActions, HasForms
 {
+    use InteractsWithActions;
     use InteractsWithForms;
 
     /** @var array<string, mixed>|null */
@@ -25,7 +28,7 @@ class FilterForm extends Component implements HasForms
         $this->form->fill();
     }
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
         $constraint = AuditUserConstraint::make('user')
             ->selectable(
@@ -39,8 +42,8 @@ class FilterForm extends Component implements HasForms
 
         $operator->constraint($constraint);
 
-        return $form
-            ->schema($operator->getFormSchema())
+        return $schema
+            ->components($operator->getFormSchema())
             ->statePath('data');
     }
 

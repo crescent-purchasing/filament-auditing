@@ -1,7 +1,7 @@
 <?php
 
-use CrescentPurchasing\FilamentAuditing\Filament\Actions\Tables\ViewUserAction;
-use CrescentPurchasing\FilamentAuditing\Filament\ManageAudits;
+use CrescentPurchasing\FilamentAuditing\Filament\Actions\ViewUserAction;
+use CrescentPurchasing\FilamentAuditing\Filament\Resources\Audits\Pages\ManageAudits;
 use CrescentPurchasing\FilamentAuditing\Tests\Filament\Resources\User\UserResource;
 use CrescentPurchasing\FilamentAuditing\Tests\Models\Article;
 use OwenIt\Auditing\Models\Audit;

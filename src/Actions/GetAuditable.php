@@ -2,6 +2,7 @@
 
 namespace CrescentPurchasing\FilamentAuditing\Actions;
 
+use BackedEnum;
 use Filament\FilamentManager;
 use Filament\Resources\Resource as FilamentResource;
 use Illuminate\Contracts\Support\Htmlable;
@@ -27,7 +28,7 @@ readonly class GetAuditable
         };
     }
 
-    public function icon(?Model $record): string | Htmlable | null
+    public function icon(?Model $record): string | BackedEnum | Htmlable | null
     {
         if (! $auditable = $this($record)) {
             return null;

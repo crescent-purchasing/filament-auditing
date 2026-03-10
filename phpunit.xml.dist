@@ -13,24 +13,14 @@
 >
     <testsuites>
         <testsuite name="CrescentPurchasing Test Suite">
-            <directory>tests</directory>
+            <directory>tests/src</directory>
         </testsuite>
     </testsuites>
-    <coverage>
-        <report>
-            <html outputDirectory="build/coverage"/>
-            <text outputFile="build/coverage.txt"/>
-            <clover outputFile="build/logs/clover.xml"/>
-        </report>
-    </coverage>
     <groups>
         <exclude>
             <group>command-line-url-resolver</group>
         </exclude>
     </groups>
-    <logging>
-        <junit outputFile="build/report.junit.xml"/>
-    </logging>
     <source>
         <include>
             <directory>./src</directory>

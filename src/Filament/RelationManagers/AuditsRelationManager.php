@@ -2,10 +2,10 @@
 
 namespace CrescentPurchasing\FilamentAuditing\Filament\RelationManagers;
 
-use CrescentPurchasing\FilamentAuditing\Filament\AuditResource;
 use CrescentPurchasing\FilamentAuditing\Filament\Concerns\WithCursorPagination;
-use Filament\Forms\Form;
+use CrescentPurchasing\FilamentAuditing\Filament\Resources\Audits\AuditResource;
 use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Schemas\Schema;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 
@@ -20,9 +20,9 @@ class AuditsRelationManager extends RelationManager
         return __('filament-auditing::resource.audit_relation_title');
     }
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return AuditResource::form($form);
+        return AuditResource::form($schema);
     }
 
     public function table(Table $table): Table

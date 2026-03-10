@@ -2,9 +2,8 @@
 
 namespace CrescentPurchasing\FilamentAuditing\Actions;
 
-use Filament\Forms\Components\Component;
-use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Textarea;
+use Filament\Infolists\Components\TextEntry;
 use Illuminate\Support\Str;
 
 readonly class GetAuditSchema
@@ -12,7 +11,7 @@ readonly class GetAuditSchema
     /**
      * @param  array<string, mixed>  $values
      * @param  string[]|null  $keys
-     * @return Component[]
+     * @return \Filament\Schemas\Components\Component[]
      */
     public function __invoke(array $values, ?array $keys = null): array
     {
@@ -30,10 +29,10 @@ readonly class GetAuditSchema
             }
 
             if (is_scalar($content)) {
-                $field = Placeholder::make($key);
+                $field = TextEntry::make($key);
                 $field->translateLabel();
                 $field->inlineLabel();
-                $field->content($content);
+                $field->state($content);
             } else {
                 $field = Textarea::make($key);
                 $field->translateLabel();

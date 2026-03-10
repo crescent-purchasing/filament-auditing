@@ -2,6 +2,7 @@
 
 namespace CrescentPurchasing\FilamentAuditing\Tests\Filament\Resources\User;
 
+use BackedEnum;
 use CrescentPurchasing\FilamentAuditing\Filament\RelationManagers\AuditsRelationManager;
 use CrescentPurchasing\FilamentAuditing\Filament\RelationManagers\OwnedAuditsRelationManager;
 use CrescentPurchasing\FilamentAuditing\Tests\Filament\Resources\User\Pages\CreateUser;
@@ -9,12 +10,13 @@ use CrescentPurchasing\FilamentAuditing\Tests\Filament\Resources\User\Pages\Edit
 use CrescentPurchasing\FilamentAuditing\Tests\Filament\Resources\User\Pages\ListUsers;
 use CrescentPurchasing\FilamentAuditing\Tests\Models\User;
 use Filament\Resources\Resource;
+use Filament\Support\Icons\Heroicon;
 
 class UserResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-user';
+    protected static string | BackedEnum | null $navigationIcon = Heroicon::User;
 
     protected static ?string $recordTitleAttribute = 'email';
 

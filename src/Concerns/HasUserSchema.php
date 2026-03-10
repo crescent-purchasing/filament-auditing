@@ -3,15 +3,14 @@
 namespace CrescentPurchasing\FilamentAuditing\Concerns;
 
 use Closure;
-use Filament\Forms\Components\Component;
 
 trait HasUserSchema
 {
-    /** @var Component[]|Closure */
+    /** @var \Filament\Schemas\Components\Component[]|Closure */
     protected array | Closure $userSchema = [];
 
     /**
-     * @return Component[]
+     * @return \Filament\Schemas\Components\Component[]
      */
     public function getUserSchema(): array
     {
@@ -19,7 +18,7 @@ trait HasUserSchema
     }
 
     /**
-     * @param  Component[]|Closure  $userSchema
+     * @param  \Filament\Schemas\Components\Component[]|Closure  $userSchema
      * @return $this
      */
     public function userSchema(array | Closure $userSchema): static
